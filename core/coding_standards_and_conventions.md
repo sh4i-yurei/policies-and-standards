@@ -1,10 +1,10 @@
 ---
 id: STD-005
 title: Coding Standards and Conventions
-version: 1.0.0
+version: 1.0.1
 category: core
 status: active
-last_updated: 2025-11-17
+last_updated: 2025-12-10
 extends: []
 tags: [coding, conventions, governance]
 owner: AI Standards Council
@@ -16,8 +16,8 @@ description: Full codebase standards for modular, maintainable, and AI friendly
 
 # Purpose
 This standard defines the required practices for code quality, structure, and
-style across all organizational projects. It is optimized for AI tooling,
-peer review, and continuous integration enforcement.
+style across all organizational projects. It is optimized for AI-assisted
+development tooling, peer review, and continuous integration enforcement.
 
 # Scope
 This document applies to every repository, programming language, and runtime
@@ -59,7 +59,7 @@ UML diagrams within the `docs/` tree.
 `scripts/`, and `config/` unless a project charter states otherwise.
 4.2 Each folder listed in clause 4.1 MUST contain a `README.md` describing its
 purpose and expected artifacts.
-4.3 Individual modules MUST remain under 500 lines to support AI code review and
+4.3 Individual modules MUST remain under 500 lines to support AI-assisted code review and
 regression analysis.
 
 ## 5. Error Handling and Logging
@@ -88,6 +88,10 @@ end-to-end coverage.
 paths MUST stay at or above ninety percent.
 7.4 Tests MUST be deterministic, isolate external services with mocks, and avoid
 network calls unless part of an approved integration suite.
+7.5 Test-driven development SHOULD be treated as a mechanism for experimentation and learning. Teams SHOULD form hypotheses, validate them via tests, and evolve solutions based on empirical evidence.
+7.6 CI/CD pipelines MUST enforce all validation gates defined herein, including markdownlint, spellcheck, and coverage thresholds.
+7.7 Pipeline enforcement and quality gates SHOULD be automated within the governance CI/CD configuration (see DevOps Pipeline Policy).
+7.8 Cross-reference STD-003 (Issue and Change Management Policy) for related governance flow.
 
 ## 8. Dependency Management
 8.1 Every dependency MUST be declared explicitly and pinned via lock files or
@@ -116,9 +120,15 @@ normal pull requests.
 10.4 ORM layers MUST avoid business logic; complex constraints belong in service
 layers or stored procedures with explicit review.
 
+## 11. Empirical Metrics and Continuous Improvement
+11.1 Development teams MUST track DORA metrics including lead time, deployment frequency, change failure rate, and mean time to restore.
+11.2 Pipeline dashboards MUST expose these metrics for governance review.
+11.3 Teams SHOULD use empirical evidence from production feedback to refine practices iteratively.
+11.4 These principles align with Modern Software Engineering guidance emphasizing small, safe, and reversible changes.
+
 # Implementation Notes
 
-- This document resides in `core/` so that AI tooling and human reviewers can
+- This document resides in `core/` so that AI-assisted development tooling and human reviewers can
   reference it as STD-005.
 - Teams SHOULD reference this standard from `README.md` files in each project to
   reinforce visibility.
@@ -135,6 +145,7 @@ layers or stored procedures with explicit review.
 
 # Changelog
 
+- 1.0.1 — Added empirical metrics, feedback loops, CI/CD enforcement gates, and clarified AI-assisted development terminology on 2025-12-10.
 - 1.0.0 — Initial release authored by the AI Standards Council on 2025-11-17.
 
 Reference: core/coding_standards_and_conventions.md (STD-005)

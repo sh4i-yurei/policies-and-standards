@@ -4,7 +4,8 @@ title: Standards Governance Policy
 version: 1.0.0
 category: core
 status: draft
-last_updated: 2025-11-12
+last_updated: 2025-12-10
+review_date: 2026-05-01
 extends: []
 tags: [governance, lifecycle, review, compliance, standards]
 ---
@@ -15,6 +16,13 @@ This document serves as the authoritative governance policy for managing the lif
 
 # Scope
 This policy applies to all technical standards, policies, procedures, and governance documents maintained within the policies-and-standards repository. It defines mandatory roles, review workflows, versioning rules, and compliance mechanisms for any document governed under STD-001.
+
+# Governance Index
+Approved Amendments:
+- GAP-001 — AI Assisted Development Standard (STD-004)
+- GAP-002 — Coding Standards and Conventions Enhancements (STD-005)
+- GAP-003 — Documentation Standard Enhancement (STD-001)
+- GAP-004 — Issue and Change Management Policy Enhancement (STD-003)
 
 # Standard
 

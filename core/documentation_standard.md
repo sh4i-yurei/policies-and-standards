@@ -1,16 +1,17 @@
 ---
 id: STD-001
 title: Documentation Standard
-version: 1.0.0
+version: 1.0.1
 category: core
 status: active
-last_updated: 2025-11-11
+last_updated: 2025-12-10
+review_date: 2026-05-01
 extends: []
 tags: [documentation, structure, formatting, compliance]
 ---
 
 # Purpose
-This standard defines the structural and formatting requirements for all documentation maintained within the organizational policies and standards repository. It establishes a universal framework for authoring, storing, and managing governance, procedural, and technical documents in a consistent and machine-readable format.  
+This standard defines the structural, metadata, and formatting requirements for all documentation maintained within the organizational policies and standards repository. It establishes a universal framework for authoring, storing, and managing governance, procedural, and technical documents in a consistent and machine-readable format, with lifecycle, automation, and feedback mechanisms.  
 This document serves as the foundational standard for all subsequent organizational standards.  
 The objective is to ensure all documents are interoperable, version-controlled, and ready for both human interpretation and automated processing.
 
@@ -41,6 +42,8 @@ This standard applies to all documents stored in the repository, including but n
 2.10 All metadata fields MUST be present, even if `extends` or `tags` are empty.  
 2.11 Field names MUST use lowercase letters and underscores.  
 2.12 Values MUST conform to YAML syntax and data types.
+2.13 Documents SHALL follow a defined lifecycle of `draft → active → deprecated`.
+2.14 Lifecycle transitions MUST be tracked in version control and recorded in the Changelog.
 
 ## 3. Section Structure
 
@@ -50,6 +53,7 @@ This standard applies to all documents stored in the repository, including but n
 - `# Scope`  
 - `# Standard`  
 - `# Implementation Notes`  
+- `# Continuous Improvement and Compliance Metrics`  
 - `# Compliance`  
 - `# Changelog`
 
@@ -69,9 +73,10 @@ This standard applies to all documents stored in the repository, including but n
 
 5.1 Bullet lists MUST use hyphens (`-`).  
 5.2 Numbered lists MUST use integers followed by periods (`1.`, `2.`, etc.).  
-5.3 Code blocks (e.g., for YAML, JSON, or CLI examples) MUST be enclosed with triple backticks (```).  
+5.3 Code blocks (e.g., for YAML, JSON, or CLI examples) MUST be enclosed with triple backticks (```).
 5.4 All example code MUST be syntactically valid and clearly separated from narrative content.  
 5.5 Files and identifiers MUST use lowercase and underscores (`_`) for separators unless a format is explicitly defined elsewhere (e.g., `STD-###`).
+5.6 Document validation MUST be integrated into the CI/CD pipeline to automatically enforce compliance with metadata and section requirements.
 
 # Implementation Notes
 - Document templates MAY be maintained to assist authors in creating compliant drafts.  
@@ -79,10 +84,19 @@ This standard applies to all documents stored in the repository, including but n
 - This standard is not retroactive but MAY be applied to existing documents during future revision cycles.  
 - Future versions of this standard will follow semantic versioning and will be published through the same repository lifecycle.
 
+# Continuous Improvement and Compliance Metrics
+6.1 The governance process MUST track compliance validation results, including error frequency, correction turnaround, and review latency.  
+6.2 Document validation errors SHALL be reviewed periodically to identify systemic process improvements.  
+6.3 Compliance data SHOULD feed back into training and process optimization cycles.  
+6.4 Continuous improvement practices SHALL follow empirical measurement principles aligned with Modern Software Engineering.  
+6.5 Metrics MAY include DORA-style indicators for documentation workflows (e.g., time-to-publish, validation error rate).  
+6.6 Cross-reference: STD-004 (AI Assisted Development Standard) and STD-005 (Coding Standards and Conventions) for aligned automation and structure requirements.
+
 # Compliance
 Documents that do not meet the structure, metadata, or section order requirements defined in this standard SHALL be rejected from publication until corrected. Compliance MAY be verified through automated or manual validation as part of the document review workflow.
 
 # Changelog
+- 1.0.1 — Added lifecycle governance, CI enforcement, and continuous improvement metrics on 2025-12-10.
 - 1.0.0 — Initial release.
 
 Reference: core/documentation_standard.md (STD-001)
