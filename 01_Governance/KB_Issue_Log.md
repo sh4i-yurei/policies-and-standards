@@ -3,11 +3,11 @@ id: KB-ISSUE-LOG-001
 title: KB Issue Log
 version: 0.1.0
 category: governance
-status: draft
+status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-001, STD-003]
 tags: [governance, issues, log, change-management]
 ---

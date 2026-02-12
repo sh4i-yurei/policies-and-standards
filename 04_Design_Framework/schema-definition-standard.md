@@ -3,11 +3,11 @@ id: STD-055
 title: Schema definition standard
 version: 0.1.5
 category: design
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-020, STD-023, STD-044]
 tags: [schema, design, contracts, data, interfaces]
 ---

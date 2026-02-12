@@ -3,18 +3,18 @@ id: STD-002
 title: Standards Governance Policy
 version: 1.1.3
 category: governance
-status: draft
+status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 review_date: 2026-05-01
 extends: [STD-000]
 tags: [governance, standards, lifecycle, approval, compliance]
 ---
 # Purpose
 
-This policy defines the governance framework for the creation, review, approval, versioning, and retirement of all standards maintained within the vault. It ensures that standards evolve through a controlled, auditable lifecycle and remain internally consistent, authoritative, and aligned with the mission and governance principles of the practice.
+This policy defines the governance framework for the creation, review, approval, versioning, and retirement of all standards maintained within the repository. It ensures that standards evolve through a controlled, auditable lifecycle and remain internally consistent, authoritative, and aligned with the mission and governance principles of the practice.
 
 This document is the **authoritative control mechanism** for how standards themselves are managed.
 
@@ -87,7 +87,7 @@ as a tracked issue per [Issue_and_Change_Management_Policy](Issue_and_Change_Man
 6.2 Until resolved, conflicts SHALL be governed by the highest
 precedence rule using the following order:  
 
-- Higher vault layer: `01_Governance` > `02_Documentation_Standards` >
+- Higher repository layer: `01_Governance` > `02_Documentation_Standards` >
   `03_Engineering_Standards` > `04_Design_Framework` >
   `05_Dev_Workflows` > `06_Projects`  
 - Higher lifecycle status: `active` > `review` > `draft`  

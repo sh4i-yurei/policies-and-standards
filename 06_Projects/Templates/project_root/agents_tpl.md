@@ -3,11 +3,11 @@ id: TPL-PRJ-AGENTS
 title: AGENTS.md template
 version: 0.1.9
 category: project
-status: draft
+status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-02-11
+last_updated: 2026-02-12
 extends: [STD-001, STD-004, STD-056]
 tags: [template, ai, agents, kb, governance]
 ---

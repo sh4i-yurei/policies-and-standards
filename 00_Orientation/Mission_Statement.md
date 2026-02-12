@@ -3,18 +3,18 @@ id: STD-010
 title: Mission Statement
 version: 1.0.2
 category: core
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: []
 tags: [mission, vision, principles, governance]
 ---
 
 # Purpose
 
-This document defines the mission, guiding principles, and strategic direction of the software engineering practice governed by this vault. It serves as the foundational reference against which all standards, workflows, design decisions, and AI-assisted activities are evaluated.
+This document defines the mission, guiding principles, and strategic direction of the software engineering practice governed by this repository. It serves as the foundational reference against which all standards, workflows, design decisions, and AI-assisted activities are evaluated.
 
 # Scope
 

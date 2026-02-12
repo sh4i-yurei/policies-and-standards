@@ -3,11 +3,11 @@ id: STD-052
 title: Operations and release rules pack
 version: 1.0.3
 category: reference
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-004, STD-032, STD-035, STD-037]
 tags: [rules, operations, release, prompts]
 ---

@@ -3,24 +3,24 @@ id: STD-011
 title: Terminology
 version: 1.1.2
 category: core
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 review_date: 2026-05-01
 extends: [STD-010]
 tags: [terminology, definitions, language, governance]
 ---
 # Purpose
 
-This document defines the authoritative terminology used throughout the vault. Its purpose is to establish a shared, unambiguous vocabulary for all governance, design, engineering, and workflow artifacts in order to prevent misinterpretation, implicit assumptions, and semantic drift.
+This document defines the authoritative terminology used throughout the repository. Its purpose is to establish a shared, unambiguous vocabulary for all governance, design, engineering, and workflow artifacts in order to prevent misinterpretation, implicit assumptions, and semantic drift.
 
 All governed documents MUST use terminology consistent with this reference.
 
 # Scope
 
-This terminology applies to all documentation, design artifacts, implementation specifications, and AI-assisted development activities governed by this vault. Where a term is defined here, its meaning SHALL be used consistently across all documents.
+This terminology applies to all documentation, design artifacts, implementation specifications, and AI-assisted development activities governed by this repository. Where a term is defined here, its meaning SHALL be used consistently across all documents.
 
 This document does not define external industry terminology unless explicitly adopted.
 

@@ -3,11 +3,11 @@ id: STD-013
 title: Core Principles
 version: 1.0.1
 category: core
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 review_date: 2026-05-01
 extends: [STD-010]
 tags: [principles, philosophy, governance, design]
@@ -20,7 +20,7 @@ Core principles are intentionally **technology-agnostic, non-procedural, and dur
 
 # Scope
 
-These principles apply universally to all documentation, design artifacts, software systems, workflows, and AI-assisted development activities governed by this vault. All standards, policies, and practices MUST align with these principles.
+These principles apply universally to all documentation, design artifacts, software systems, workflows, and AI-assisted development activities governed by this repository. All standards, policies, and practices MUST align with these principles.
 
 # Standard
 

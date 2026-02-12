@@ -3,11 +3,11 @@ id: STD-043
 title: Service level objectives and indicators standard
 version: 0.2.3
 category: engineering
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-000, STD-008, STD-037]
 tags: [sli, slo, reliability, observability, standards]
 ---

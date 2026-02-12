@@ -3,11 +3,11 @@ id: STD-057
 title: Environment segregation standard
 version: 0.1.2
 category: engineering
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-000, STD-006, STD-030, STD-035]
 tags: [environment, deployment, operations, release]
 ---

@@ -3,11 +3,11 @@ id: STD-006
 title: Release Management Policy
 version: 1.1.1
 category: governance
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 review_date: 2026-05-01
 extends: [STD-000, STD-002]
 tags: [release, delivery, governance, traceability, rollback]
@@ -20,7 +20,7 @@ This document governs **release authority and control**, not build tooling or de
 
 # Scope
 
-This policy applies to all software, documentation, and related artifacts governed by this vault that are promoted between environments or designated as released. It governs both human and AI-assisted activities involved in release preparation, validation, approval, promotion, and rollback.
+This policy applies to all software, documentation, and related artifacts governed by this repository that are promoted between environments or designated as released. It governs both human and AI-assisted activities involved in release preparation, validation, approval, promotion, and rollback.
 
 This policy does not define CI/CD implementation details.
 

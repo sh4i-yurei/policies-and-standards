@@ -1,34 +1,34 @@
 ---
 id: STD-012
-title: Vault Schema Definition
+title: Repository Schema Definition
 version: 1.0.2
 category: core
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-001]
-tags: [vault, schema, structure, obsidian, governance]
+tags: [repository, schema, structure, governance]
 ---
 
 # Purpose
 
-This document defines the structural schema of the Obsidian vault that serves as the authoritative knowledge base for the software engineering practice. It establishes mandatory directory groupings, document roles, and structural constraints to ensure separation of concerns, navigability, and long-term maintainability.
+This document defines the structural schema of the repository that serves as the authoritative knowledge base for the software engineering practice. It establishes mandatory directory groupings, document roles, and structural constraints to ensure separation of concerns, navigability, and long-term maintainability.
 
 The vault schema is intended to be stable, explicit, and machine-auditable, enabling both human exploration and automated tooling to reason reliably about the repository contents.
 
 # Scope
 
-This schema applies to all documents stored in the vault, including governance standards, engineering standards, design frameworks, workflows, and project artifacts. All new documents MUST conform to this schema unless an explicit, approved exception is documented through the change management process.
+This schema applies to all documents stored in the repository, including governance standards, engineering standards, design frameworks, workflows, and project artifacts. All new documents MUST conform to this schema unless an explicit, approved exception is documented through the change management process.
 
 # Standard
 
 ## 1. Vault as System of Record
 
-1.1 The Obsidian vault SHALL function as the single source of truth for all organizational knowledge related to software engineering governance, standards, design, and workflows.  
+1.1 The repository SHALL function as the single source of truth for all organizational knowledge related to software engineering governance, standards, design, and workflows.  
 1.2 Informal notes, exploratory drafts, or transient ideas MUST either conform to this schema or be explicitly stored outside the governed vault.  
-1.3 All documents within the vault MUST comply with [Documentation_Standard](Documentation_Standard.md).
+1.3 All documents within the repository MUST comply with [Documentation_Standard](Documentation_Standard.md).
 
 ## 2. Top-Level Directory Schema
 
@@ -96,14 +96,14 @@ governance.
 
 ## 4. Linking and Navigability
 
-4.1 Documents MUST use Obsidian-style internal links when referencing other governed documents.  
+4.1 Documents MUST use standard relative Markdown links when referencing other governed documents.  
 4.2 Links SHOULD be embedded inline at the point of conceptual dependency.  
 4.3 Link targets SHOULD reference canonical document titles or IDs to ensure long-term stability.  
 4.4 Circular dependencies between documents SHOULD be avoided and flagged during review.
 
 ## 5. Schema Evolution
 
-5.1 Changes to the vault schema MUST be proposed and approved through the change management process.  
+5.1 Changes to the repository schema MUST be proposed and approved through the change management process.  
 5.2 Schema changes SHOULD prioritize backward compatibility and minimal disruption.  
 5.3 When schema changes occur, affected documents MUST be updated to restore compliance.
 

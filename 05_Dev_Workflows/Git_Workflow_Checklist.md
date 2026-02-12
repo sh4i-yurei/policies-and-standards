@@ -3,11 +3,11 @@ id: STD-042
 title: Git Workflow Checklist
 version: 0.1.8
 category: workflow
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-031, STD-030, STD-033]
 tags: [git, checklist, workflow, governance]
 ---

@@ -3,11 +3,11 @@ id: STD-023
 title: Technical Specification Standard
 version: 1.0.3
 category: design
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 review_date: 2026-05-01
 extends: [STD-022]
 tags: [technical-specification, implementation, ai-handoff, design]

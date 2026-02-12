@@ -3,11 +3,11 @@ id: TPL-PRJ-PLANS
 title: PLANS.md template
 version: 0.1.4
 category: project
-status: draft
+status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-02-11
+last_updated: 2026-02-12
 extends: [STD-001, STD-004, STD-032]
 tags: [template, ai, plans, execplan]
 ---

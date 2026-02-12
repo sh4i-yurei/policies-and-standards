@@ -3,11 +3,11 @@ id: STD-030
 title: CI/CD Pipeline and Validation Model
 version: 1.1.5
 category: workflow
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends:
   - STD-000
   - STD-003

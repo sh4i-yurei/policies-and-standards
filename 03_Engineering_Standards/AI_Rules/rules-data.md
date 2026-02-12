@@ -3,11 +3,11 @@ id: STD-051
 title: Data and storage rules pack
 version: 1.0.4
 category: reference
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-004, STD-032, STD-044]
 tags: [rules, data, storage, prompts]
 ---

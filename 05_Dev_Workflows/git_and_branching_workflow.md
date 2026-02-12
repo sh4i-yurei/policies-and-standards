@@ -3,11 +3,11 @@ id: STD-031
 title: Git and Branching Workflow
 version: 1.0.4
 category: workflow
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-11
+last_updated: 2026-02-12
 extends:
   - STD-000
   - STD-003

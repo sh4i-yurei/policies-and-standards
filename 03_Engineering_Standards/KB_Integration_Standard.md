@@ -3,11 +3,11 @@ id: STD-056
 title: KB integration standard
 version: 0.1.8
 category: engineering
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-11
+last_updated: 2026-02-12
 extends: [STD-000, STD-001, STD-003, STD-004, STD-012, STD-032]
 tags: [kb, governance, integration, ai, workflow]
 ---

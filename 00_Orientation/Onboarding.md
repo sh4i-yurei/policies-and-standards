@@ -3,11 +3,11 @@ id: STD-015
 title: Onboarding guide
 version: 1.1.1
 category: orientation
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-11
+last_updated: 2026-02-12
 extends: [STD-010, STD-013]
 tags: [onboarding, orientation, quickstart]
 ---

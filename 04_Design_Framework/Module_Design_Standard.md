@@ -3,11 +3,11 @@ id: STD-022
 title: Module Design Standard
 version: 1.0.3
 category: design
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 review_date: 2026-05-01
 extends: [STD-021]
 tags: [module-design, decomposition, boundaries, cohesion]

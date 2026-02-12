@@ -3,11 +3,11 @@ id: TPL-PRJ-COMMAND-CATALOG
 title: Command catalog template
 version: 0.1.2
 category: project
-status: draft
+status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-001, STD-004, STD-032]
 tags: [template, commands, prompts, ai]
 ---

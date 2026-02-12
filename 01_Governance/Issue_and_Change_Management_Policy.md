@@ -3,18 +3,18 @@ id: STD-003
 title: Issue and Change Management Policy
 version: 1.1.3
 category: governance
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 review_date: 2026-05-01
 extends: [STD-000, STD-002]
 tags: [issue-management, change-control, workflow, compliance, traceability]
 ---
 # Purpose
 
-This policy defines the mandatory issue and change management process for all governed documents, standards, and related artifacts maintained within the vault. It ensures that every change is intentional, traceable, reviewed, and authorized before becoming authoritative.
+This policy defines the mandatory issue and change management process for all governed documents, standards, and related artifacts maintained within the repository. It ensures that every change is intentional, traceable, reviewed, and authorized before becoming authoritative.
 
 This document establishes **change control as a first-class governance function**, preventing undocumented decisions and uncontrolled evolution of standards or workflows.
 
@@ -32,7 +32,7 @@ Software implementation artifacts are governed indirectly through this policy wh
 1.1.1 In a solo practice, minor correction or clarification changes MAY use a documented **intent statement** in place of a formal issue.  
 1.1.2 Intent statements MUST be 1-2 sentences describing what is changing and why, and MUST be recorded in the pull request description or the document changelog.  
 1.2 Issues MUST clearly describe the problem, proposed change, or rationale for modification.  
-1.3 Each issue or intent statement MUST reference the affected document(s) using canonical identifiers or Obsidian links.  
+1.3 Each issue or intent statement MUST reference the affected document(s) using canonical identifiers or Markdown links.  
 1.4 Duplicate or overlapping issues SHOULD be consolidated or explicitly cross-referenced.
 
 ## 2. Issue Classification
@@ -102,7 +102,7 @@ the timeframe defined in [SDLC_With_AI](../05_Dev_Workflows/SDLC_With_AI.md).
 
 # Implementation Notes
 
-- Issue tracking MAY be implemented using GitHub Issues, Obsidian tasks, or an equivalent system, provided traceability is preserved.
+- Issue tracking MAY be implemented using GitHub Issues, an equivalent system, provided traceability is preserved.
 - If no external tracker is used, record issues in [KB_Issue_Log](KB_Issue_Log.md) using
   [issue_log_tpl](../06_Projects/Templates/governance/issue_log_tpl.md).
     

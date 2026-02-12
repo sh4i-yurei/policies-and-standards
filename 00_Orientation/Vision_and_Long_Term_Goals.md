@@ -3,24 +3,24 @@ id: STD-014
 title: Vision and Long-Term Goals
 version: 1.0.2
 category: core
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 review_date: 2026-05-01
 extends: [STD-010, STD-013]
 tags: [vision, goals, direction, ai, systems]
 ---
 # Purpose
 
-This document defines the long-term vision and strategic goals of the software engineering practice governed by this vault. Its purpose is to articulate a clear direction while intentionally preserving flexibility in how that direction is realized over time.
+This document defines the long-term vision and strategic goals of the software engineering practice governed by this repository. Its purpose is to articulate a clear direction while intentionally preserving flexibility in how that direction is realized over time.
 
 This vision is not a commitment to a specific product, business model, or outcome. It is a commitment to **how systems are built, learned, and evolved**.
 
 # Scope
 
-This vision applies to all governance, design, engineering, and workflow decisions made within this vault. It serves as a guiding reference for prioritization, trade-off resolution, and long-term architectural intent.
+This vision applies to all governance, design, engineering, and workflow decisions made within this repository. It serves as a guiding reference for prioritization, trade-off resolution, and long-term architectural intent.
 
 This document does not prescribe implementation details or near-term roadmaps.
 

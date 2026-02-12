@@ -3,11 +3,11 @@ id: STD-024
 title: Design Review Checklist
 version: 1.0.7
 category: design
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 review_date: 2026-05-01
 extends: [STD-020, STD-021, STD-022, STD-023]
 tags: [design-review, checklist, validation, architecture]
@@ -30,7 +30,7 @@ This document does not define how designs are created or implemented.
 
 1.1 The design artifact exists and complies with the [Documentation_Standard](../02_Documentation_Standards/Documentation_Standard.md).  
 1.2 The artifact clearly identifies its role (System, Module, or Technical Specification).  
-1.3 The artifact references all upstream governing documents using Obsidian links.  
+1.3 The artifact references all upstream governing documents using Markdown links.  
 1.4 Terminology is consistent with [Terminology](../00_Orientation/Terminology.md).  
 1.5 The design avoids ambiguity, placeholders, or implied behavior.  
 1.6 Assumptions are explicitly documented.  

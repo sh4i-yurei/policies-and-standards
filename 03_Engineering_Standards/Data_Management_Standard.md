@@ -3,11 +3,11 @@ id: STD-044
 title: Data management standard
 version: 0.2.4
 category: engineering
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-000, STD-007]
 tags: [data, retention, backup, recovery, governance]
 ---

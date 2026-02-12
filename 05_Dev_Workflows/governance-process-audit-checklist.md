@@ -3,11 +3,11 @@ id: STD-059
 title: Governance process audit checklist
 version: 0.1.2
 category: workflow
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-002, STD-003, STD-032]
 tags: [governance, audit, checklist, workflow]
 ---

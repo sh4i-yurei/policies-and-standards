@@ -3,11 +3,11 @@ id: TPL-PRJ-PROP
 title: Project proposal template
 version: 0.1.7
 category: project
-status: draft
+status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-02-11
+last_updated: 2026-02-12
 extends: [STD-001, STD-032, STD-033, STD-054]
 tags: [template, proposal, planning, architecture]
 ---

@@ -3,11 +3,11 @@ id: TPL-PRJ-OPS-NOTES
 title: Operational notes template
 version: 0.2.3
 category: project
-status: draft
+status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-001, STD-006, STD-057]
 tags: [template, operations, runbook]
 ---

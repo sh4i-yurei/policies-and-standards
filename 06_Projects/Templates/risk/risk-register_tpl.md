@@ -3,11 +3,11 @@ id: TPL-PRJ-RISK
 title: Risk register template
 version: 0.1.2
 category: project
-status: draft
+status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-001, STD-003, STD-007]
 tags: [template, risk, register]
 ---

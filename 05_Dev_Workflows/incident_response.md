@@ -3,11 +3,11 @@ id: STD-036
 title: Incident response workflow
 version: 1.0.3
 category: workflow
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-003, STD-010]
 tags: [incident, workflow, operations]
 ---

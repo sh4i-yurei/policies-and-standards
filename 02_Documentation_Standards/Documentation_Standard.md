@@ -3,24 +3,24 @@ id: STD-001
 title: Documentation Standard
 version: 1.1.5
 category: core
-status: draft
+status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 review_date: 2026-05-01
 extends: []
-tags: [documentation, structure, formatting, governance, vault, obsidian]
+tags: [documentation, structure, formatting, governance]
 ---
 # Purpose
 
-This standard defines the mandatory structure, metadata, organization, and linking requirements for all documentation maintained within the vault. It establishes documentation as a governed system with explicit structure, traceability, and lifecycle controls, suitable for both human reasoning and automated processing.
+This standard defines the mandatory structure, metadata, organization, and linking requirements for all documentation maintained within the repository. It establishes documentation as a governed system with explicit structure, traceability, and lifecycle controls, suitable for both human reasoning and automated processing.
 
 This document is the authoritative specification for how knowledge is authored, stored, linked, and evolved across the software engineering practice.
 
 # Scope
 
-This standard applies to all documents stored in the vault, including governance policies, engineering standards, design frameworks, workflows, and project artifacts. No document may be added, modified, or referenced unless it complies with this standard.
+This standard applies to all documents stored in the including governance policies, engineering standards, design frameworks, workflows, and project artifacts. No document may be added, modified, or referenced unless it complies with this standard.
 
 # Standard
 
@@ -74,7 +74,7 @@ This standard applies to all documents stored in the vault, including governance
 3.3 Subsections MAY use deeper heading levels as required.  
 3.4 All sections MUST be present, even if temporarily empty during drafting.
 
-## 4. Vault Structure and Schema
+## 4. Repository Structure and Schema
 
 See [Vault_Schema_Definition](Vault_Schema_Definition.md) for the canonical directory schema and
 document role definitions.
@@ -125,7 +125,7 @@ document role definitions.
 
 ## 5. Cross-Referencing and Linking
 
-5.1 When a document references another governed document, it MUST use an Obsidian-style internal link.  
+5.1 When a document references another governed document, it MUST use an standard relative Markdown link.  
 5.2 Links MUST be embedded inline at the point of conceptual dependency.  
 5.3 Link targets SHOULD reference canonical document titles or identifiers.  
 5.4 Documents MUST avoid duplicating normative content and instead reference the authoritative source.  

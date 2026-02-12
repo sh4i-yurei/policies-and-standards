@@ -3,11 +3,11 @@ id: STD-060
 title: AI Data Handling Standard
 version: 0.1.1
 category: engineering
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-000, STD-004, STD-007, STD-044]
 tags: [ai, data_handling, external_tools, governance, security]
 ---

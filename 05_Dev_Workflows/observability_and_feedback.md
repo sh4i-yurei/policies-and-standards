@@ -3,11 +3,11 @@ id: STD-037
 title: Observability and Feedback Workflow
 version: 0.2.7
 category: workflow
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-007, STD-008, STD-020, STD-043]
 tags: [observability, feedback, workflow, operations]
 ---

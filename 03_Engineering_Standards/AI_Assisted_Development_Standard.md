@@ -3,11 +3,11 @@ id: STD-004
 title: AI Assisted Development Standard
 version: 1.1.3
 category: engineering
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 review_date: 2026-05-01
 extends: [STD-000, STD-005]
 tags: [ai, assisted_development, tooling, governance]

@@ -3,11 +3,11 @@ id: STD-000
 title: Software Engineering Governance Overview
 version: 1.1.3
 category: governance
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-11
+last_updated: 2026-02-12
 review_date: 2026-05-01
 extends: []
 tags: [governance, overview, framework, authority]
@@ -15,15 +15,15 @@ tags: [governance, overview, framework, authority]
 
 # Purpose
 
-This document defines the overarching software engineering governance framework for the practice governed by this vault. It establishes the intent, scope, and structural model through which standards, policies, workflows, and AI-assisted activities are created, reviewed, validated, and maintained.
+This document defines the overarching software engineering governance framework for the practice governed by this repository. It establishes the intent, scope, and structural model through which standards, policies, workflows, and AI-assisted activities are created, reviewed, validated, and maintained.
 
 This document serves as the **root governance reference** for all downstream standards and operational practices.
 
 # Scope
 
-This governance framework applies to all documentation, software artifacts, automation workflows, and AI-assisted development activities managed within the vault. It governs both human and AI contributions and defines how those contributions are controlled, reviewed, and evolved over time.
+This governance framework applies to all documentation, software artifacts, automation workflows, and AI-assisted development activities managed within the repository. It governs both human and AI contributions and defines how those contributions are controlled, reviewed, and evolved over time.
 
-All standards and workflows described elsewhere in the vault derive their authority from this framework.
+All standards and workflows described elsewhere in the repository derive their authority from this framework.
 
 # Standard
 
@@ -45,7 +45,7 @@ All standards and workflows described elsewhere in the vault derive their author
 
 ## 3. Governance Structure
 
-3.1 Governance is implemented through a hierarchy of versioned standards and policies stored in the vault.  
+3.1 Governance is implemented through a hierarchy of versioned standards and policies stored in the repository.  
 3.2 Each standard defines enforceable rules within a specific domain and SHALL not overlap responsibilities with other standards.  
 3.3 Amendments to standards are managed through a controlled change process defined in [Issue_and_Change_Management_Policy](Issue_and_Change_Management_Policy.md).
 
@@ -68,7 +68,7 @@ The following documents form the foundation of the governance framework:
 
 ## 4. Authority and Roles
 
-4.1 Governance authority resides with the maintainer of the vault unless formally delegated.  
+4.1 Governance authority resides with the maintainer of the repository unless formally delegated.  
 4.2 The maintainer is responsible for approving standards, resolving conflicts, and enforcing compliance.  
 4.3 Automation agents and AI-assisted tooling MAY perform validation, analysis, or recommendations but SHALL not perform approvals or final decision-making.  
 4.4 Conflict resolution follows [Standards_Governance_Policy](Standards_Governance_Policy.md).  

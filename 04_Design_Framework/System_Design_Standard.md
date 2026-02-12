@@ -3,11 +3,11 @@ id: STD-021
 title: System Design Standard
 version: 1.0.6
 category: design
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 review_date: 2026-05-01
 extends: [STD-020]
 tags: [system-design, architecture, boundaries, design]

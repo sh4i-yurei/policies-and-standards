@@ -3,11 +3,11 @@ id: STD-032
 title: SDLC with AI
 version: 1.0.22
 category: workflow
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-11
+last_updated: 2026-02-12
 extends: [STD-000, STD-003, STD-006, STD-020, STD-021, STD-022, STD-023]
 tags: [sdlc, ai-assisted, workflow, governance]
 ---

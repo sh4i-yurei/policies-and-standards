@@ -3,11 +3,11 @@ id: TPL-PRJ-AI
 title: AI context pack template
 version: 0.2.8
 category: project
-status: draft
+status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-004, STD-032]
 tags: [template, ai, context, prompts]
 ---

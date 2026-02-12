@@ -3,11 +3,11 @@ id: STD-007
 title: Security and Threat Modeling Standard
 version: 1.0.2
 category: engineering
-status: draft
+status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 review_date: 2026-05-01
 extends: [STD-000, STD-021]
 tags: [security, threat-modeling, risk, engineering]
@@ -20,7 +20,7 @@ This document defines **what security must be addressed**, not how to deploy or 
 
 # Scope
 
-This standard applies to all software systems, modules, and implementation artifacts governed by this vault. It applies equally to human-authored and AI-assisted development activities.
+This standard applies to all software systems, modules, and implementation artifacts governed by this repository. It applies equally to human-authored and AI-assisted development activities.
 
 This standard does not define incident response, operational security procedures, or deployment hardening.
 

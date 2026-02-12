@@ -3,11 +3,11 @@ id: TPL-PRJ-DEPLOY
 title: Deployment guide template
 version: 0.1.4
 category: project
-status: draft
+status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-01-13
+last_updated: 2026-02-12
 extends: [STD-006, STD-030, STD-035, STD-057]
 tags: [template, deployment, operations, release]
 ---
