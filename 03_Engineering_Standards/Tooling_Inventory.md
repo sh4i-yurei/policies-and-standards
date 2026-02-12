@@ -1,7 +1,7 @@
 ---
 id: TOOLING-001
 title: Tooling inventory
-version: 1.2.0
+version: 1.3.0
 category: reference
 status: active
 approver: sh4i-yurei
@@ -63,28 +63,56 @@ This inventory applies to all activities within the development environment. Too
 ## Python development tools
 
 - ruff - Fast Python linter
-    
+
 - black: 24.2.0 - Code formatter
-    
+
 - mypy: 1.9.0 - Type checking
-    
+
 - pytest: 7.4.4 - Testing framework
-    
+
+- pytest-json-report - JSON test output for agent-parseable diagnostics
+
+- pytest-clarity - Improved test failure diff output
+
+- pytest-cov - Test coverage reporting
+
+- structlog - Structured logging (per-project install)
+
+- scalene - CPU/memory profiler with JSON output
+
+- rich - Rich terminal output for structured diagnostics
 
 ## Rust development tools
 
 - rustfmt: 1.7.0 (`cargo fmt`) - Code formatter
-    
+
 - clippy: 0.1.75 (`cargo clippy`) - Linting and suggestions
-    
+
+- cargo-nextest - Enhanced test runner with JSON output
+
+## Node/TypeScript development tools
+
+- vitest - Test framework with JSON reporter (per-project install)
+
+- eslint - Linting and code quality
+
+- prettier - Code formatting
+
+## Java development tools
+
+- Maven Surefire - Test execution with JUnit XML output
+
+- Checkstyle - Code style enforcement
 
 ## Core CLI utilities
 
 - git - Version control
-    
+
 - ripgrep (`rg`) - Fast file searching
-    
+
 - jq - JSON processing and querying
+
+- lnav - Log file navigator and analysis
     
 
 ## Containerization
@@ -139,6 +167,9 @@ This inventory applies to all activities within the development environment. Too
 Use of unapproved tools or bypassing required checks is non-compliant.
 
 # Changelog
+
+- 1.3.0 - Added debugging/testing tools (pytest-json-report, cargo-nextest, structlog,
+  scalene, lnav), Node/TS and Java sections, and CI tooling.
 - 1.2.0 - Removed Aider from approved agents (replaced by Claude Code agent teams).
 - 1.1.0 - Added Claude Code as primary approved CLI agent.
 - 1.0.4 - Added pre-commit and relocated tooling inventory.

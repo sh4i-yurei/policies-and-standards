@@ -1,0 +1,56 @@
+name: "Gate A - Quint Guard"
+
+on:
+  workflow_call:
+
+jobs:
+  quint-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check .quint/ directory exists
+        run: |
+          if [ ! -d ".quint" ]; then
+            echo "::error::Gate A FAIL - .quint/ directory does not exist."
+            echo "Every governed code repository must be initialized with Quint Code."
+            exit 1
+          fi
+
+      - name: Determine if code/config changed
+        id: changes
+        run: |
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+
+          # Files that count as code/config (not docs-only)
+          CODE_CHANGES=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" | \
+            grep -vE '\.(md|txt|rst)$' | \
+            grep -vE '^(docs/|README)' | \
+            head -1)
+
+          if [ -z "$CODE_CHANGES" ]; then
+            echo "docs_only=true" >> "$GITHUB_OUTPUT"
+            echo "No code/config changes detected - docs-only PR, Gate A skipped."
+          else
+            echo "docs_only=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check .quint/ freshness
+        if: steps.changes.outputs.docs_only == 'false'
+        run: |
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+
+          QUINT_CHANGES=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" | \
+            grep '^\.quint/' | head -1)
+
+          if [ -z "$QUINT_CHANGES" ]; then
+            echo "::error::Gate A FAIL - Code/config changed but no .quint/ artifacts updated."
+            echo "Per STD-030: at least one file under .quint/ must change in the same PR."
+            exit 1
+          fi
+
+          echo "Gate A PASS - .quint/ artifacts are fresh."

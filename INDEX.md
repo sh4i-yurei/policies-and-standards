@@ -116,6 +116,8 @@ find the standard, workflow, or template you need.
 | Template | Purpose |
 |----------|---------|
 | [CI Pipeline](06_Projects/Templates/ci/ci_pipeline_tpl.md) | CI/CD pipeline configuration. |
+| [CI Caller Workflow](06_Projects/Templates/ci/ci-caller.yml) | Ready-to-copy GitHub Actions CI workflow for project repos. |
+| [Pre-commit Config](06_Projects/Templates/ci/pre-commit-config.yml) | Language-aware pre-commit hooks template. |
 
 ### Design
 

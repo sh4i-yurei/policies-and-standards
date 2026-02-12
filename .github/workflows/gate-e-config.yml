@@ -1,0 +1,53 @@
+name: "Gate E - Config Validation"
+
+on:
+  workflow_call:
+
+jobs:
+  validate-config:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install validators
+        run: |
+          pip install yamllint
+          npm install -g ajv-cli
+
+      - name: Validate YAML files
+        run: |
+          YAML_FILES=$(find . -name '*.yml' -o -name '*.yaml' | \
+            grep -v node_modules | grep -v .git | grep -v .github/workflows)
+          if [ -n "$YAML_FILES" ]; then
+            echo "$YAML_FILES" | xargs yamllint -d relaxed
+          else
+            echo "No YAML config files to validate."
+          fi
+
+      - name: Validate JSON files
+        run: |
+          JSON_ERRORS=0
+          for f in $(find . -name '*.json' | grep -v node_modules | grep -v .git); do
+            if ! python3 -c "import json; json.load(open('$f'))" 2>/dev/null; then
+              echo "::error file=$f::Invalid JSON"
+              JSON_ERRORS=$((JSON_ERRORS + 1))
+            fi
+          done
+          if [ "$JSON_ERRORS" -gt 0 ]; then
+            exit 1
+          fi
+
+      - name: Schema validation
+        run: |
+          SCHEMA_FILES=$(find . -name '*.schema.json' | grep -v node_modules)
+          if [ -n "$SCHEMA_FILES" ]; then
+            for schema in $SCHEMA_FILES; do
+              DATA_FILE="${schema%.schema.json}.json"
+              if [ -f "$DATA_FILE" ]; then
+                echo "Validating $DATA_FILE against $schema"
+                npx ajv validate -s "$schema" -d "$DATA_FILE"
+              fi
+            done
+          else
+            echo "No schema files found. Skipping schema validation."
+          fi

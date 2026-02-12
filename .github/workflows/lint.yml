@@ -21,3 +21,65 @@ jobs:
         with:
           use-quiet-mode: "yes"
           config-file: ".github/mlc_config.json"
+
+  yamllint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install yamllint
+        run: pip install yamllint
+      - name: Run yamllint
+        run: |
+          find . -name '*.yml' -o -name '*.yaml' | \
+            grep -v node_modules | grep -v .git | \
+            xargs yamllint -d relaxed
+
+  spellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: streetsidesoftware/cspell-action@v6
+        with:
+          config: ".cspell.json"
+          files: "**/*.md"
+
+  frontmatter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate frontmatter
+        run: |
+          ERRORS=0
+          REQUIRED_FIELDS="id title version category status"
+
+          for f in $(find . -name '*.md' -not -path './.github/*' \
+                      -not -path './node_modules/*' \
+                      -not -name 'README.md' \
+                      -not -name 'SECURITY.md' \
+                      -not -name 'INDEX.md' \
+                      -not -name 'CLAUDE.md' \
+                      -not -name 'CONTRIBUTING.md' \
+                      -not -name 'CODE_OF_CONDUCT.md' \
+                      -not -name 'LICENSE.md'); do
+
+            # Check if file has frontmatter
+            if ! head -1 "$f" | grep -q '^---'; then
+              continue
+            fi
+
+            # Extract frontmatter
+            FM=$(sed -n '/^---$/,/^---$/p' "$f" | head -50)
+
+            for field in $REQUIRED_FIELDS; do
+              if ! echo "$FM" | grep -q "^${field}:"; then
+                echo "::error file=$f::Missing required frontmatter field: $field"
+                ERRORS=$((ERRORS + 1))
+              fi
+            done
+          done
+
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "Found $ERRORS frontmatter errors"
+            exit 1
+          fi
+          echo "All frontmatter valid."

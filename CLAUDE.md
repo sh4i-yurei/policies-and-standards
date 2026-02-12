@@ -28,11 +28,14 @@ are markdown with YAML frontmatter.
 ## Lint
 
 ```bash
-npx markdownlint "**/*.md"
-npx cspell "**/*.md"
+npx markdownlint-cli2 "**/*.md"
+npx cspell --config .cspell.json "**/*.md"
+yamllint -d relaxed .github/workflows/*.yml
+pre-commit run --all-files
 ```
 
-CI is not yet configured. Lint locally before committing.
+CI runs on PR to main: markdownlint, link-check, yamllint, cspell,
+frontmatter validation. Pre-commit hooks mirror these locally.
 
 ## Commits and PRs
 
