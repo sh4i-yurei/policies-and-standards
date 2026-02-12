@@ -38,7 +38,7 @@ jobs:
             --tb=short -v
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: test-results-python
           path: ${{ inputs.working-directory }}/results.json
@@ -60,7 +60,7 @@ jobs:
         run: npx vitest run --reporter=json --outputFile=results.json
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: test-results-node
           path: ${{ inputs.working-directory }}/results.json
@@ -80,7 +80,7 @@ jobs:
         run: cargo nextest run --message-format libtest-json-plus 2>&1 | tee results.json
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: test-results-rust
           path: ${{ inputs.working-directory }}/results.json
@@ -101,7 +101,7 @@ jobs:
         run: mvn test
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: test-results-java
           path: ${{ inputs.working-directory }}/target/surefire-reports/
