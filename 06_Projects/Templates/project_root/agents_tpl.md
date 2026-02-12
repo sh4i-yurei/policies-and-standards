@@ -1,7 +1,7 @@
 ---
 id: TPL-PRJ-AGENTS
 title: AGENTS.md template
-version: 0.1.9
+version: 0.2.0
 category: project
 status: active
 owner: sh4i-yurei
@@ -32,6 +32,10 @@ artifacts.
 
 Required behavior:
 
+- Read the KB [INDEX.md](../../../INDEX.md) for the full document registry
+  before searching for standards or templates.
+- Read the KB [Onboarding](../../../00_Orientation/Onboarding.md) for the
+  governance reading path and KB structure.
 - Read `.kb/ai-context.yaml` before any design, spec, or code changes.
 - Read `PLANS.md` to determine ExecPlan requirements.
 - Read `AI_CONTEXT.md` (context pack) for task context.
@@ -82,6 +86,7 @@ Repositories without AGENTS.md are non-compliant.
 
 # Changelog
 
+- 0.2.0 - Added KB INDEX.md and Onboarding as required agent reading.
 - 0.1.9 - Normalized skill paths to Claude Code as primary runtime.
 - 0.1.8 - Updated skill paths to support both Claude Code and Codex runtimes.
 - 0.1.7 - Set owner/reviewer/approver values.

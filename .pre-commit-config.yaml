@@ -10,14 +10,16 @@ repos:
       - id: check-json
       - id: check-merge-conflict
 
-  - repo: https://github.com/DavidAnson/markdownlint-cli2
-    rev: v0.17.1
+  - repo: local
     hooks:
       - id: markdownlint-cli2
-        args: ["**/*.md"]
+        name: markdownlint
+        entry: bash -c 'export PATH="$HOME/.nvm/versions/node/v24.11.0/bin:$PATH" && markdownlint-cli2 "$@"' --
+        language: system
+        types: [markdown]
 
-  - repo: https://github.com/streetsidesoftware/cspell-cli
-    rev: v8.16.1
-    hooks:
       - id: cspell
-        args: ["--config", ".cspell.json", "**/*.md"]
+        name: cspell
+        entry: bash -c 'export PATH="$HOME/.nvm/versions/node/v24.11.0/bin:$PATH" && cspell --config .cspell.json "$@"' --
+        language: system
+        types: [markdown]

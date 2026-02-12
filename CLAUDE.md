@@ -8,12 +8,20 @@ This is a documentation-only engineering knowledge base. There is no
 application source code, no build system, and no test suite. All files
 are markdown with YAML frontmatter.
 
+## KB Navigation
+
+Before starting any work in this repo or any governed project, check:
+
+- [INDEX.md](INDEX.md) — full registry of all 93 governed documents
+- [Onboarding](00_Orientation/Onboarding.md) — reading path and KB structure
+
 ## Key entry points
 
 - [Onboarding](00_Orientation/Onboarding.md) — start here for reading path
 - [Governance Overview](01_Governance/Software_Engineering_Governance_Overview.md) — authority structure
 - [SDLC](05_Dev_Workflows/SDLC_With_AI.md) — authoritative development workflow
 - [Documentation Standard](02_Documentation_Standards/Documentation_Standard.md) — how docs are structured
+- [CI/CD Pipeline Model](05_Dev_Workflows/CI_CD_Pipeline_Model.md) — 7-gate CI/CD pipeline
 
 ## Document conventions
 
