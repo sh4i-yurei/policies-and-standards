@@ -35,3 +35,21 @@ jobs:
         with:
           use-quiet-mode: "yes"
           config-file: ".github/mlc_config.json"
+
+  cspell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: streetsidesoftware/cspell-action@v6
+        with:
+          files: "**/*.md"
+
+  version-consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check version references
+        run: |
+          if [ -f scripts/validate-version-refs.sh ]; then
+            bash scripts/validate-version-refs.sh
+          fi

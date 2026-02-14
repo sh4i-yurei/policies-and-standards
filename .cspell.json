@@ -118,7 +118,8 @@
     "prometheus",
     "lnav",
     "ripgrep",
-    "fdfind"
+    "fdfind",
+    "negotiables"
   ],
   "dictionaries": ["softwareTerms"]
 }
