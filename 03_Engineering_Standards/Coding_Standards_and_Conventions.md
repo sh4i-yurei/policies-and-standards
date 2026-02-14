@@ -87,11 +87,11 @@ per [Issue_and_Change_Management_Policy](../01_Governance/Issue_and_Change_Manag
 # Implementation Notes
 
 - Language-specific conventions MAY be documented as extensions to this standard.
-    
+
 - Tooling MAY be used to enforce size, complexity, and formatting constraints.
-    
+
 - This standard intentionally avoids prescribing specific languages, frameworks, or tools.
-    
+
 
 # Continuous Improvement and Compliance Metrics
 
@@ -103,9 +103,10 @@ per [Issue_and_Change_Management_Policy](../01_Governance/Issue_and_Change_Manag
 Any code that violates this standard SHALL be considered non-compliant and subject to revision or rejection prior to release.
 
 # Changelog
+
 - 1.1.2 - Added traceability links for justification and issue tracking.
 - 1.1.1 - Set owner/reviewer/approver values.
 
 - 1.1.0 — Formatting corrected to align with STD-001 and clarified separation of concerns.
-    
+
 - 1.0.0 — Initial release.

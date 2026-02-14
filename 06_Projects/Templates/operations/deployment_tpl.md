@@ -107,6 +107,7 @@ pipeline definitions.
 Deployments without documented steps or rollback plans are non-compliant.
 
 # Changelog
+
 - 0.1.4 - Updated links for renamed engineering standards.
 
 - 0.1.3 - Set owner/reviewer/approver values.

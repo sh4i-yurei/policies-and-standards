@@ -83,11 +83,11 @@ systems remain bound to this standard and the tool mappings in
 # Implementation Notes
 
 - AI instruction blocks MAY be embedded in IDE or tool configuration to preload governing constraints.
-    
+
 - Examples provided to AI systems SHOULD be minimal and representative to reduce token waste.
-    
+
 - This standard intentionally avoids prescribing specific AI vendors or tools.
-    
+
 
 # Continuous Improvement and Compliance Metrics
 
@@ -99,10 +99,11 @@ systems remain bound to this standard and the tool mappings in
 Any AI-assisted output that violates this standard SHALL be considered non-compliant and subject to correction or rejection prior to merge or release.
 
 # Changelog
+
 - 1.1.3 - Linked tooling inventory location.
 - 1.1.2 - Set owner/reviewer/approver values.
 
 - 1.1.1 — Required schema definitions in AI instruction context.
 - 1.1.0 — Formatting corrected, scope clarified, and overlap with coding standards removed.
-    
+
 - 1.0.0 — Initial release.

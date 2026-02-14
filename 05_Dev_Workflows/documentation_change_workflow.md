@@ -81,6 +81,7 @@ Applies to all KB documents and templates under governance.
 Documentation changes that bypass this workflow are non-compliant.
 
 # Changelog
+
 - 1.0.1 - Set owner/reviewer/approver values.
 
 - 1.0.0 - Activated after review and workflow consolidation.

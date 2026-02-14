@@ -115,6 +115,7 @@ incident postmortem template.
 Incidents without documented outcomes are non-compliant.
 
 # Changelog
+
 - 1.0.3 - Set owner/reviewer/approver values.
 
 - 1.0.2 - Replaced template paths with KB links.

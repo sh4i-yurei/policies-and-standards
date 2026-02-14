@@ -92,6 +92,7 @@ AI sessions that ignore the rules index or load unrelated rule packs are
 non-compliant.
 
 # Changelog
+
 - 0.2.3 - Added selection guide with domain-based decision tree.
 - 0.2.2 - Set owner/reviewer/approver values.
 

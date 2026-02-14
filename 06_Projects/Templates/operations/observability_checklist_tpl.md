@@ -63,6 +63,7 @@ Use for all services and Tier 2 or Tier 3 releases.
 Releases without a completed observability checklist are non-compliant.
 
 # Changelog
+
 - 0.1.3 - Updated links for renamed engineering standards.
 
 - 0.1.2 - Set owner/reviewer/approver values.

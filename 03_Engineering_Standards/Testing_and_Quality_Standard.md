@@ -78,11 +78,11 @@ governing issue per [Issue_and_Change_Management_Policy](../01_Governance/Issue_
 # Implementation Notes
 
 - This standard intentionally avoids prescribing testing frameworks or tools.
-    
+
 - Coverage targets MAY vary by system criticality but MUST be explicitly defined.
-    
+
 - Lightweight systems MAY use simplified test strategies, but tests MUST still exist.
-    
+
 
 # Continuous Improvement and Compliance Metrics
 
@@ -94,6 +94,7 @@ governing issue per [Issue_and_Change_Management_Policy](../01_Governance/Issue_
 Any implementation activity that does not meet the requirements of this standard SHALL be considered non-compliant and subject to correction prior to release.
 
 # Changelog
+
 - 1.0.2 - Added traceability links and coverage gap documentation path.
 - 1.0.1 - Set owner/reviewer/approver values.
 

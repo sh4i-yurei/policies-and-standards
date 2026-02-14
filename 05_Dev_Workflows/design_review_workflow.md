@@ -75,6 +75,7 @@ Applies to system, module, and technical specification artifacts.
 Designs without a recorded review are non-compliant.
 
 # Changelog
+
 - 0.2.4 - Set owner/reviewer/approver values.
 
 - 0.2.3 - Replaced template path with KB link.

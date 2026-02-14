@@ -74,6 +74,7 @@ Onboarding guides should be reviewed when workflows or toolchains
 change.
 
 # Changelog
+
 - 1.1.1 - Expanded first session expectations for new and existing
   projects; linked repo-orientation skill template.
 - 1.1.0 - Reframed as descriptive orientation; added pipeline overview,

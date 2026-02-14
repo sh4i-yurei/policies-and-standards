@@ -85,6 +85,7 @@ Projects without defined environments or with unlabeled production
 resources are non-compliant.
 
 # Changelog
+
 - 0.1.2 - Added traceability links for environment records and exceptions.
 - 0.1.1 - Set owner/reviewer/approver values.
 

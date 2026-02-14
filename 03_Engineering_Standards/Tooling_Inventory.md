@@ -24,41 +24,41 @@ This inventory applies to all activities within the development environment. Too
 ## Languages and runtimes
 
 - Java: OpenJDK 17.0.17 (`java`)
-    
+
 - JavaScript: Node.js v24.11.0 (`node`)
-    
+
 - TypeScript: TypeScript CLI (`tsc`)
-    
+
 - Python: 3.12.3 (`python3`)
-    
+
 - Rust: rustc 1.75.0 (`rustc`), cargo 1.75.0 (`cargo`)
-    
+
 
 ## Build tools
 
 - Maven: 3.8.7 (`mvn`)
-    
+
 - npm: 11.7.0 (`npm`)
-    
+
 - npx: 11.7.0 (`npx`)
-    
+
 - make: 4.3 (`make`)
-    
+
 
 ## Documentation and validation tools
 
 - markdownlint-cli - Markdown linting and style enforcement
-    
+
 - cspell - Spell checking across documentation
-    
+
 - markdown-link-check - Validate markdown links
-    
+
 - yamllint - YAML validation for frontmatter and configs
-    
+
 - pre-commit - Local hook runner aligned with CI gates
-    
+
 - Quint Code - Required for all code changes and validations
-    
+
 
 ## Python development tools
 
@@ -113,14 +113,14 @@ This inventory applies to all activities within the development environment. Too
 - jq - JSON processing and querying
 
 - lnav - Log file navigator and analysis
-    
+
 
 ## Containerization
 
 - Docker Desktop: 28.5.1 - Client and server
-    
+
 - WSL Integration - Enabled for development
-    
+
 
 ## LLM agents and AI tools
 
@@ -134,24 +134,24 @@ This inventory applies to all activities within the development environment. Too
 ### Available tools
 
 - ChatGPT - General AI assistance and ideation
-    
+
 - Perplexity - AI-assisted research and analysis
-    
+
 - GitHub Copilot - In-line code suggestions and completion
-    
+
 - KB RAG service (rag-service) - KB retrieval and source quoting
-    
+
 
 ## Tool integration requirements
 
 1. All tools MUST be configured to enforce standards defined in [Coding_Standards_and_Conventions](Coding_Standards_and_Conventions.md) and [Documentation_Standard](../02_Documentation_Standards/Documentation_Standard.md).
-    
+
 2. Tool configuration files MUST be version-controlled and reviewed as code.
-    
+
 3. Linting, type checking, and testing MUST execute in development workflows before merge.
-    
+
 4. Tool violations MUST block merge and release; violations MUST NOT be suppressed or overridden.
-    
+
 
 # Implementation Notes
 

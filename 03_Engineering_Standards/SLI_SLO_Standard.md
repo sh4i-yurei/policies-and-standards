@@ -107,6 +107,7 @@ Systems without defined SLIs and SLOs are non-compliant and may not
 release to production.
 
 # Changelog
+
 - 0.2.3 - Added traceability links and exception record locations.
 - 0.2.2 - Set owner/reviewer/approver values.
 

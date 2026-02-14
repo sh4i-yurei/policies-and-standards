@@ -119,7 +119,15 @@
     "lnav",
     "ripgrep",
     "fdfind",
-    "negotiables"
+    "negotiables",
+    "exploitability",
+    "rollouts",
+    "knowledgebase",
+    "agentic",
+    "underspecified",
+    "rustc",
+    "hotfixes",
+    "WCAG"
   ],
   "dictionaries": ["softwareTerms"]
 }

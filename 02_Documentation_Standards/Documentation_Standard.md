@@ -56,19 +56,19 @@ This standard applies to all documents stored in the including governance polici
 3.1 Each document MUST contain the following sections in the exact order listed:
 
 - `# Purpose`
-    
+
 - `# Scope`
-    
+
 - `# Standard`
-    
+
 - `# Implementation Notes`
-    
+
 - `# Continuous Improvement and Compliance Metrics`
-    
+
 - `# Compliance`
-    
+
 - `# Changelog`
-    
+
 
 3.2 Section headers MUST use level-one Markdown syntax (`#`).  
 3.3 Subsections MAY use deeper heading levels as required.  
@@ -140,9 +140,9 @@ document role definitions.
 # Implementation Notes
 
 - Templates SHOULD be provided for common document types to reduce authoring friction; maintain template inventory under the Templates directory defined in [Vault_Schema_Definition](Vault_Schema_Definition.md).
-    
+
 - Tooling MAY be introduced to validate structure, placement, metadata, and link integrity.
-    
+
 - This standard supersedes all prior informal documentation conventions.
 - Follow [documentation_change_workflow](../05_Dev_Workflows/documentation_change_workflow.md) for governed updates.
 
@@ -157,6 +157,7 @@ document role definitions.
 Documents that do not comply with this standard SHALL be rejected, relocated, or revised until compliance is restored. Persistent violations MAY result in rejection of proposed changes under the change management policy.
 
 # Changelog
+
 - 1.1.5 - Set owner/reviewer/approver values.
 
 - 1.1.4 — Added owner, reviewer, and approver frontmatter requirements.
@@ -164,7 +165,7 @@ Documents that do not comply with this standard SHALL be rejected, relocated, or
 - 1.1.2 — Aligned status lifecycle with governance.
 - 1.1.1 — Linked vault schema and documentation change workflow.
 - 1.1.0 — Integrated vault schema and mandatory cross-referencing requirements.
-    
+
 - 1.0.1 — Added lifecycle governance and CI enforcement.
-    
+
 - 1.0.0 — Initial release.

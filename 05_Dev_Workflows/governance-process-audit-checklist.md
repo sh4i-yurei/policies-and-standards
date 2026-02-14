@@ -71,6 +71,7 @@ Projects that skip required audits or fail to address critical gaps are
 non-compliant.
 
 # Changelog
+
 - 0.1.2 - Linked tooling inventory.
 - 0.1.1 - Set owner/reviewer/approver values.
 

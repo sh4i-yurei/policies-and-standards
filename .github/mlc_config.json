@@ -1,6 +1,8 @@
 {
   "ignorePatterns": [
-    { "pattern": "^http" }
+    { "pattern": "^http" },
+    { "pattern": "CONTRIBUTING\\.md" },
+    { "pattern": "CODE_OF_CONDUCT\\.md" }
   ],
   "aliveStatusCodes": [200, 301, 302]
 }

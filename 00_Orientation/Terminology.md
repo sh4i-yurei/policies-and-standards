@@ -215,11 +215,11 @@ an ADR using [adr_tpl](../06_Projects/Templates/architecture/adr_tpl.md).
 # Implementation Notes
 
 - Terms SHOULD be referenced using consistent capitalization where clarity is improved.
-    
+
 - New terms MUST be added through the governed change process.
-    
+
 - Where ambiguity exists, this document is authoritative.
-    
+
 
 # Continuous Improvement and Compliance Metrics
 

@@ -54,17 +54,17 @@ All standards and workflows described elsewhere in the repository derive their a
 The following documents form the foundation of the governance framework:
 
 - [Documentation_Standard](../02_Documentation_Standards/Documentation_Standard.md) (STD-001)
-    
+
 - [Standards_Governance_Policy](Standards_Governance_Policy.md) (STD-002)
-    
+
 - [Issue_and_Change_Management_Policy](Issue_and_Change_Management_Policy.md) (STD-003)
-    
+
 - [AI_Assisted_Development_Standard](../03_Engineering_Standards/AI_Assisted_Development_Standard.md) (STD-004)
-    
+
 - [Coding_Standards_and_Conventions](../03_Engineering_Standards/Coding_Standards_and_Conventions.md) (STD-005)
-    
+
 - [Release_Management_Policy](Release_Management_Policy.md) (STD-006)
-    
+
 
 ## 4. Authority and Roles
 
@@ -103,7 +103,7 @@ The following documents form the foundation of the governance framework:
 - New contributors should start with [Onboarding](../00_Orientation/Onboarding.md) for the recommended reading path and KB entry point.
 
 - This document SHOULD change infrequently and only with strong justification.
-    
+
 
 # Continuous Improvement and Compliance Metrics
 
@@ -115,10 +115,11 @@ The following documents form the foundation of the governance framework:
 Any document, workflow, or software artifact that conflicts with this governance framework SHALL be considered non-compliant and subject to revision or rejection under the change management process.
 
 # Changelog
+
 - 1.1.3 - Added onboarding entry point reference.
 - 1.1.2 - Linked conflict resolution mechanism.
 - 1.1.1 - Set owner/reviewer/approver values.
 
 - 1.1.0 — Aligned with updated Documentation Standard, clarified authority boundaries, and strengthened AI governance language.
-    
+
 - 1.0.0 — Initial release.
