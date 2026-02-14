@@ -1,13 +1,13 @@
 ---
 id: STD-032
 title: SDLC with AI
-version: 1.0.22
+version: 1.0.23
 category: workflow
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-12
+last_updated: 2026-02-14
 extends: [STD-000, STD-003, STD-006, STD-020, STD-021, STD-022, STD-023]
 tags: [sdlc, ai-assisted, workflow, governance]
 ---
@@ -174,8 +174,23 @@ reset checklist in
 fresh AI session for implementation using the context pack and only the
 rule packs needed for the task (see [rules-index](../03_Engineering_Standards/AI_Rules/rules-index.md)). This keeps
 execution context small and reduces drift.
-If work meets ExecPlan criteria in `PLANS.md`, create or update the
-ExecPlan before implementation and include it in the context pack.
+
+An ExecPlan MUST be created before implementation when any of the
+following apply:
+
+- Tier 3 work (always required)
+- Cross-module changes affecting shared interfaces or data contracts
+- Multi-session work where context must survive between sessions
+- Changes introducing new dependencies or data contracts
+
+When an ExecPlan is required, create or update it before implementation
+and include it in the context pack.
+
+At session end, agents working on Tier 2+ tasks SHOULD produce a session
+handoff artifact per the
+[session_handoff_tpl](../06_Projects/Templates/ai/session_handoff_tpl.md).
+At session start, agents MUST check for and read any existing handoff
+artifact before beginning work.
 
 ## Canonical stages (with feedback loops)
 
@@ -234,7 +249,12 @@ Each tier maps to the same stages, but may skip or compress steps.
   protection, AI-assist disclosure) and [CI_CD_Pipeline_Model](CI_CD_Pipeline_Model.md) gates.
 - For Tier 2 and Tier 3, test cases defined in the specification MUST
   be authored before or alongside implementation code.
-- Complex or high-risk work MUST maintain an ExecPlan per `PLANS.md`.
+- Work meeting ExecPlan criteria (see Context reset and execution
+  handoff) MUST maintain an ExecPlan per `PLANS.md`. ExecPlans MUST be
+  created at session start (not retroactively), stored in
+  `plans/exec_plans/<date>_<slug>.md`, and have their Progress section
+  updated each session. Missing ExecPlans for qualifying work constitute
+  a process compliance gap.
 - Security and config baselines run in CI when applicable; do not defer
   security checks to release.
 - Feedback loop: incremental test runs and CI feedback per commit.
@@ -455,6 +475,9 @@ remediated through the change management process.
 
 # Changelog
 
+- 1.0.23 - Strengthened ExecPlan enforcement with explicit trigger
+  criteria, storage path, and compliance gap language. Added session
+  handoff template reference for multi-session continuity.
 - 1.0.22 - Added threat model/SLI/SLO step to Tier 3 flow, explicit
   design outputs, and design post-mortem template reference.
 - 1.0.21 - Added schema-before-tests and tests-first sequencing for Tier 2/3.

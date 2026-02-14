@@ -1,13 +1,13 @@
 ---
 id: TPL-PRJ-EXEC-PLAN
 title: ExecPlan template
-version: 0.1.3
+version: 0.1.4
 category: project
 status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-02-12
+last_updated: 2026-02-14
 extends: [STD-001, STD-004, STD-032]
 tags: [template, ai, execplan, planning]
 ---
@@ -89,6 +89,12 @@ List libraries, modules, and interfaces that must exist at completion.
 - Keep the ExecPlan self-contained; cite governing standards and link
   required artifacts, including short excerpts when needed for clarity.
 - Update the Progress section after each work session.
+- ExecPlans are mandatory for all Tier 3 work and for Tier 2 work that
+  meets the criteria in `PLANS.md`
+  ([SDLC_With_AI](../../../05_Dev_Workflows/SDLC_With_AI.md), "Context reset and execution handoff" section).
+  Create at session start, not retroactively. Update the Progress section
+  after each session. Missing or stale ExecPlans constitute a process
+  compliance gap.
 
 # Continuous Improvement and Compliance Metrics
 
@@ -100,6 +106,7 @@ ExecPlans that omit required sections are non-compliant.
 
 # Changelog
 
+- 0.1.4 - Added enforcement guidance for mandatory ExecPlan criteria.
 - 0.1.3 - Set owner/reviewer/approver values.
 - 0.1.2 - Added owner/reviewer/approver frontmatter fields.
 

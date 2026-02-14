@@ -1,13 +1,13 @@
 ---
 id: STD-004
 title: AI Assisted Development Standard
-version: 1.1.3
+version: 1.1.4
 category: engineering
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-12
+last_updated: 2026-02-14
 review_date: 2026-05-01
 extends: [STD-000, STD-005]
 tags: [ai, assisted_development, tooling, governance]
@@ -43,6 +43,10 @@ This document does not define coding standards, system architecture, or workflow
 defined in [SDLC_With_AI](../05_Dev_Workflows/SDLC_With_AI.md).
 2.6 Instruction context MUST include schema definitions and approved file
 boundaries when schemas or layouts are in scope.
+2.7 For Tier 2+ work meeting ExecPlan criteria, instruction context MUST
+include the active ExecPlan or a reference to its location.
+2.8 When resuming multi-session work, instruction context MUST include the
+most recent session handoff artifact if one exists.
 
 ## 3. Scope of Permitted Activities
 
@@ -88,7 +92,6 @@ systems remain bound to this standard and the tool mappings in
 
 - This standard intentionally avoids prescribing specific AI vendors or tools.
 
-
 # Continuous Improvement and Compliance Metrics
 
 8.1 Metrics MAY include frequency of AI-generated violations, rework rates, and review findings.  
@@ -100,6 +103,8 @@ Any AI-assisted output that violates this standard SHALL be considered non-compl
 
 # Changelog
 
+- 1.1.4 - Required ExecPlan and session handoff artifact in instruction
+  context.
 - 1.1.3 - Linked tooling inventory location.
 - 1.1.2 - Set owner/reviewer/approver values.
 
