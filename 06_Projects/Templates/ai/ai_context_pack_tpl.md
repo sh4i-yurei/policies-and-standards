@@ -1,13 +1,13 @@
 ---
 id: TPL-PRJ-AI
 title: AI context pack template
-version: 0.2.8
+version: 0.2.9
 category: project
 status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-02-12
+last_updated: 2026-02-14
 extends: [STD-004, STD-032]
 tags: [template, ai, context, prompts]
 ---
@@ -58,6 +58,7 @@ Reference this file from AGENTS.md.
 - ExecPlan and PLANS.md (when required): <links>
 - Schema definitions and file boundaries: <links>
 - Style/testing guides: <paths>
+- Session handoff artifacts (when resuming multi-session work): <links>
 
 ## Prompt hygiene
 
@@ -85,6 +86,7 @@ AI work performed without a validated context pack is non-compliant.
 
 # Changelog
 
+- 0.2.9 - Added session handoff artifacts to key files list.
 - 0.2.8 - Set owner/reviewer/approver values.
 - 0.2.7 - Added owner/reviewer/approver frontmatter fields.
 

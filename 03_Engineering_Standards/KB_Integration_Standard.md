@@ -1,13 +1,13 @@
 ---
 id: STD-056
 title: KB integration standard
-version: 0.1.8
+version: 0.1.9
 category: engineering
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-12
+last_updated: 2026-02-14
 extends: [STD-000, STD-001, STD-003, STD-004, STD-012, STD-032]
 tags: [kb, governance, integration, ai, workflow]
 ---
@@ -83,6 +83,14 @@ pause and request maintainer action.
 4.4 Use context packs per [ai_context_pack_tpl](../06_Projects/Templates/ai/ai_context_pack_tpl.md) and keep
 `AI_CONTEXT.md` current for the work in scope.
 
+4.5 If `PLANS.md` indicates ExecPlan criteria apply to the current work,
+the agent MUST verify an active ExecPlan exists before proceeding. If
+none exists, create one per the
+[exec_plan_tpl](../06_Projects/Templates/ai/exec_plan_tpl.md).
+
+4.6 For multi-session work, read the most recent session handoff artifact
+(if present) alongside `PLANS.md` to restore session context.
+
 ## 5. Conflicts and overrides
 
 5.1 Repository-specific overrides are permitted only when explicitly
@@ -131,6 +139,8 @@ without KB retrieval are non-compliant.
 
 # Changelog
 
+- 0.1.9 - Added ExecPlan verification gate and session handoff retrieval
+  requirement.
 - 0.1.8 - Added KB retrieval implementation procedure to notes.
 - 0.1.7 - Normalized skill paths to Claude Code as primary runtime.
 - 0.1.6 - Updated skill paths to support both Claude Code and Codex runtimes.
