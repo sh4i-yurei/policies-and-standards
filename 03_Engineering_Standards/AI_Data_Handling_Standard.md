@@ -40,6 +40,7 @@ No metrics until the standard is drafted.
 Compliance requirements are deferred until this standard is drafted.
 
 # Changelog
+
 - 0.1.1 - Set owner/reviewer/approver values.
 
 - 0.1.0 - Stub created for future drafting.

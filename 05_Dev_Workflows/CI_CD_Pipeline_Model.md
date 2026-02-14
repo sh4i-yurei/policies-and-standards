@@ -1,13 +1,13 @@
 ---
 id: STD-030
 title: CI/CD Pipeline and Validation Model
-version: 1.1.5
+version: 1.1.6
 category: workflow
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-12
+last_updated: 2026-02-13
 extends:
   - STD-000
   - STD-003
@@ -30,24 +30,24 @@ use** to make every code change safe to merge.
 This CI/CD model exists to ensure:
 
 - code changes are correct, consistent, and test-validated
-    
+
 - documentation and design-first expectations are enforced
-    
+
 - security and supply-chain risks are detected early
-    
+
 - AI-assisted work is constrained and auditable
-    
+
 - **Quint Code is run for every code change**, preserving reasoning,
   evidence, and decisions in durable, queryable artifacts
-    
+
 
 This document is written to be usable by:
 
 - the human maintainer, to understand operational expectations
-    
+
 - AI systems, to understand available tools, enforcement boundaries,
   and CI constraints
-    
+
 
 # Scope
 
@@ -57,43 +57,43 @@ exception is documented and approved.
 CI is a **hard gate**:
 
 - if required checks fail, the change MUST NOT merge
-    
+
 
 This model is consistent with:
 
 - [AI_Assisted_Development_Standard](../03_Engineering_Standards/AI_Assisted_Development_Standard.md)
-    
+
 - [Coding_Standards_and_Conventions](../03_Engineering_Standards/Coding_Standards_and_Conventions.md)
-    
+
 - [Testing_and_Quality_Standard](../03_Engineering_Standards/Testing_and_Quality_Standard.md)
-    
+
 - [Security_and_Threat_Modeling_Standard](../03_Engineering_Standards/Security_and_Threat_Modeling_Standard.md)
-    
+
 - [Release_Management_Policy](../01_Governance/Release_Management_Policy.md)
-    
+
 - [Issue_and_Change_Management_Policy](../01_Governance/Issue_and_Change_Management_Policy.md)
 
 - [git_and_branching_workflow](git_and_branching_workflow.md)
 
 - [Git_Workflow_Checklist](Git_Workflow_Checklist.md)
-    
+
 
 # Standard
 
 ## Non-negotiables
 
 1. No merge on red CI.
-    
+
 2. Every change MUST have traceability (issue or intent) and validation
    evidence.
-    
+
 3. Quint Code MUST be run for every code change, and Quint artifacts
    MUST be updated in the PR.
-    
+
 4. AI MAY assist, but MUST NOT bypass any gate defined here.
-    
+
 5. Local workflows MUST mirror CI to minimize drift.
-    
+
 
 ## CI/CD control plane
 
@@ -101,9 +101,9 @@ This model is consistent with:
 
 - **GitHub** is the control plane (Issues -> Pull Requests -> Actions ->
   Releases).
-    
+
 - **GitHub Actions** is the CI execution environment.
-    
+
 
 ### CI location
 
@@ -123,11 +123,11 @@ All workflow definitions MUST live under:
 The pipeline is composed of three enforced tracks:
 
 1. Pull Request Validation (required to merge)
-    
+
 2. Post-merge Validation on `main` (required to keep `main` healthy)
-    
+
 3. Release Validation (manual promotion; no autonomous deploy)
-    
+
 
 Each track is composed of **validation gates**. Gates are additive and
 may evolve, but their responsibilities are stable.
@@ -137,11 +137,11 @@ may evolve, but their responsibilities are stable.
 Each gate defines:
 
 - what it protects
-    
+
 - how enforcement occurs
-    
+
 - what constitutes pass or fail
-    
+
 
 ---
 
@@ -154,13 +154,13 @@ Each gate defines:
 Ensure engineering decisions are:
 
 - structured
-    
+
 - evidence-backed
-    
+
 - queryable
-    
+
 - durable across time
-    
+
 
 Quint Code is the organization's mechanism for preventing \"chat
 archaeology\" and ensuring that rationale survives beyond any single
@@ -175,19 +175,26 @@ For each governed change set, `.quint/` MUST contain durable artifacts
 that collectively cover the following **content categories**:
 
 - Context (problem statement, scope, constraints, assumptions)
-    
-- Alternatives considered (approaches, hypotheses, tradeoffs)
-    
-- Verification (checks against standards, constraints, invariants)
-    
-- Validation / Evidence (tests, experiments, outputs, results)
-    
-- Audit / Risk notes (bias, confidence, security, reliability concerns)
-    
-- Decision (final decision, rationale, tradeoffs, next steps)
-    
 
-**Layout rule:**  
+- Alternatives considered (approaches, hypotheses, tradeoffs)
+
+- Verification (checks against standards, constraints, invariants)
+
+- Validation / Evidence (tests, experiments, outputs, results)
+
+- Audit / Risk notes (bias, confidence, security, reliability concerns)
+
+- Decision (final decision, rationale, tradeoffs, next steps)
+
+
+**Commitment rule:**
+The `.quint/` directory MUST be committed to version control. Do not
+add `.quint/` to `.gitignore`. Decision artifacts are durable project
+records, not ephemeral working state. Projects that previously
+gitignored `.quint/` should remove the gitignore entry and commit
+existing artifacts.
+
+**Layout rule:**
 The on-disk layout inside `.quint/` MAY vary by Quint version or
 repository convention. CI enforces the presence and freshness of
 decision and evidence artifacts, not a fixed folder taxonomy.
@@ -197,7 +204,7 @@ decision and evidence artifacts, not a fixed folder taxonomy.
 For each PR that changes code or configuration:
 
 - At least one decision record under `.quint/` MUST be added or updated.
-    
+
 
 Decision files MAY follow any stable repo convention (e.g., `DRR-*.md`,
 `pr-<number>.md`) provided the file clearly corresponds to the PR's
@@ -206,17 +213,17 @@ change set.
 Decision records SHOULD include:
 
 - what changed
-    
+
 - why it changed
-    
+
 - standards consulted
-    
+
 - evidence gathered
-    
+
 - risks and mitigations
-    
+
 - final decision and next steps
-    
+
 
 #### Freshness Rule (Hard Gate)
 
@@ -237,11 +244,11 @@ implementations**, not required contract artifacts.
 Gate A passes if:
 
 - `.quint/` exists
-    
+
 - the freshness rule is satisfied
-    
+
 - at least one decision record under `.quint/` changed
-    
+
 
 ---
 
@@ -256,13 +263,17 @@ Enforce design-first development and prevent undocumented drift.
 #### Required Behavior
 
 - required documentation exists (repo-defined)
-    
+
 - Markdown frontmatter exists where required
-    
+
 - required sections and headings are present
-    
+
 - required cross-references to governing standards exist
-    
+
+- spelling validation passes
+
+- cross-reference version consistency validated
+
 
 #### Tooling
 
@@ -271,11 +282,15 @@ Validation behavior is mandatory. Tool choice is flexible.
 Recommended tools include:
 
 - `markdownlint`
-    
+
 - `yamllint`
-    
+
+- `cspell` (spelling validation)
+
+- `validate-version-refs.sh` (cross-reference version consistency)
+
 - repo-local validation scripts where needed
-    
+
 
 #### Pass / Fail
 
@@ -288,11 +303,11 @@ Fail if required documentation is missing or malformed.
 **(REQUIRED)**
 
 - Enforces linting, formatting, and static analysis
-    
+
 - Default Python tools: `ruff`, `black`, `mypy`
-    
+
 - Fail on any violation
-    
+
 
 ---
 
@@ -301,9 +316,9 @@ Fail if required documentation is missing or malformed.
 **(REQUIRED)**
 
 - Default Python tool: `pytest`
-    
+
 - Fail on any test failure
-    
+
 
 ---
 
@@ -312,11 +327,11 @@ Fail if required documentation is missing or malformed.
 **(REQUIRED WHEN APPLICABLE)**
 
 - YAML and JSON validation
-    
+
 - Schema enforcement where schemas exist
-    
+
 - Fail on invalid configuration
-    
+
 
 ---
 
@@ -325,13 +340,13 @@ Fail if required documentation is missing or malformed.
 **(PHASED IN)**
 
 - Dependabot
-    
+
 - CodeQL
-    
+
 - Secret scanning
-    
+
 - Optional: Trivy, gitleaks, SonarQube
-    
+
 
 Initially reporting-only; promotion to blocking requires explicit approval.
 
@@ -344,11 +359,11 @@ Initially reporting-only; promotion to blocking requires explicit approval.
 AI-assisted review MUST:
 
 - tag findings by severity
-    
+
 - reference applicable standards
-    
+
 - propose concrete fixes where possible
-    
+
 
 Initially advisory; future blocking behavior must be explicitly governed.
 
@@ -373,7 +388,7 @@ Initially advisory; future blocking behavior must be explicitly governed.
 ## Pull request CI requirements
 
 A PR MUST pass the applicable gates per the matrix above.
-    
+
 
 ## Main branch CI
 
@@ -385,21 +400,21 @@ are treated as defects.
 Releases are manual and explicit:
 
 - Git tags and GitHub Releases
-    
+
 - No autonomous deploy
-    
+
 - Governed by [Release_Management_Policy](../01_Governance/Release_Management_Policy.md)
 
 - Release readiness MUST be confirmed using
   [release_checklist_tpl](../06_Projects/Templates/release/release_checklist_tpl.md)
-    
+
 
 ## Local workflow alignment
 
 Local development MUST mirror CI using:
 
 - **pre-commit**
-    
+
 
 Hooks SHOULD align with CI enforcement to minimize drift.
 
@@ -413,26 +428,26 @@ Hooks SHOULD align with CI enforcement to minimize drift.
 # Implementation Notes
 
 - Tool choices may evolve; enforcement behavior must not.
-    
+
 - Repo-specific CI models SHOULD reference this document rather than
   redefine it.
-    
+
 - This document defines _validation intent_, not CI YAML syntax. Projects
   SHOULD derive their CI definitions from the template at
   [ci_pipeline_tpl](../06_Projects/Templates/ci/ci_pipeline_tpl.md) and keep project-specific
   deviations documented.
-    
+
 
 # Continuous Improvement and Compliance Metrics
 
 - CI failure rates
-    
+
 - Rework due to missing Quint artifacts
-    
+
 - Security finding trends
-    
+
 - Drift between local and CI behavior
-    
+
 
 Metrics SHOULD inform incremental refinement of gates and tooling.
 
@@ -442,6 +457,8 @@ Any PR that bypasses, disables, or circumvents required CI gates SHALL
 be considered non-compliant and subject to rollback or remediation.
 
 # Changelog
+
+- 1.1.6 - Added cspell and version-consistency checks to Gate B; added .quint/ commitment rule to Gate A; documented spelling and version-ref validation in required behavior and tooling.
 - 1.1.5 - Clarified Quint gating for code changes and removed code-bearing path requirements.
 - 1.1.4 - Set owner/reviewer/approver values.
 

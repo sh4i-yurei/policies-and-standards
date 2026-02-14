@@ -42,11 +42,11 @@ including validation evidence and any AI-assisted review notes, as defined in
 2.2 At minimum, the following environments MUST be defined:
 
 - Development
-    
+
 - Staging
-    
+
 - Production
-    
+
 
 2.3 Promotion between environments MUST follow approved release procedures.
 
@@ -56,13 +56,13 @@ including validation evidence and any AI-assisted review notes, as defined in
 3.2 Valid release types include:
 
 - Major
-    
+
 - Minor
-    
+
 - Patch
-    
+
 - Hotfix
-    
+
 
 3.3 Release type MUST correspond to semantic versioning rules defined in [Standards_Governance_Policy](Standards_Governance_Policy.md).  
 3.4 Version identifiers MUST be updated prior to release approval.
@@ -74,11 +74,11 @@ including validation evidence and any AI-assisted review notes, as defined in
 4.3 Each release MUST include:
 
 - Versioned artifacts
-    
+
 - Release notes summarizing changes
-    
+
 - References to governing issues or changes
-    
+
 
 4.4 Incomplete or partially validated changes MUST NOT be released.
 
@@ -88,11 +88,11 @@ including validation evidence and any AI-assisted review notes, as defined in
 5.2 Validation MUST confirm:
 
 - Compliance with [Documentation_Standard](../02_Documentation_Standards/Documentation_Standard.md)
-    
+
 - Compliance with [Coding_Standards_and_Conventions](../03_Engineering_Standards/Coding_Standards_and_Conventions.md)
-    
+
 - Completion of required reviews and approvals
-    
+
 
 5.3 AI-assisted systems MAY support validation activities but SHALL NOT override failures or suppress findings.
 
@@ -118,11 +118,11 @@ including validation evidence and any AI-assisted review notes, as defined in
 # Implementation Notes
 
 - This policy intentionally avoids prescribing deployment tools or platforms.
-    
+
 - Release automation MAY be introduced provided it enforces, rather than bypasses, this policy.
-    
+
 - Documentation-only releases remain subject to this policy.
-    
+
 
 # Continuous Improvement and Compliance Metrics
 
@@ -134,8 +134,9 @@ including validation evidence and any AI-assisted review notes, as defined in
 Any release that bypasses or violates this policy SHALL be considered non-compliant and subject to corrective action or rollback.
 
 # Changelog
+
 - 1.1.1 - Set owner/reviewer/approver values.
 
 - 1.1.0 — Formatting corrected, authority boundaries clarified, and validation language aligned with governance framework.
-    
+
 - 1.0.0 — Initial release.

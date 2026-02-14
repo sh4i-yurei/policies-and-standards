@@ -108,6 +108,7 @@ applicable.
 Releases that bypass required checks or approvals are non-compliant.
 
 # Changelog
+
 - 1.0.4 - Set owner/reviewer/approver values.
 
 - 1.0.3 - Replaced workflow path with KB link.

@@ -55,6 +55,7 @@ Applies to all Tier 2 and Tier 3 releases before production promotion.
 Releases without a completed readiness review are non-compliant.
 
 # Changelog
+
 - 0.1.3 - Linked readiness checklist references to SLOs and ops docs.
 - 0.1.2 - Set owner/reviewer/approver values.
 

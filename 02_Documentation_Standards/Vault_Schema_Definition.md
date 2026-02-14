@@ -110,11 +110,11 @@ governance.
 # Implementation Notes
 
 - Folder numbering is intentional and MUST NOT be altered without schema approval.
-    
+
 - Tooling MAY be introduced to validate directory placement and link integrity.
-    
+
 - Templates SHOULD be provided for common document types to reduce authoring friction.
-    
+
 
 # Continuous Improvement and Compliance Metrics
 
@@ -127,6 +127,7 @@ governance.
 Documents that do not conform to this schema SHALL be considered non-compliant and subject to revision or relocation. Persistent violations MAY result in rejection of proposed changes until compliance is restored.
 
 # Changelog
+
 - 1.0.2 - Set owner/reviewer/approver values.
 
 - 1.0.1 — Clarified root-level draft and non-KB exclusions.

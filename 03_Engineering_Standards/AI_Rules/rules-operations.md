@@ -89,6 +89,7 @@ Track release defects, rollback events, and on-call escalations.
 Operational changes that ignore this rule pack are non-compliant.
 
 # Changelog
+
 - 1.0.3 - Set owner/reviewer/approver values.
 
 - 1.0.2 - Added governing standards links.

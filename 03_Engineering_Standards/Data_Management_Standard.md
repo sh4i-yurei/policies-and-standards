@@ -127,6 +127,7 @@ Systems without documented data classification, retention, and recovery
 requirements are non-compliant.
 
 # Changelog
+
 - 0.2.4 - Added traceability links and exception recording locations.
 - 0.2.3 - Set owner/reviewer/approver values.
 

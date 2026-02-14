@@ -64,12 +64,14 @@ List services, modules, or integrations that use this schema.
 ## Storage, retention, and privacy
 
 Describe storage location, retention expectations, and data sensitivity.
+
 - Data classification: <public|internal|confidential|restricted>
 
 ## Repository layout rules
 
 If this schema defines file layout or module boundaries, list allowed
 paths and restricted areas.
+
 - Allowed paths: <list>
 - Restricted paths: <list>
 

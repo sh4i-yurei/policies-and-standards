@@ -87,11 +87,11 @@ changelog; superseded decisions MUST be recorded in ADRs.
 # Implementation Notes
 
 - This model is intentionally prescriptive to prevent architectural drift.
-    
+
 - Design artifacts MAY be lightweight for small systems but MUST still exist.
-    
+
 - Design approval may be documented through version control or issue tracking workflows.
-    
+
 
 # Continuous Improvement and Compliance Metrics
 
@@ -103,6 +103,7 @@ changelog; superseded decisions MUST be recorded in ADRs.
 Any implementation activity that occurs without approved design artifacts SHALL be considered non-compliant and subject to corrective action or rollback.
 
 # Changelog
+
 - 1.0.4 - Set owner/reviewer/approver values.
 
 - 1.0.3 - Clarified SDLC authority reference.

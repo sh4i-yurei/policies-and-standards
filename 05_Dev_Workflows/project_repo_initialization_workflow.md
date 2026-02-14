@@ -154,6 +154,7 @@ New repositories that skip required artifacts for their tier are
 non-compliant.
 
 # Changelog
+
 - 0.1.17 - Made PRD optional for Tier 2 to align with SDLC tier definitions.
 - 0.1.16 - Normalized skill paths to Claude Code as primary runtime.
 - 0.1.15 - Updated skill paths to support both Claude Code and Codex runtimes.

@@ -130,6 +130,7 @@ Repositories lacking the required pointer artifacts or AI work performed
 without KB retrieval are non-compliant.
 
 # Changelog
+
 - 0.1.8 - Added KB retrieval implementation procedure to notes.
 - 0.1.7 - Normalized skill paths to Claude Code as primary runtime.
 - 0.1.6 - Updated skill paths to support both Claude Code and Codex runtimes.

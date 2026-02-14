@@ -58,11 +58,11 @@ This mission statement applies to all documentation, software artifacts, develop
 # Implementation Notes
 
 - This document functions as the conceptual root of the governance framework defined in [Software_Engineering_Governance_Overview](../01_Governance/Software_Engineering_Governance_Overview.md).
-    
+
 - All standards and workflows SHOULD explicitly or implicitly align with the mission and principles defined herein.
-    
+
 - Changes to this document are expected to be infrequent and subject to heightened review scrutiny.
-    
+
 
 # Continuous Improvement and Compliance Metrics
 
@@ -74,8 +74,8 @@ This mission statement applies to all documentation, software artifacts, develop
 Any standard, workflow, or project artifact that materially conflicts with the mission or principles defined in this document SHALL be considered non-compliant and subject to review, revision, or rejection under the change management process.
 
 # Changelog
+
 - 1.0.2 - Set owner/reviewer/approver values.
 
 - 1.0.1 — Updated headings to match documentation standard.
 - 1.0.0 — Initial release.
-    

@@ -4,3 +4,14 @@ MD025: false
 MD013: false
 # Allow inline HTML for template placeholders.
 MD033: false
+# Allow consecutive blank lines used as visual separators in list-heavy docs.
+MD012: false
+# Allow emphasis used as classification labels (e.g., gate severity markers).
+MD036: false
+# Allow duplicate headings — gates reuse "Purpose", "Pass / Fail", etc.
+MD024: false
+# Allow compact table style used consistently across 93 docs and INDEX.md.
+# MD060 is new in markdownlint v0.40.0 — reformatting all tables is high churn.
+MD060: false
+# Allow extra columns in template tables (placeholder cells for user input).
+MD056: false

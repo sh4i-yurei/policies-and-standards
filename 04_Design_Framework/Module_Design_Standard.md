@@ -116,11 +116,11 @@ MUST be linked per [schema-definition-standard](schema-definition-standard.md).
 # Implementation Notes
 
 - Module Designs SHOULD be concise and focused.
-    
+
 - Diagrams MAY be included to aid comprehension but MUST not replace written definitions.
-    
+
 - Modules MAY evolve, but evolution MUST follow controlled change processes.
-    
+
 
 # Continuous Improvement and Compliance Metrics
 
@@ -132,6 +132,7 @@ MUST be linked per [schema-definition-standard](schema-definition-standard.md).
 Any module implemented or modified without an approved Module Design artifact SHALL be considered non-compliant and subject to corrective action.
 
 # Changelog
+
 - 1.0.3 - Set owner/reviewer/approver values.
 
 - 1.0.2 — Added observability and signal requirements.

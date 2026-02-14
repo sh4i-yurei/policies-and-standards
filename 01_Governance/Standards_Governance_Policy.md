@@ -40,13 +40,13 @@ Project-specific artifacts and implementation outputs are explicitly out of scop
 2.1 All standards MUST progress through the following lifecycle states:
 
 - `draft` — In development and not yet authoritative
-    
+
 - `review` — Under formal evaluation for correctness and alignment
-    
+
 - `active` — Approved and enforceable
-    
+
 - `deprecated` — Superseded or retired but retained for audit purposes
-    
+
 
 2.2 Lifecycle state MUST be reflected in the `status` field of the YAML frontmatter.  
 2.3 Transitions between lifecycle states MUST be recorded through version control history.  
@@ -58,11 +58,11 @@ Project-specific artifacts and implementation outputs are explicitly out of scop
 3.2 Version increments SHALL be applied as follows:
 
 - Increment `X` for breaking or foundational changes
-    
+
 - Increment `Y` for additive or clarifying changes
-    
+
 - Increment `Z` for corrections, clarifications, or metadata updates
-    
+
 
 3.3 Each version increment MUST include a corresponding entry in the `# Changelog` section.  
 3.4 Initial activation of a standard MUST begin at version `1.0.0`.
@@ -118,11 +118,11 @@ non-compliant.
 # Implementation Notes
 
 - Templates SHOULD be used to standardize new standards and reduce authoring overhead.
-    
+
 - Review and approval MAY be documented through pull request workflows.
-    
+
 - This policy applies equally to human-authored and AI-assisted standards drafts.
-    
+
 
 # Continuous Improvement and Compliance Metrics
 
@@ -134,10 +134,11 @@ non-compliant.
 Any standard that does not conform to this policy SHALL be considered non-authoritative and MUST NOT be enforced until compliance is restored.
 
 # Changelog
+
 - 1.1.3 - Added conflict resolution mechanism and precedence rules.
 - 1.1.2 - Set owner/reviewer/approver values.
 
 - 1.1.1 — Added frontmatter capture requirement for governance roles.
 - 1.1.0 — Clarified role execution in solo practice, aligned lifecycle language, and strengthened authority boundaries.
-    
+
 - 1.0.0 — Initial release.

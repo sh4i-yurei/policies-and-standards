@@ -87,11 +87,11 @@ If it cannot be explained, it is not finished.
 # Implementation Notes
 
 - These principles SHOULD be referenced when resolving ambiguity or conflict.
-    
+
 - Principles do not replace standards; they guide their interpretation.
-    
+
 - Changes to this document SHOULD be rare and highly scrutinized.
-    
+
 
 # Continuous Improvement and Compliance Metrics
 
@@ -103,6 +103,7 @@ If it cannot be explained, it is not finished.
 Any artifact or activity that materially violates these principles SHALL be considered non-compliant and subject to review, revision, or rejection.
 
 # Changelog
+
 - 1.0.1 - Set owner/reviewer/approver values.
 
 - 1.0.0 — Initial release.

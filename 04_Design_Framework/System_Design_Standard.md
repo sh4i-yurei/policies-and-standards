@@ -155,9 +155,9 @@ System Design.
 # Implementation Notes
 
 - System Design artifacts SHOULD remain implementation-agnostic.
-    
+
 - Diagrams MAY be included to aid comprehension but MUST not replace written definitions.
-    
+
 - Smaller systems MAY use lightweight System Designs, but all required sections MUST still exist.
 
 - Architecture options analysis MAY be maintained separately using the
@@ -177,6 +177,7 @@ incidents, and post-implementation corrections.
 Any system introduced or modified without an approved System Design artifact SHALL be considered non-compliant and subject to corrective action or rollback.
 
 # Changelog
+
 - 1.0.6 - Set owner/reviewer/approver values.
 
 - 1.0.5 - Replaced template paths with KB links.

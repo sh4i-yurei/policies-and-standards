@@ -41,17 +41,17 @@ Software implementation artifacts are governed indirectly through this policy wh
 2.2 Valid classifications include:
 
 - Minor correction
-    
+
 - Clarification
-    
+
 - Revision
-    
+
 - Enhancement
-    
+
 - Deprecation
-    
+
 - Structural or organizational change
-    
+
 
 2.3 Classification SHALL determine review depth and versioning impact as defined in [Standards_Governance_Policy](Standards_Governance_Policy.md).
 
@@ -68,13 +68,13 @@ Software implementation artifacts are governed indirectly through this policy wh
 4.2 Review SHALL verify:
 
 - Alignment with [Documentation_Standard](../02_Documentation_Standards/Documentation_Standard.md)
-    
+
 - Consistency with [Software_Engineering_Governance_Overview](Software_Engineering_Governance_Overview.md)
-    
+
 - Compliance with applicable standards
-    
+
 - Absence of scope bleed or role violations
-    
+
 
 4.3 Approval authority is defined in [Standards_Governance_Policy](Standards_Governance_Policy.md).  
 4.4 In a solo practice, review and approval steps MUST still be executed explicitly and documented.
@@ -105,11 +105,11 @@ the timeframe defined in [SDLC_With_AI](../05_Dev_Workflows/SDLC_With_AI.md).
 - Issue tracking MAY be implemented using GitHub Issues, an equivalent system, provided traceability is preserved.
 - If no external tracker is used, record issues in [KB_Issue_Log](KB_Issue_Log.md) using
   [issue_log_tpl](../06_Projects/Templates/governance/issue_log_tpl.md).
-    
+
 - Issue templates SHOULD be used to ensure consistency and completeness.
-    
+
 - This policy intentionally avoids prescribing tooling details.
-    
+
 
 # Continuous Improvement and Compliance Metrics
 
@@ -121,10 +121,11 @@ the timeframe defined in [SDLC_With_AI](../05_Dev_Workflows/SDLC_With_AI.md).
 Any change to governed documentation that bypasses this policy SHALL be considered invalid and subject to reversal or remediation.
 
 # Changelog
+
 - 1.1.3 - Added KB issue log and template guidance.
 - 1.1.2 - Allowed intent statements for minor changes in solo practice.
 - 1.1.1 - Set owner/reviewer/approver values.
 
 - 1.1.0 — Aligned with updated governance hierarchy, clarified solo-practice execution, and strengthened traceability requirements.
-    
+
 - 1.0.0 — Initial release.

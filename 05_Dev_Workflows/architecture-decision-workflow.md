@@ -58,6 +58,7 @@ changes.
 Architectural changes without a recorded ADR are non-compliant.
 
 # Changelog
+
 - 0.1.3 - Set owner/reviewer/approver values.
 
 - 0.1.2 - Replaced template paths with KB links.

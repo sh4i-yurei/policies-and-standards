@@ -139,11 +139,11 @@ documented when applicable.
 # Implementation Notes
 
 - Technical Specifications SHOULD be precise and implementation-ready.
-    
+
 - Overly broad or vague specifications MUST be revised prior to approval.
-    
+
 - Specifications SHOULD minimize discretionary interpretation.
-    
+
 
 # Continuous Improvement and Compliance Metrics
 
@@ -155,6 +155,7 @@ documented when applicable.
 Any implementation activity that does not strictly follow an approved Technical Specification SHALL be considered non-compliant and subject to correction or rollback.
 
 # Changelog
+
 - 1.0.3 - Set owner/reviewer/approver values.
 
 - 1.0.2 — Added validation/rollout and success metrics requirements.

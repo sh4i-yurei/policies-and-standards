@@ -85,11 +85,11 @@ the [risk-register_tpl](../06_Projects/Templates/risk/risk-register_tpl.md).
 # Implementation Notes
 
 - Threat models MAY be lightweight for small systems but MUST still exist.
-    
+
 - Formal threat modeling frameworks MAY be used but are not required.
-    
+
 - This standard intentionally avoids prescribing security tools or platforms.
-    
+
 
 # Continuous Improvement and Compliance Metrics
 
@@ -101,6 +101,7 @@ the [risk-register_tpl](../06_Projects/Templates/risk/risk-register_tpl.md).
 Any system or module implemented without addressing the requirements of this standard SHALL be considered non-compliant and subject to corrective action.
 
 # Changelog
+
 - 1.0.2 - Added traceability links and mitigation deferral logging.
 - 1.0.1 - Set owner/reviewer/approver values.
 

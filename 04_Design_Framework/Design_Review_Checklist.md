@@ -119,11 +119,11 @@ ExecPlan is created or scheduled before implementation.
 # Implementation Notes
 
 - This checklist MAY be completed inline within design documents or as a separate review artifact.
-    
+
 - The checklist is intended to be deterministic; items are pass/fail, not advisory.
-    
+
 - In a solo practice, the act of completing this checklist constitutes formal review.
-    
+
 
 # Continuous Improvement and Compliance Metrics
 

@@ -118,7 +118,16 @@
     "prometheus",
     "lnav",
     "ripgrep",
-    "fdfind"
+    "fdfind",
+    "negotiables",
+    "exploitability",
+    "rollouts",
+    "knowledgebase",
+    "agentic",
+    "underspecified",
+    "rustc",
+    "hotfixes",
+    "WCAG"
   ],
   "dictionaries": ["softwareTerms"]
 }
