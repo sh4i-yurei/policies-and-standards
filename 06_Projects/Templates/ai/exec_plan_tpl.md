@@ -91,7 +91,7 @@ List libraries, modules, and interfaces that must exist at completion.
 - Update the Progress section after each work session.
 - ExecPlans are mandatory for all Tier 3 work and for Tier 2 work that
   meets the criteria in `PLANS.md`
-  ([SDLC_With_AI](../../../05_Dev_Workflows/SDLC_With_AI.md) section 4).
+  ([SDLC_With_AI](../../../05_Dev_Workflows/SDLC_With_AI.md), "Context reset and execution handoff" section).
   Create at session start, not retroactively. Update the Progress section
   after each session. Missing or stale ExecPlans constitute a process
   compliance gap.

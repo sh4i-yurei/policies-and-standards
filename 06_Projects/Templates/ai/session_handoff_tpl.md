@@ -18,8 +18,8 @@ multi-session work can restore context quickly and accurately.
 
 # Scope
 
-Use at the end of any Tier 2+ AI-assisted work session. Save alongside
-ExecPlans in `plans/exec_plans/` or in `plans/handoffs/`.
+Use at the end of any Tier 2+ AI-assisted work session. Save as
+`plans/handoffs/<YYYY-MM-DD>_handoff.md`.
 
 # Standard
 
