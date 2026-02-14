@@ -59,7 +59,7 @@ for entry in "${REFS[@]}"; do
     fi
 
     # Extract the referenced version (e.g., "v0.1.3" -> "0.1.3")
-    REF_VERSION=$(echo "$LINE" | grep -oP "${PATTERN}\K[0-9]+\.[0-9]+\.[0-9]+" | head -1)
+    REF_VERSION=$(echo "$LINE" | sed -nE "s/.*${PATTERN}([0-9]+\.[0-9]+\.[0-9]+).*/\1/p" | head -1)
     if [ -z "$REF_VERSION" ]; then
       continue
     fi
