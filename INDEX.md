@@ -92,6 +92,7 @@ find the standard, workflow, or template you need.
 | [Vulnerability Management](05_Dev_Workflows/vulnerability-management-workflow.md) | STD-046 | Vulnerability identification, tracking, and remediation. |
 | [Repo Initialization Workflow](05_Dev_Workflows/project_repo_initialization_workflow.md) | STD-054 | How new project repositories are set up. |
 | [Governance Process Audit](05_Dev_Workflows/governance-process-audit-checklist.md) | STD-059 | Checklist for auditing governance compliance. |
+| [Session Review and Retrospective](05_Dev_Workflows/session_review_standard.md) | STD-061 | Structured end-of-session retrospectives for AI-assisted work. |
 
 ## 06 Templates
 
@@ -102,6 +103,8 @@ find the standard, workflow, or template you need.
 | [AI Context Pack](06_Projects/Templates/ai/ai_context_pack_tpl.md) | Bundle KB references, rules, and constraints for a task. |
 | [ExecPlan](06_Projects/Templates/ai/exec_plan_tpl.md) | Execution plan for complex AI-assisted work. |
 | [Repo Orientation Skill](06_Projects/Templates/ai/repo_orientation_skill_tpl.md) | Skill for automated repo context discovery. |
+| [Session Handoff](06_Projects/Templates/ai/session_handoff_tpl.md) | Structured handoff artifact for multi-session continuity. |
+| [Session Review](06_Projects/Templates/ai/session_review_tpl.md) | End-of-session retrospective per STD-061. |
 | [Skill Template](06_Projects/Templates/ai/skill_tpl.md) | Author agent skills per STD-058. |
 
 ### Architecture
