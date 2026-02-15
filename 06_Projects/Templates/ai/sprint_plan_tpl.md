@@ -1,10 +1,15 @@
 ---
-template_id: TPL-PRJ-SPRINT-PLAN
+id: TPL-PRJ-SPRINT-PLAN
 title: Multi-Instance Sprint Plan
 version: 1.0.0
-standard_ref: STD-062
-category: ai
-tags: [sprint, multi-agent, orchestration, planning]
+category: template
+status: active
+owner: sh4i-yurei
+reviewer: sh4i-yurei
+approver: sh4i-yurei
+last_updated: 2026-02-15
+extends: [STD-001, STD-062]
+tags: [template, ai, sprint, multi-agent, orchestration, planning]
 ---
 
 <!-- Remove this block before use -->
