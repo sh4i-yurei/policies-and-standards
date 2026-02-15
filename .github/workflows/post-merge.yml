@@ -116,9 +116,14 @@ jobs:
 
       - name: Run yamllint
         run: |
+          if [ -f .yamllint.yaml ] || [ -f .yamllint.yml ] || [ -f .yamllint ]; then
+            YAMLLINT_ARGS=""
+          else
+            YAMLLINT_ARGS="-d relaxed"
+          fi
           find . -name '*.yml' -o -name '*.yaml' \
             | grep -v node_modules | grep -v .git \
-            | xargs yamllint -d relaxed
+            | xargs yamllint $YAMLLINT_ARGS
 
       - uses: streetsidesoftware/cspell-action@v8
         with:
@@ -142,6 +147,18 @@ jobs:
     if: inputs.run-code-gates && inputs.language != ''
     runs-on: ubuntu-latest
     steps:
+      - name: Validate language input
+        env:
+          LANGUAGE: ${{ inputs.language }}
+        run: |
+          case "$LANGUAGE" in
+            python) ;;
+            *)
+              echo "::error::Unsupported language: '$LANGUAGE'. Supported: python"
+              exit 1
+              ;;
+          esac
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
@@ -165,6 +182,18 @@ jobs:
     if: inputs.run-code-gates && inputs.language != ''
     runs-on: ubuntu-latest
     steps:
+      - name: Validate language input
+        env:
+          LANGUAGE: ${{ inputs.language }}
+        run: |
+          case "$LANGUAGE" in
+            python) ;;
+            *)
+              echo "::error::Unsupported language: '$LANGUAGE'. Supported: python"
+              exit 1
+              ;;
+          esac
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
