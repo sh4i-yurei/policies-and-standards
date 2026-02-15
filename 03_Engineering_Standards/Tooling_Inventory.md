@@ -1,13 +1,13 @@
 ---
 id: TOOLING-001
 title: Tooling inventory
-version: 1.3.0
+version: 1.4.0
 category: reference
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-12
+last_updated: 2026-02-15
 extends: [STD-003]
 tags: [tooling, infrastructure, inventory]
 ---
@@ -81,6 +81,16 @@ This inventory applies to all activities within the development environment. Too
 - scalene - CPU/memory profiler with JSON output
 
 - rich - Rich terminal output for structured diagnostics
+
+- vulture >=2.14 - Dead code detection. Complements ruff (which catches
+  unused imports but not unused functions, classes, or variables).
+  Recommended config: `--min-confidence 80` with a project whitelist
+  file. Integration: pre-commit hook and CI Gate C (advisory).
+
+- pip-audit >=2.7 - Dependency CVE scanning via the PyPI advisory
+  database. Complements Dependabot (which checks GitHub advisories).
+  Run as `pip-audit --requirement=- < requirements.txt` or against
+  the installed environment. Integration: CI Gate F or scheduled scan.
 
 ## Rust development tools
 
@@ -168,6 +178,8 @@ Use of unapproved tools or bypassing required checks is non-compliant.
 
 # Changelog
 
+- 1.4.0 - Added vulture (dead code detection) and pip-audit (dependency CVE scanning)
+  to Python section.
 - 1.3.0 - Added debugging/testing tools (pytest-json-report, cargo-nextest, structlog,
   scalene, lnav), Node/TS and Java sections, and CI tooling.
 - 1.2.0 - Removed Aider from approved agents (replaced by Claude Code agent teams).

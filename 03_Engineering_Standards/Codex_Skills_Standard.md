@@ -1,13 +1,13 @@
 ---
 id: STD-058
 title: Agent Skills Standard
-version: 0.2.0
+version: 0.2.1
 category: engineering
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-12
+last_updated: 2026-02-15
 extends: [STD-004, STD-056]
 tags: [ai, skills, tooling, claude-code, codex]
 ---
@@ -115,20 +115,33 @@ files MUST be linked from `SKILL.md` and kept one level deep.
 README or CHANGELOG). Third-party skills MAY include additional docs;
 retain them only when required by upstream.
 
-## 5. Governance and safety
+## 5. Script dependencies
 
-5.1 Skills MUST comply with repo-level AGENTS.md and KB standards per
+5.1 Skills that invoke external scripts (e.g., `~/scripts/` or
+`/usr/local/bin/`) SHOULD declare those dependencies in `SKILL.md`
+with the expected path and purpose.
+
+5.2 Before invoking an external script, the skill SHOULD verify the
+script exists and is executable. If the script is missing, the skill
+SHOULD provide a meaningful error message or fall back to manual steps.
+
+5.3 Where practical, prefer bundling scripts under the skill's own
+`/scripts` directory so they are version-controlled alongside the skill.
+
+## 6. Governance and safety
+
+6.1 Skills MUST comply with repo-level AGENTS.md and KB standards per
 [KB_Integration_Standard](KB_Integration_Standard.md).
 Skills MUST NOT instruct bypassing approvals or privileged access
 controls.
 
-5.2 When a skill is used in a governed repo, changes to the skill MUST
+6.2 When a skill is used in a governed repo, changes to the skill MUST
 follow the applicable change management workflow per
 [Issue_and_Change_Management_Policy](../01_Governance/Issue_and_Change_Management_Policy.md).
 
-## 6. Template use
+## 7. Template use
 
-6.1 New skills MUST start from [skill_tpl](../06_Projects/Templates/ai/skill_tpl.md).
+7.1 New skills MUST start from [skill_tpl](../06_Projects/Templates/ai/skill_tpl.md).
 
 # Implementation Notes
 
@@ -149,6 +162,8 @@ governance controls are non-compliant.
 
 # Changelog
 
+- 0.2.1 - Added section 5 (script dependencies) for skill-script
+  dependency handling per STD-056 section 7.
 - 0.2.0 - Generalized from Codex-only to multi-runtime (Claude Code + Codex). Added Claude Code storage paths, precedence, and frontmatter fields. Renamed title from "Codex Skills Standard" to "Agent Skills Standard".
 - 0.1.2 - Added traceability links for KB integration and change control.
 - 0.1.1 - Set owner/reviewer/approver values.
