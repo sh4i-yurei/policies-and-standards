@@ -101,6 +101,7 @@ find the standard, workflow, or template you need.
 | Template | Purpose |
 |----------|---------|
 | [AI Context Pack](06_Projects/Templates/ai/ai_context_pack_tpl.md) | Bundle KB references, rules, and constraints for a task. |
+| [Daily Report](06_Projects/Templates/ai/daily_report_tpl.md) | Multi-instance daily roll-up per STD-061. |
 | [ExecPlan](06_Projects/Templates/ai/exec_plan_tpl.md) | Execution plan for complex AI-assisted work. |
 | [Repo Orientation Skill](06_Projects/Templates/ai/repo_orientation_skill_tpl.md) | Skill for automated repo context discovery. |
 | [Session Handoff](06_Projects/Templates/ai/session_handoff_tpl.md) | Structured handoff artifact for multi-session continuity. |

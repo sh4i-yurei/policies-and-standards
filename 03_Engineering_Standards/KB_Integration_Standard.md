@@ -1,13 +1,13 @@
 ---
 id: STD-056
 title: KB integration standard
-version: 0.1.9
+version: 0.2.0
 category: engineering
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-14
+last_updated: 2026-02-15
 extends: [STD-000, STD-001, STD-003, STD-004, STD-012, STD-032]
 tags: [kb, governance, integration, ai, workflow]
 ---
@@ -107,9 +107,28 @@ artifacts using the [pull-request-template_tpl](../06_Projects/Templates/project
 6.2 AI-assisted pull requests MUST summarize AI contributions and
 validation performed.
 
-## 7. Tooling independence
+## 7. Agent tool discovery
 
-7.1 The KB retrieval mechanism is implementation-specific and MAY be
+7.1 CLAUDE.md SHOULD include a "Development commands" or equivalent
+section that documents available scripts with their invocation syntax
+and purpose. This enables agents to discover and use project tooling
+without requiring explicit instruction.
+
+7.2 When a project includes scripts in `scripts/` or cross-project
+scripts referenced by agent commands or skills, CLAUDE.md SHOULD list
+them with brief descriptions and example invocations.
+
+7.3 Skills that depend on external scripts SHOULD handle the absence of
+those scripts gracefully (check existence before invocation, provide
+a meaningful error, or fall back to manual steps).
+
+7.4 Cross-project scripts (e.g., `~/scripts/`) are NOT version-controlled
+in any single repo. Their existence and purpose SHOULD be documented in
+the user-level CLAUDE.md or in the skill that invokes them.
+
+## 8. Tooling independence
+
+8.1 The KB retrieval mechanism is implementation-specific and MAY be
 manual or automated. Indexing is optional and not required for
 compliance.
 
@@ -139,6 +158,8 @@ without KB retrieval are non-compliant.
 
 # Changelog
 
+- 0.2.0 - Added section 7 (agent tool discovery) for CLAUDE.md script
+  documentation and skill-script dependency handling.
 - 0.1.9 - Added ExecPlan verification gate and session handoff retrieval
   requirement.
 - 0.1.8 - Added KB retrieval implementation procedure to notes.

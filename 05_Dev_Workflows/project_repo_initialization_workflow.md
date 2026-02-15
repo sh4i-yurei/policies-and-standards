@@ -1,13 +1,13 @@
 ---
 id: STD-054
 title: Project repository initialization workflow
-version: 0.1.17
+version: 0.1.18
 category: workflow
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-12
+last_updated: 2026-02-15
 extends: [STD-003, STD-020, STD-032, STD-056]
 tags: [workflow, repository, initialization, templates, onboarding]
 ---
@@ -123,6 +123,10 @@ Add for all governed repositories:
 - Additional repo-local skills:
   `.claude/skills/<skill-name>/SKILL.md`
   using [skill_tpl](../06_Projects/Templates/ai/skill_tpl.md)
+- CLAUDE.md with a "Development commands" section documenting available
+  scripts and their invocation syntax per
+  [KB_Integration_Standard](../03_Engineering_Standards/KB_Integration_Standard.md)
+  section 7.
 - Prompt patterns: [prompts_tpl](../06_Projects/Templates/prompts/prompts_tpl.md)
 - Command catalog: [command-catalog_tpl](../06_Projects/Templates/prompts/command-catalog_tpl.md)
 - Context reset checklist:
@@ -155,6 +159,8 @@ non-compliant.
 
 # Changelog
 
+- 0.1.18 - Added CLAUDE.md tool discovery requirement to section 5 per
+  STD-056 section 7.
 - 0.1.17 - Made PRD optional for Tier 2 to align with SDLC tier definitions.
 - 0.1.16 - Normalized skill paths to Claude Code as primary runtime.
 - 0.1.15 - Updated skill paths to support both Claude Code and Codex runtimes.
