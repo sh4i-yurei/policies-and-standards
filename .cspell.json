@@ -131,7 +131,9 @@
     "WCAG",
     "lockfiles",
     "Dockerfiles",
-    "steveyegge"
+    "steveyegge",
+    "worktree",
+    "worktrees"
   ],
   "dictionaries": ["softwareTerms"]
 }
