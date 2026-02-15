@@ -25,6 +25,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-test-${{ runner.os }}-${{ hashFiles('**/pyproject.toml', '**/requirements*.txt') }}
+          restore-keys: |
+            pip-test-${{ runner.os }}-
       - name: Install dependencies
         run: |
           pip install pytest pytest-json-report pytest-cov
@@ -54,6 +60,8 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: "22"
+          cache: "npm"
+          cache-dependency-path: ${{ inputs.working-directory }}/package-lock.json
       - name: Install dependencies
         run: npm ci
       - name: Run tests
@@ -74,8 +82,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      - name: Install cargo-nextest
-        run: cargo install cargo-nextest
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            ${{ inputs.working-directory }}/target
+          key: cargo-test-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            cargo-test-${{ runner.os }}-
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-nextest
       - name: Run tests
         run: cargo nextest run --message-format libtest-json-plus 2>&1 | tee results.json
       - name: Upload test results
@@ -97,6 +115,7 @@ jobs:
         with:
           distribution: "temurin"
           java-version: "17"
+          cache: "maven"
       - name: Run tests
         run: mvn test
       - name: Upload test results
