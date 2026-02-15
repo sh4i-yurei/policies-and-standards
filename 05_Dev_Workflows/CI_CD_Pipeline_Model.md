@@ -1,7 +1,7 @@
 ---
 id: STD-030
 title: CI/CD Pipeline and Validation Model
-version: 1.2.0
+version: 1.2.1
 category: workflow
 status: active
 approver: sh4i-yurei
@@ -502,6 +502,21 @@ the deployed artifact.
   `workflow-exception`, include rationale, and be time-bound.
 - Exception approval MUST be recorded in Quint decision artifacts.
 
+### Failure notifications
+
+Post-merge and scheduled CI failures SHOULD produce notifications
+using the reusable `notify-on-failure.yml` workflow:
+
+- **GitHub issue** (default): auto-created for required gate failures
+  with deduplication to avoid spam on repeated failures.
+- **Webhook** (optional): sends a Slack-compatible JSON payload to
+  a configurable endpoint via the `CI_NOTIFY_WEBHOOK` repository
+  secret. Other consumers (Discord, Teams) may need a format adapter.
+  Falls back gracefully if the secret is not configured.
+
+Advisory gate failures (e.g., Gate F security) do not trigger
+notifications by default but MAY be configured to do so.
+
 # Implementation Notes
 
 - Tool choices may evolve; enforcement behavior must not.
@@ -535,6 +550,7 @@ be considered non-compliant and subject to rollback or remediation.
 
 # Changelog
 
+- 1.2.1 - Added failure notification requirements and notify-on-failure reusable workflow reference.
 - 1.2.0 - Added pipeline optimization section covering dependency caching, parallel execution, conditional gating, concurrency control, performance budgets, and build artifact promotion.
 - 1.1.6 - Added cspell and version-consistency checks to Gate B; added .quint/ commitment rule to Gate A; documented spelling and version-ref validation in required behavior and tooling.
 - 1.1.5 - Clarified Quint gating for code changes and removed code-bearing path requirements.
