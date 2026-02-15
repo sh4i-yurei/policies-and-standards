@@ -440,7 +440,9 @@ Recommended cache paths by language:
 
 Independent validation gates SHOULD run in parallel. Gates A through F
 have no inter-gate dependencies and SHOULD execute concurrently within
-a single CI run.
+a single CI run. Gate G (AI review) is currently advisory and MAY run
+asynchronously or on a separate schedule, so it is excluded from
+these parallelism and performance budget requirements.
 
 Sub-jobs within a gate (e.g., Gate B's markdownlint, yamllint,
 link-check, cspell, and version-consistency) SHOULD also run in parallel
@@ -451,8 +453,13 @@ unless they share mutable state.
 Gates SHOULD be skipped when their inputs have not changed:
 
 - Gate A: skip for documentation-only changes (already implemented).
-- Gate C and D: skip when only documentation or configuration files
-  changed and no source code was modified.
+- Gate C and D: MAY be skipped only when the diff is limited to
+  documentation content (e.g., `docs/**`, `.github/ISSUE_TEMPLATE/**`)
+  and/or CI-only non-runtime configuration (e.g., `.github/workflows/**`,
+  lint/format configs used only in CI). They MUST NOT be skipped for
+  changes to dependency, tooling, or runtime configuration (e.g.,
+  `pyproject.toml`, `package.json`, lockfiles, Dockerfiles, or
+  application configs).
 - Gate F: skip for documentation-only changes.
 
 Conditional execution MUST NOT weaken enforcement — the gate matrix
