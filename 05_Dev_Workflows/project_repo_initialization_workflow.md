@@ -1,7 +1,7 @@
 ---
 id: STD-054
 title: Project repository initialization workflow
-version: 0.1.18
+version: 0.1.19
 category: workflow
 status: active
 approver: sh4i-yurei
@@ -127,6 +127,10 @@ Add for all governed repositories:
   scripts and their invocation syntax per
   [KB_Integration_Standard](../03_Engineering_Standards/KB_Integration_Standard.md)
   section 7.
+- Copilot custom instructions:
+  `.github/copilot-instructions.md` with distilled KB rules for
+  AI-assisted code review per
+  [CI_CD_Pipeline_Model](CI_CD_Pipeline_Model.md) Gate G.
 - Prompt patterns: [prompts_tpl](../06_Projects/Templates/prompts/prompts_tpl.md)
 - Command catalog: [command-catalog_tpl](../06_Projects/Templates/prompts/command-catalog_tpl.md)
 - Context reset checklist:
@@ -159,6 +163,8 @@ non-compliant.
 
 # Changelog
 
+- 0.1.19 - Added Copilot custom instructions to AI context assets
+  per STD-030 Gate G.
 - 0.1.18 - Added CLAUDE.md tool discovery requirement to section 5 per
   STD-056 section 7.
 - 0.1.17 - Made PRD optional for Tier 2 to align with SDLC tier definitions.

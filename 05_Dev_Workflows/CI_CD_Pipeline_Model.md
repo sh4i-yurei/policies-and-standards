@@ -1,7 +1,7 @@
 ---
 id: STD-030
 title: CI/CD Pipeline and Validation Model
-version: 1.2.1
+version: 1.3.0
 category: workflow
 status: active
 approver: sh4i-yurei
@@ -356,6 +356,10 @@ Initially reporting-only; promotion to blocking requires explicit approval.
 
 **(PHASED IN)**
 
+AI-assisted review is configured via GitHub branch rulesets with
+automatic Copilot code review enabled. Reviews trigger on PR creation
+and on each new push to the PR branch.
+
 AI-assisted review MUST:
 
 - tag findings by severity
@@ -364,6 +368,11 @@ AI-assisted review MUST:
 
 - propose concrete fixes where possible
 
+
+Repository custom instructions (`.github/copilot-instructions.md`)
+SHOULD distill applicable KB standards so the reviewer has project
+context. Project repos that reference the KB MUST maintain custom
+instructions that reflect the pinned KB version.
 
 Initially advisory; future blocking behavior must be explicitly governed.
 
@@ -550,6 +559,7 @@ be considered non-compliant and subject to rollback or remediation.
 
 # Changelog
 
+- 1.3.0 - Expanded Gate G with Copilot auto-review via rulesets and custom instructions requirement.
 - 1.2.1 - Added failure notification requirements and notify-on-failure reusable workflow reference.
 - 1.2.0 - Added pipeline optimization section covering dependency caching, parallel execution, conditional gating, concurrency control, performance budgets, and build artifact promotion.
 - 1.1.6 - Added cspell and version-consistency checks to Gate B; added .quint/ commitment rule to Gate A; documented spelling and version-ref validation in required behavior and tooling.
