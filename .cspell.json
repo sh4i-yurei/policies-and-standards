@@ -128,7 +128,9 @@
     "underspecified",
     "rustc",
     "hotfixes",
-    "WCAG"
+    "WCAG",
+    "lockfiles",
+    "Dockerfiles"
   ],
   "dictionaries": ["softwareTerms"]
 }
