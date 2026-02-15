@@ -93,6 +93,7 @@ find the standard, workflow, or template you need.
 | [Repo Initialization Workflow](05_Dev_Workflows/project_repo_initialization_workflow.md) | STD-054 | How new project repositories are set up. |
 | [Governance Process Audit](05_Dev_Workflows/governance-process-audit-checklist.md) | STD-059 | Checklist for auditing governance compliance. |
 | [Session Review and Retrospective](05_Dev_Workflows/session_review_standard.md) | STD-061 | Structured end-of-session retrospectives for AI-assisted work. |
+| [Multi-Agent Orchestration](05_Dev_Workflows/Multi_Agent_Orchestration.md) | STD-062 | Coordination requirements for multi-instance AI agent sprints. |
 
 ## 06 Templates
 
