@@ -1,0 +1,25 @@
+# Local trigger for post-merge health check.
+# Calls the reusable post-merge workflow on push to main.
+#
+# policies-and-standards is a docs-only repo (no code gates).
+
+name: "Post-Merge"
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  health-check:
+    uses: ./.github/workflows/post-merge.yml
+    with:
+      run-link-check: true
+      run-code-gates: false
+      notify-on-failure: true
+    permissions:
+      contents: read
+      issues: write
