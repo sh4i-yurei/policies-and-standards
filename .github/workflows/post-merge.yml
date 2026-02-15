@@ -6,6 +6,9 @@
 #
 # This is a reusable workflow. Consuming repos call it from their
 # own post-merge trigger workflow.
+#
+# Currently supports Python for code gates. Other languages can be
+# added following the patterns in gate-c-code.yml and gate-d-tests.yml.
 
 name: "Post-Merge Health Check"
 
@@ -14,8 +17,8 @@ on:
     inputs:
       language:
         description: >-
-          Primary language (python|node|rust|java).
-          Omit for docs-only repos.
+          Primary language for code gates. Currently
+          supports: python. Omit for docs-only repos.
         required: false
         type: string
         default: ""
@@ -36,6 +39,13 @@ on:
         required: false
         type: boolean
         default: true
+      required-files:
+        description: >-
+          Space-separated list of required governance files.
+          Default checks CLAUDE.md, AGENTS.md, PLANS.md.
+        required: false
+        type: string
+        default: "CLAUDE.md AGENTS.md PLANS.md"
 
 jobs:
   governance-files:
@@ -45,9 +55,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Check required files exist
+        env:
+          REQUIRED_FILES: ${{ inputs.required-files }}
         run: |
           MISSING=0
-          for f in CLAUDE.md AGENTS.md PLANS.md; do
+          for f in $REQUIRED_FILES; do
             if [ ! -f "$f" ]; then
               echo "::error::Missing required file: $f"
               MISSING=$((MISSING + 1))
@@ -56,8 +68,12 @@ jobs:
             fi
           done
 
-          if [ -d ".kb" ] && [ ! -f ".kb/ai-context.yaml" ]; then
-            echo "::error::Missing .kb/ai-context.yaml"
+          # .kb/ai-context.yaml is required per STD-056
+          if [ ! -d ".kb" ]; then
+            echo "::error::Missing required directory: .kb"
+            MISSING=$((MISSING + 1))
+          elif [ ! -f ".kb/ai-context.yaml" ]; then
+            echo "::error::Missing required file: .kb/ai-context.yaml"
             MISSING=$((MISSING + 1))
           fi
 
@@ -90,15 +106,14 @@ jobs:
 
       - name: Run yamllint
         run: |
-          FILES=$(find . -name '*.yml' -o -name '*.yaml' \
-            | grep -v node_modules | grep -v .git)
-          if [ -n "$FILES" ]; then
-            echo "$FILES" | xargs yamllint -d relaxed
-          fi
+          find . -name '*.yml' -o -name '*.yaml' \
+            | grep -v node_modules | grep -v .git \
+            | xargs yamllint -d relaxed
 
       - uses: streetsidesoftware/cspell-action@v8
         with:
           files: "**/*.md"
+          config: ".cspell.json"
 
   link-check:
     name: "Link validation"
@@ -127,12 +142,13 @@ jobs:
       - name: Install and lint (Python)
         if: inputs.language == 'python'
         run: |
-          pip install ruff mypy
+          pip install ruff black mypy
           if [ -f pyproject.toml ]; then
             pip install -e ".[dev]" 2>/dev/null || true
           fi
           ruff check .
-          ruff format --check .
+          black --check .
+          mypy . --ignore-missing-imports
 
   tests:
     name: "Tests"
@@ -157,13 +173,10 @@ jobs:
 
   notify-failure:
     name: "Notify on failure"
-    if: failure() && inputs.notify-on-failure
+    if: always() && failure() && inputs.notify-on-failure
     needs:
       - governance-files
       - docs-lint
-      - link-check
-      - code-quality
-      - tests
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -173,7 +186,8 @@ jobs:
         with:
           script: |
             const sha = context.sha.substring(0, 7);
-            const title = `Post-merge health check failed (${sha})`;
+            const title =
+              `Post-merge health check failed (${sha})`;
             const runUrl = [
               context.serverUrl,
               context.repo.owner,
@@ -183,16 +197,19 @@ jobs:
             ].join('/');
 
             // Deduplicate: check for existing open issue
-            const existing = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-              labels: 'type:ci,priority:high',
-              per_page: 10
-            });
+            const existing =
+              await github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                labels: 'type:ci,priority:high',
+                per_page: 10
+              });
 
             const dup = existing.data.find(i =>
-              i.title.startsWith('Post-merge health check failed')
+              i.title.startsWith(
+                'Post-merge health check failed'
+              )
             );
 
             if (dup) {
@@ -200,7 +217,10 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: dup.number,
-                body: `Another failure: commit ${sha}\nRun: ${runUrl}`
+                body: [
+                  `Another failure: commit ${sha}`,
+                  `Run: ${runUrl}`
+                ].join('\n')
               });
               return;
             }
@@ -215,11 +235,11 @@ jobs:
                 `**Commit:** ${context.sha}`,
                 `**Run:** ${runUrl}`,
                 '',
-                'Per STD-030: post-merge failures are treated as',
-                'defects. Investigate and fix promptly.',
+                'Per STD-030: post-merge failures are',
+                'treated as defects. Investigate and fix.',
                 '',
                 '---',
-                '*Auto-created by post-merge health check.*'
+                '*Auto-created by post-merge workflow.*'
               ].join('\n'),
               labels: ['type:ci', 'priority:high']
             });
