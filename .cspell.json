@@ -130,7 +130,8 @@
     "hotfixes",
     "WCAG",
     "lockfiles",
-    "Dockerfiles"
+    "Dockerfiles",
+    "steveyegge"
   ],
   "dictionaries": ["softwareTerms"]
 }
