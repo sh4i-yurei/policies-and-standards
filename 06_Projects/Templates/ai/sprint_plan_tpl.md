@@ -116,7 +116,6 @@ assessment in [STD-061](../../05_Dev_Workflows/session_review_standard.md).
 
 # Changelog
 
-| Version | Date | Description |
-|---------|------|-------------|
-| 1.0.1 | 2026-02-15 | Add missing Continuous Improvement and Compliance Metrics section per STD-001. |
-| 1.0.0 | 2026-02-15 | Initial release. |
+- 1.0.1 — Add missing Continuous Improvement and Compliance Metrics
+  section per STD-001.
+- 1.0.0 — Initial release.
