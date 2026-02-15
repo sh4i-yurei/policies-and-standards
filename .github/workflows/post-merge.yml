@@ -1,0 +1,287 @@
+# Post-merge health check — STD-030
+#
+# Runs on push to main after merge to verify main stays healthy.
+# Per STD-030: "Post-merge CI ensures main remains healthy and
+# releasable. Failures are treated as defects."
+#
+# This is a reusable workflow. Consuming repos call it from their
+# own post-merge trigger workflow.
+#
+# Currently supports Python for code gates. Other languages can be
+# added following the patterns in gate-c-code.yml and gate-d-tests.yml.
+
+name: "Post-Merge Health Check"
+
+on:
+  workflow_call:
+    inputs:
+      language:
+        description: >-
+          Primary language for code gates. Currently
+          supports: python. Omit for docs-only repos.
+        required: false
+        type: string
+        default: ""
+      run-link-check:
+        description: "Run documentation link check"
+        required: false
+        type: boolean
+        default: true
+      run-code-gates:
+        description: >-
+          Run code quality and test gates
+          (requires language input)
+        required: false
+        type: boolean
+        default: false
+      notify-on-failure:
+        description: "Create a GitHub issue on failure"
+        required: false
+        type: boolean
+        default: true
+      required-files:
+        description: >-
+          Space-separated list of required governance files.
+          Default checks CLAUDE.md, AGENTS.md, PLANS.md.
+        required: false
+        type: string
+        default: "CLAUDE.md AGENTS.md PLANS.md"
+      check-kb-directory:
+        description: >-
+          Check for .kb/ directory and .kb/ai-context.yaml
+          (STD-056). Set false for repos without a .kb directory.
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  governance-files:
+    name: "Required governance files"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check required files exist
+        env:
+          REQUIRED_FILES: ${{ inputs.required-files }}
+          CHECK_KB: ${{ inputs.check-kb-directory }}
+        run: |
+          MISSING=0
+          for f in $REQUIRED_FILES; do
+            if [ ! -f "$f" ]; then
+              echo "::error::Missing required file: $f"
+              MISSING=$((MISSING + 1))
+            else
+              echo "ok $f"
+            fi
+          done
+
+          # .kb/ai-context.yaml is required per STD-056
+          if [ "$CHECK_KB" = "true" ]; then
+            if [ ! -d ".kb" ]; then
+              echo "::error::Missing required directory: .kb"
+              MISSING=$((MISSING + 1))
+            elif [ ! -f ".kb/ai-context.yaml" ]; then
+              echo "::error::Missing required file: .kb/ai-context.yaml"
+              MISSING=$((MISSING + 1))
+            fi
+          fi
+
+          # Recommended but not required
+          for f in AI_CONTEXT.md; do
+            if [ ! -f "$f" ]; then
+              echo "::warning::Recommended file missing: $f"
+            else
+              echo "ok $f"
+            fi
+          done
+
+          if [ "$MISSING" -gt 0 ]; then
+            echo "::error::$MISSING required file(s) missing"
+            exit 1
+          fi
+
+  docs-lint:
+    name: "Documentation lint"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DavidAnson/markdownlint-cli2-action@v22
+        with:
+          globs: "**/*.md"
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: Run yamllint
+        run: |
+          if [ -f .yamllint.yaml ] || [ -f .yamllint.yml ] || [ -f .yamllint ]; then
+            YAMLLINT_ARGS=""
+          else
+            YAMLLINT_ARGS="-d relaxed"
+          fi
+          find . -name '*.yml' -o -name '*.yaml' \
+            | grep -v node_modules | grep -v .git \
+            | xargs yamllint $YAMLLINT_ARGS
+
+      - uses: streetsidesoftware/cspell-action@v8
+        with:
+          files: "**/*.md"
+          config: ".cspell.json"
+
+  link-check:
+    name: "Link validation"
+    if: inputs.run-link-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: "yes"
+          config-file: ".github/mlc_config.json"
+
+  code-quality:
+    name: "Code quality"
+    if: inputs.run-code-gates && inputs.language != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate language input
+        env:
+          LANGUAGE: ${{ inputs.language }}
+        run: |
+          case "$LANGUAGE" in
+            python) ;;
+            *)
+              echo "::error::Unsupported language: '$LANGUAGE'. Supported: python"
+              exit 1
+              ;;
+          esac
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        if: inputs.language == 'python'
+        with:
+          python-version: "3.12"
+
+      - name: Install and lint (Python)
+        if: inputs.language == 'python'
+        run: |
+          pip install ruff black mypy
+          if [ -f pyproject.toml ]; then
+            pip install -e ".[dev]" 2>/dev/null || true
+          fi
+          ruff check .
+          black --check .
+          mypy . --ignore-missing-imports
+
+  tests:
+    name: "Tests"
+    if: inputs.run-code-gates && inputs.language != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate language input
+        env:
+          LANGUAGE: ${{ inputs.language }}
+        run: |
+          case "$LANGUAGE" in
+            python) ;;
+            *)
+              echo "::error::Unsupported language: '$LANGUAGE'. Supported: python"
+              exit 1
+              ;;
+          esac
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        if: inputs.language == 'python'
+        with:
+          python-version: "3.12"
+
+      - name: Install and test (Python)
+        if: inputs.language == 'python'
+        run: |
+          pip install pytest
+          if [ -f pyproject.toml ]; then
+            pip install -e ".[dev]" 2>/dev/null || true
+          fi
+          pytest --tb=short -v
+
+  notify-failure:
+    name: "Notify on failure"
+    if: always() && failure() && inputs.notify-on-failure
+    needs:
+      - governance-files
+      - docs-lint
+      - link-check
+      - code-quality
+      - tests
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Create failure issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const sha = context.sha.substring(0, 7);
+            const title =
+              `Post-merge health check failed (${sha})`;
+            const runUrl = [
+              context.serverUrl,
+              context.repo.owner,
+              context.repo.repo,
+              'actions/runs',
+              context.runId
+            ].join('/');
+
+            // Deduplicate: check for existing open issue
+            const existing =
+              await github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                labels: 'type:ci,priority:high',
+                per_page: 10
+              });
+
+            const dup = existing.data.find(i =>
+              i.title.startsWith(
+                'Post-merge health check failed'
+              )
+            );
+
+            if (dup) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: dup.number,
+                body: [
+                  `Another failure: commit ${sha}`,
+                  `Run: ${runUrl}`
+                ].join('\n')
+              });
+              return;
+            }
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: [
+                '## Post-merge health check failure',
+                '',
+                `**Commit:** ${context.sha}`,
+                `**Run:** ${runUrl}`,
+                '',
+                'Per STD-030: post-merge failures are',
+                'treated as defects. Investigate and fix.',
+                '',
+                '---',
+                '*Auto-created by post-merge workflow.*'
+              ].join('\n'),
+              labels: ['type:ci', 'priority:high']
+            });
