@@ -3,11 +3,15 @@
 ## Repository Purpose
 
 This repository is an **engineering knowledge base (KB)** containing
-standards, workflows, templates, and governance documents. There is no
-application code. All content is Markdown, YAML, and JSON configuration.
+standards, workflows, templates, and governance documents. The primary
+content is Markdown, YAML, and JSON configuration. The repo also
+contains shell scripts (under `scripts/`) and CI workflow definitions
+(under `.github/workflows/`) — review these for correctness and
+security when changed.
 
 Review PRs for document structure, cross-reference accuracy, version
-discipline, and formatting compliance — not for code correctness.
+discipline, and formatting compliance. For script and workflow changes,
+also review for correctness and safe shell practices.
 
 ## Repository Structure
 
@@ -30,8 +34,8 @@ Every governed document MUST have YAML frontmatter with these fields:
 id: STD-XXX          # unique identifier
 title: Document Title
 version: X.Y.Z       # semver
-category: governance|engineering|design|workflow|project
-status: active|draft|deprecated
+category: governance|engineering|design|workflow|project|core|orientation|reference
+status: draft|review|active|deprecated
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
@@ -85,7 +89,7 @@ conventions:
 id: TPL-XXX-NAME      # TPL- prefix, not STD-
 title: Template Name
 version: X.Y.Z
-category: project|design|architecture|governance
+category: project|design|architecture|governance|template|reference
 status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
@@ -108,8 +112,8 @@ This repo enforces markdownlint (see `.markdownlint.yaml`) and cspell
 (see `.cspell.json`). Key rules to watch for:
 
 - **ATX-style headings only** — use `#` syntax, never underline style.
-- **No bold text as pseudo-headings** — use proper heading levels
-  (`####`) instead of `**Bold text**` on its own line.
+- **Bold text as pseudo-headings is allowed** (MD036 disabled) — the
+  repo uses emphasis for classification labels. Do not flag this pattern.
 - **No trailing whitespace.** Files MUST end with a single newline.
 - **Inline HTML is allowed** (MD033 disabled) for template placeholders.
 - **Duplicate headings are allowed** (MD024 disabled) since gates and
