@@ -1,10 +1,16 @@
 # CI failure notification — STD-030
 #
-# Reusable workflow that notifies on CI failures. Vendor-agnostic:
-# defaults to GitHub issue creation, optionally sends a webhook.
+# Reusable workflow that notifies on CI failures.
+# Two notification channels:
+# 1. GitHub issue (default) — no external dependencies
+# 2. Webhook (optional) — Slack-compatible JSON payload
 #
-# Called by other workflows using `if: failure()` or as a standalone
-# notification mechanism for post-merge and scheduled runs.
+# Called by other workflows or as a standalone notification
+# for post-merge and scheduled runs.
+#
+# CALLER PERMISSIONS: The calling workflow must grant
+# `issues: write` permission for issue creation to work.
+# Without it, the create-issue job will fail silently.
 
 name: "Notify on Failure"
 
@@ -39,16 +45,17 @@ on:
         default: true
       send-webhook:
         description: >-
-          Send a webhook notification. Requires
-          CI_NOTIFY_WEBHOOK secret to be configured.
+          Send a Slack-compatible webhook notification.
+          Requires CI_NOTIFY_WEBHOOK secret. Other consumers
+          (Discord, Teams) may need an adapter.
         required: false
         type: boolean
         default: false
     secrets:
       CI_NOTIFY_WEBHOOK:
         description: >-
-          Webhook URL for notifications (Slack, Discord,
-          Teams, or any webhook consumer).
+          Webhook URL for Slack-compatible notifications.
+          Other consumers may need a format adapter.
         required: false
 
 jobs:
@@ -61,11 +68,17 @@ jobs:
     steps:
       - name: Create or update failure issue
         uses: actions/github-script@v7
+        env:
+          INPUT_GATE: ${{ inputs.gate-name }}
+          INPUT_PR: ${{ inputs.pr-number }}
+          INPUT_SUMMARY: ${{ inputs.error-summary }}
+          INPUT_SEVERITY: ${{ inputs.severity }}
         with:
           script: |
-            const gate = '${{ inputs.gate-name }}';
-            const pr = '${{ inputs.pr-number }}';
-            const summary = '${{ inputs.error-summary }}';
+            const gate = process.env.INPUT_GATE;
+            const pr = process.env.INPUT_PR;
+            const summary = process.env.INPUT_SUMMARY;
+            const severity = process.env.INPUT_SEVERITY;
             const sha = context.sha.substring(0, 7);
             const runUrl = [
               context.serverUrl,
@@ -78,17 +91,21 @@ jobs:
             const prRef = pr ? ` (PR #${pr})` : '';
             const title = `CI failure: ${gate}${prRef}`;
 
-            // Deduplicate open issues for same gate
-            const existing =
-              await github.rest.issues.listForRepo({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                state: 'open',
-                labels: 'type:ci',
-                per_page: 20
+            // Deduplicate: search for existing open issue
+            const query = [
+              `repo:${context.repo.owner}/${context.repo.repo}`,
+              'is:issue',
+              'is:open',
+              `"CI failure: ${gate}"`
+            ].join(' ');
+
+            const search =
+              await github.rest.search.issuesAndPullRequests({
+                q: query,
+                per_page: 5
               });
 
-            const dup = existing.data.find(i =>
+            const dup = search.data.items.find(i =>
               i.title.startsWith(`CI failure: ${gate}`)
             );
 
@@ -115,9 +132,7 @@ jobs:
               `| Gate | ${gate} |`,
               pr ? `| PR | #${pr} |` : null,
               `| Commit | ${sha} |`,
-              `| Severity | ${
-                '${{ inputs.severity }}'
-              } |`,
+              `| Severity | ${severity} |`,
               `| Run | [Logs](${runUrl}) |`,
               '',
               '### Error summary',
@@ -126,16 +141,37 @@ jobs:
               '',
               '### Resolution',
               '',
-              'Per STD-030: required gate failures',
-              'block merge. Check the run logs.',
+              'Per STD-030: required gate failures are',
+              'release-blocking and must be remediated.',
+              'Check the run logs.',
               '',
               '---',
               '*Auto-created by CI notification.*'
             ].filter(Boolean).join('\n');
 
-            const labels = ['type:ci'];
-            if ('${{ inputs.severity }}' === 'required') {
-              labels.push('priority:high');
+            // Use labels that exist in repo; skip gracefully
+            const labels = [];
+            try {
+              await github.rest.issues.getLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: 'type:ci'
+              });
+              labels.push('type:ci');
+            } catch {
+              core.warning('Label type:ci not found');
+            }
+            if (severity === 'required') {
+              try {
+                await github.rest.issues.getLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: 'priority:high'
+                });
+                labels.push('priority:high');
+              } catch {
+                core.warning('Label priority:high not found');
+              }
             }
 
             await github.rest.issues.create({
@@ -154,36 +190,38 @@ jobs:
       - name: Send webhook
         env:
           WEBHOOK_URL: ${{ secrets.CI_NOTIFY_WEBHOOK }}
+          INPUT_GATE: ${{ inputs.gate-name }}
+          INPUT_PR: ${{ inputs.pr-number }}
+          INPUT_SUMMARY: ${{ inputs.error-summary }}
+          INPUT_SEVERITY: ${{ inputs.severity }}
+          GITHUB_SHA_FULL: ${{ github.sha }}
+          GITHUB_REPO: ${{ github.repository }}
+          GITHUB_RUN: ${{ github.run_id }}
+          GITHUB_SRV: ${{ github.server_url }}
         run: |
           if [ -z "$WEBHOOK_URL" ]; then
             echo "::warning::No CI_NOTIFY_WEBHOOK secret"
             exit 0
           fi
 
-          GATE="${{ inputs.gate-name }}"
-          PR="${{ inputs.pr-number }}"
-          SUMMARY="${{ inputs.error-summary }}"
-          SHA="${{ github.sha }}"
-          SHORT_SHA="${SHA:0:7}"
-          REPO="${{ github.repository }}"
-          RUN_ID="${{ github.run_id }}"
-          SERVER="${{ github.server_url }}"
-          RUN_URL="${SERVER}/${REPO}/actions/runs/${RUN_ID}"
+          SHORT_SHA="${GITHUB_SHA_FULL:0:7}"
+          RUN_URL="${GITHUB_SRV}/${GITHUB_REPO}/actions/runs/${GITHUB_RUN}"
 
           PR_REF=""
-          if [ -n "$PR" ]; then
-            PR_REF=" (PR #${PR})"
+          if [ -n "$INPUT_PR" ]; then
+            PR_REF=" (PR #${INPUT_PR})"
           fi
 
-          # Generic JSON payload — works with Slack,
-          # Discord, and most webhook consumers
+          # Slack-compatible JSON payload. Other webhook
+          # consumers (Discord, Teams) may need an adapter
+          # to transform this format.
           PAYLOAD=$(jq -n \
-            --arg text "CI failure: ${GATE}${PR_REF}" \
-            --arg repo "$REPO" \
+            --arg text "CI failure: ${INPUT_GATE}${PR_REF}" \
+            --arg repo "$GITHUB_REPO" \
             --arg sha "$SHORT_SHA" \
-            --arg sev "${{ inputs.severity }}" \
+            --arg sev "$INPUT_SEVERITY" \
             --arg url "$RUN_URL" \
-            --arg sum "$SUMMARY" \
+            --arg sum "$INPUT_SUMMARY" \
             '{
               text: $text,
               blocks: [

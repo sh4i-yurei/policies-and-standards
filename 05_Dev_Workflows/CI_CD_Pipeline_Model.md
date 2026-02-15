@@ -432,10 +432,10 @@ using the reusable `notify-on-failure.yml` workflow:
 
 - **GitHub issue** (default): auto-created for required gate failures
   with deduplication to avoid spam on repeated failures.
-- **Webhook** (optional): sends to a configurable endpoint via the
-  `CI_NOTIFY_WEBHOOK` repository secret. Works with Slack, Discord,
-  Teams, or any webhook consumer. Falls back gracefully if not
-  configured.
+- **Webhook** (optional): sends a Slack-compatible JSON payload to
+  a configurable endpoint via the `CI_NOTIFY_WEBHOOK` repository
+  secret. Other consumers (Discord, Teams) may need a format adapter.
+  Falls back gracefully if the secret is not configured.
 
 Advisory gate failures (e.g., Gate F security) do not trigger
 notifications by default but MAY be configured to do so.
