@@ -1,7 +1,7 @@
 ---
 id: STD-030
 title: CI/CD Pipeline and Validation Model
-version: 1.1.6
+version: 1.1.7
 category: workflow
 status: active
 approver: sh4i-yurei
@@ -425,6 +425,21 @@ Hooks SHOULD align with CI enforcement to minimize drift.
   `workflow-exception`, include rationale, and be time-bound.
 - Exception approval MUST be recorded in Quint decision artifacts.
 
+### Failure notifications
+
+Post-merge and scheduled CI failures SHOULD produce notifications
+using the reusable `notify-on-failure.yml` workflow:
+
+- **GitHub issue** (default): auto-created for required gate failures
+  with deduplication to avoid spam on repeated failures.
+- **Webhook** (optional): sends to a configurable endpoint via the
+  `CI_NOTIFY_WEBHOOK` repository secret. Works with Slack, Discord,
+  Teams, or any webhook consumer. Falls back gracefully if not
+  configured.
+
+Advisory gate failures (e.g., Gate F security) do not trigger
+notifications by default but MAY be configured to do so.
+
 # Implementation Notes
 
 - Tool choices may evolve; enforcement behavior must not.
@@ -458,6 +473,7 @@ be considered non-compliant and subject to rollback or remediation.
 
 # Changelog
 
+- 1.1.7 - Added failure notification requirements and notify-on-failure reusable workflow reference.
 - 1.1.6 - Added cspell and version-consistency checks to Gate B; added .quint/ commitment rule to Gate A; documented spelling and version-ref validation in required behavior and tooling.
 - 1.1.5 - Clarified Quint gating for code changes and removed code-bearing path requirements.
 - 1.1.4 - Set owner/reviewer/approver values.
