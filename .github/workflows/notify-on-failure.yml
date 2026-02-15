@@ -88,8 +88,18 @@ jobs:
               context.runId
             ].join('/');
 
-            const prRef = pr ? ` (PR #${pr})` : '';
-            const title = `CI failure: ${gate}${prRef}`;
+            // Validate severity input
+            const validSeverities = ['required', 'advisory'];
+            if (!validSeverities.includes(severity)) {
+              core.warning(
+                `Unknown severity '${severity}'. ` +
+                `Expected: ${validSeverities.join(', ')}`
+              );
+            }
+
+            // Title excludes PR# so dedup works across PRs
+            // for the same gate. PR context goes in the body.
+            const title = `CI failure: ${gate}`;
 
             // Deduplicate: search for existing open issue
             const query = [
@@ -102,23 +112,25 @@ jobs:
             const search =
               await github.rest.search.issuesAndPullRequests({
                 q: query,
-                per_page: 5
+                per_page: 50
               });
 
             const dup = search.data.items.find(i =>
-              i.title.startsWith(`CI failure: ${gate}`)
+              i.title === `CI failure: ${gate}`
             );
 
             if (dup) {
+              const commentLines = [
+                `**Repeated failure** at ${sha}`,
+                pr ? `PR: #${pr}` : null,
+                `Run: ${runUrl}`,
+                `Summary: ${summary}`
+              ].filter(Boolean);
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: dup.number,
-                body: [
-                  `**Repeated failure** at ${sha}`,
-                  `Run: ${runUrl}`,
-                  `Summary: ${summary}`
-                ].join('\n')
+                body: commentLines.join('\n')
               });
               core.info(`Updated issue #${dup.number}`);
               return;
@@ -174,13 +186,14 @@ jobs:
               }
             }
 
-            await github.rest.issues.create({
+            const issue = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: title,
               body: body,
               labels: labels
             });
+            core.info(`Created issue #${issue.data.number}`);
 
   send-webhook:
     name: "Send webhook notification"
@@ -251,21 +264,32 @@ jobs:
               ]
             }')
 
-          HTTP_CODE=$(curl -s -o /dev/null \
-            -w "%{http_code}" \
-            -X POST \
-            -H "Content-Type: application/json" \
-            -d "$PAYLOAD" \
-            "$WEBHOOK_URL")
+          MAX_ATTEMPTS=3
+          BASE_SLEEP=2
 
-          if [ "$HTTP_CODE" -ge 200 ] && \
-             [ "$HTTP_CODE" -lt 300 ]; then
-            echo "Webhook sent (HTTP $HTTP_CODE)"
-          else
-            echo "::warning::Webhook HTTP $HTTP_CODE"
-            sleep 2
-            curl -s -X POST \
+          for attempt in $(seq 1 "$MAX_ATTEMPTS"); do
+            HTTP_CODE=$(curl -s -o /dev/null \
+              -w "%{http_code}" \
+              -X POST \
               -H "Content-Type: application/json" \
               -d "$PAYLOAD" \
-              "$WEBHOOK_URL" || true
+              "$WEBHOOK_URL" || echo "000")
+
+            if [ "$HTTP_CODE" -ge 200 ] && \
+               [ "$HTTP_CODE" -lt 300 ]; then
+              echo "Webhook sent (HTTP $HTTP_CODE) on attempt $attempt"
+              break
+            else
+              echo "::warning::Webhook HTTP $HTTP_CODE on attempt $attempt"
+              if [ "$attempt" -lt "$MAX_ATTEMPTS" ]; then
+                SLEEP_SECONDS=$((BASE_SLEEP ** attempt))
+                echo "Retrying in ${SLEEP_SECONDS}s..."
+                sleep "$SLEEP_SECONDS"
+              fi
+            fi
+          done
+
+          if [ "$HTTP_CODE" -lt 200 ] || \
+             [ "$HTTP_CODE" -ge 300 ]; then
+            echo "::warning::Webhook failed after $MAX_ATTEMPTS attempts (last HTTP $HTTP_CODE)"
           fi
