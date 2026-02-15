@@ -15,7 +15,7 @@ tags: [template, ai, sprint, multi-agent, orchestration, planning]
 # Purpose
 
 Provide a structured sprint plan template for multi-instance AI agent
-sessions per [STD-062](../../05_Dev_Workflows/Multi_Agent_Orchestration.md).
+sessions per [STD-062](../../../05_Dev_Workflows/Multi_Agent_Orchestration.md).
 The sprint plan is the single source of truth for instance assignments,
 branch ownership, and merge order.
 
@@ -107,12 +107,12 @@ For each worker instance (I2, I3, ...), the human should:
   instance launch).
 - Track file-overlap prediction accuracy (planned vs actual conflicts).
 - Review these metrics in the session review per
-  [STD-061](../../05_Dev_Workflows/session_review_standard.md).
+  [STD-061](../../../05_Dev_Workflows/session_review_standard.md).
 
 # Compliance
 
 Sprint plans are verified as part of the multi-instance coordination
-assessment in [STD-061](../../05_Dev_Workflows/session_review_standard.md).
+assessment in [STD-061](../../../05_Dev_Workflows/session_review_standard.md).
 
 # Changelog
 
