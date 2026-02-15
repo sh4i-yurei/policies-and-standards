@@ -1,13 +1,13 @@
 ---
 id: STD-030
 title: CI/CD Pipeline and Validation Model
-version: 1.1.6
+version: 1.2.0
 category: workflow
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-13
+last_updated: 2026-02-15
 extends:
   - STD-000
   - STD-003
@@ -418,6 +418,76 @@ Local development MUST mirror CI using:
 
 Hooks SHOULD align with CI enforcement to minimize drift.
 
+## Pipeline optimization
+
+### Dependency caching
+
+Workflows SHOULD cache dependencies to minimize installation overhead
+across runs. Cache keys MUST include a hash of the dependency manifest
+(e.g., `pyproject.toml`, `package-lock.json`, `Cargo.lock`) so the
+cache invalidates when dependencies change.
+
+Recommended cache paths by language:
+
+| Language | Cache path | Key includes |
+|----------|-----------|--------------|
+| Python | `~/.cache/pip` | `hashFiles('**/pyproject.toml')` or `hashFiles('**/requirements*.txt')` |
+| Node | `~/.npm` | `hashFiles('**/package-lock.json')` |
+| Rust | `~/.cargo/registry`, `target/` | `hashFiles('**/Cargo.lock')` |
+| Java | `~/.m2/repository` | `hashFiles('**/pom.xml')` |
+
+### Parallel gate execution
+
+Independent validation gates SHOULD run in parallel. Gates A through F
+have no inter-gate dependencies and SHOULD execute concurrently within
+a single CI run.
+
+Sub-jobs within a gate (e.g., Gate B's markdownlint, yamllint,
+link-check, cspell, and version-consistency) SHOULD also run in parallel
+unless they share mutable state.
+
+### Conditional gate execution
+
+Gates SHOULD be skipped when their inputs have not changed:
+
+- Gate A: skip for documentation-only changes (already implemented).
+- Gate C and D: skip when only documentation or configuration files
+  changed and no source code was modified.
+- Gate F: skip for documentation-only changes.
+
+Conditional execution MUST NOT weaken enforcement — the gate matrix
+defines which gates are required for each change type.
+
+### Concurrency control
+
+Workflows SHOULD use concurrency groups to cancel in-progress runs when
+a new commit is pushed to the same PR branch. This prevents wasted
+compute on superseded commits.
+
+### Performance budget
+
+Pipeline duration SHOULD be tracked and optimized. Target gate durations
+for a typical PR:
+
+| Gate | Target | Notes |
+|------|--------|-------|
+| A (Quint) | < 15s | Shell checks only |
+| B (Docs) | < 60s | Link-check is the bottleneck |
+| C (Code) | < 30s | Lint and type checking |
+| D (Tests) | < 120s | Scales with test suite |
+| E (Config) | < 15s | Parse validation only |
+| F (Security) | < 300s | CodeQL dominates |
+
+Excessive CI duration undermines developer velocity. If any gate
+consistently exceeds its target, investigate and optimize before adding
+new checks.
+
+### Build artifacts
+
+Build artifacts SHOULD be produced once and promoted through environments
+rather than rebuilt per environment. This ensures the tested artifact is
+the deployed artifact.
+
 ## Failure handling and exceptions
 
 - Failing a required gate blocks merge.
@@ -458,6 +528,7 @@ be considered non-compliant and subject to rollback or remediation.
 
 # Changelog
 
+- 1.2.0 - Added pipeline optimization section covering dependency caching, parallel execution, conditional gating, concurrency control, performance budgets, and build artifact promotion.
 - 1.1.6 - Added cspell and version-consistency checks to Gate B; added .quint/ commitment rule to Gate A; documented spelling and version-ref validation in required behavior and tooling.
 - 1.1.5 - Clarified Quint gating for code changes and removed code-bearing path requirements.
 - 1.1.4 - Set owner/reviewer/approver values.
