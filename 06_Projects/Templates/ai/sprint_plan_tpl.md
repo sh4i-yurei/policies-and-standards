@@ -1,7 +1,7 @@
 ---
 id: TPL-PRJ-SPRINT-PLAN
 title: Multi-Instance Sprint Plan
-version: 1.0.0
+version: 1.0.1
 category: template
 status: active
 owner: sh4i-yurei
@@ -101,6 +101,14 @@ For each worker instance (I2, I3, ...), the human should:
 - Store completed sprint plans in the project's `plans/` directory or
   as a section in the session handoff.
 
+# Continuous Improvement and Compliance Metrics
+
+- Track sprint plan completeness (all required elements present before
+  instance launch).
+- Track file-overlap prediction accuracy (planned vs actual conflicts).
+- Review these metrics in the session review per
+  [STD-061](../../05_Dev_Workflows/session_review_standard.md).
+
 # Compliance
 
 Sprint plans are verified as part of the multi-instance coordination
@@ -110,4 +118,5 @@ assessment in [STD-061](../../05_Dev_Workflows/session_review_standard.md).
 
 | Version | Date | Description |
 |---------|------|-------------|
+| 1.0.1 | 2026-02-15 | Add missing Continuous Improvement and Compliance Metrics section per STD-001. |
 | 1.0.0 | 2026-02-15 | Initial release. |
