@@ -73,9 +73,11 @@ For sprints with three or more instances, use
 as the plan format. For two-instance sessions, a sprint plan section in
 the session handoff is sufficient.
 
-The `/sprint-plan` command automates plan creation by selecting work
-items, distributing across instances, creating a beads epic with child
-tasks, and computing the file-overlap map via `sprint-overlap.sh`.
+Projects MAY provide a `/sprint-plan` agent command to automate plan
+creation (selecting work items, distributing across instances, creating
+a tracking epic, and computing the file-overlap map). Supporting scripts
+such as `sprint-overlap.sh` are user-level tools maintained outside
+this repository.
 
 ## Workload balancing
 
@@ -111,9 +113,9 @@ This is a planned phase budgeted in the sprint plan, not a reactive
 response to conflicts. Each merge invalidates remaining PRs, so order
 matters.
 
-The `/sprint-merge` command automates this sequence: it computes the
-file-overlap matrix via `sprint-overlap.sh`, presents the recommended
-merge order, and walks the human through each merge with rebase checks
+Projects MAY provide a `/sprint-merge` agent command to automate this
+sequence: computing the file-overlap matrix, presenting the recommended
+merge order, and walking the human through each merge with rebase checks
 between steps.
 
 ## Review flow
@@ -181,5 +183,5 @@ Non-compliance is treated as a process defect:
 
 | Version | Date | Description |
 |---------|------|-------------|
-| 1.1.0 | 2026-02-15 | Add template and tooling references: TPL-PRJ-SPRINT-PLAN, `/sprint-plan`, `/sprint-merge`, `sprint-overlap.sh`. |
+| 1.1.0 | 2026-02-15 | Add sprint plan template (TPL-PRJ-SPRINT-PLAN) and optional agent command references. |
 | 1.0.0 | 2026-02-15 | Initial release. Promotes multi-instance sprint protocol from project-local AGENTS.md to KB authority. |

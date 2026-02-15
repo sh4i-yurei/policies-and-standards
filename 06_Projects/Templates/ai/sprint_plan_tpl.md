@@ -12,17 +12,26 @@ extends: [STD-001, STD-062]
 tags: [template, ai, sprint, multi-agent, orchestration, planning]
 ---
 
-<!-- Remove this block before use -->
-<!-- INSTRUCTIONS:
-  This template is used by the orchestrator instance (I1) when planning
-  a multi-instance sprint per STD-062. Fill in all sections. The sprint
-  plan is the single source of truth for instance assignments, branch
-  ownership, and merge order. All instances reference this plan.
+# Purpose
 
-  The /sprint-plan slash command generates this format automatically.
-  You can also fill it in manually for ad-hoc sprints.
--->
+Provide a structured sprint plan template for multi-instance AI agent
+sessions per [STD-062](../../05_Dev_Workflows/Multi_Agent_Orchestration.md).
+The sprint plan is the single source of truth for instance assignments,
+branch ownership, and merge order.
 
+# Scope
+
+Use when planning a sprint with three or more concurrent AI agent
+instances (STD-062 section "Sprint planning"). For two-instance
+sessions, a sprint plan section in the session handoff is sufficient.
+
+# Standard
+
+## Sprint plan template
+
+<!-- Remove instruction comments before use -->
+
+```md
 # Session {N} Sprint Plan
 
 ## Overview
@@ -82,3 +91,23 @@ For each worker instance (I2, I3, ...), the human should:
 - [ ] Human approves sprint plan
 - [ ] All branches created or will be created by instances
 - [ ] File overlap risk assessed
+```
+
+# Implementation Notes
+
+- The `/sprint-plan` slash command (a user-level agent command, not
+  shipped in this repository) generates this format automatically.
+- The template can also be filled in manually for ad-hoc sprints.
+- Store completed sprint plans in the project's `plans/` directory or
+  as a section in the session handoff.
+
+# Compliance
+
+Sprint plans are verified as part of the multi-instance coordination
+assessment in [STD-061](../../05_Dev_Workflows/session_review_standard.md).
+
+# Changelog
+
+| Version | Date | Description |
+|---------|------|-------------|
+| 1.0.0 | 2026-02-15 | Initial release. |
