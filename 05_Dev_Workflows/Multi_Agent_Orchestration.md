@@ -38,10 +38,14 @@ Does NOT apply to:
 ## Worktree isolation
 
 Each instance MUST operate in its own git worktree. Before starting
-work:
+work, check out an existing branch or create a new one:
 
 ```bash
+# Existing branch
 git worktree add /tmp/i<N>-<branch> <branch>
+
+# New branch (creates and checks out in one step)
+git worktree add /tmp/i<N>-<branch> -b <branch>
 ```
 
 Instances MUST NOT share a working directory. Shared directories cause
