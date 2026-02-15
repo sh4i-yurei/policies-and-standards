@@ -46,6 +46,13 @@ on:
         required: false
         type: string
         default: "CLAUDE.md AGENTS.md PLANS.md"
+      check-kb-directory:
+        description: >-
+          Check for .kb/ directory and .kb/ai-context.yaml
+          (STD-056). Set false for repos without a .kb directory.
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   governance-files:
@@ -57,6 +64,7 @@ jobs:
       - name: Check required files exist
         env:
           REQUIRED_FILES: ${{ inputs.required-files }}
+          CHECK_KB: ${{ inputs.check-kb-directory }}
         run: |
           MISSING=0
           for f in $REQUIRED_FILES; do
@@ -69,12 +77,14 @@ jobs:
           done
 
           # .kb/ai-context.yaml is required per STD-056
-          if [ ! -d ".kb" ]; then
-            echo "::error::Missing required directory: .kb"
-            MISSING=$((MISSING + 1))
-          elif [ ! -f ".kb/ai-context.yaml" ]; then
-            echo "::error::Missing required file: .kb/ai-context.yaml"
-            MISSING=$((MISSING + 1))
+          if [ "$CHECK_KB" = "true" ]; then
+            if [ ! -d ".kb" ]; then
+              echo "::error::Missing required directory: .kb"
+              MISSING=$((MISSING + 1))
+            elif [ ! -f ".kb/ai-context.yaml" ]; then
+              echo "::error::Missing required file: .kb/ai-context.yaml"
+              MISSING=$((MISSING + 1))
+            fi
           fi
 
           # Recommended but not required
@@ -177,6 +187,9 @@ jobs:
     needs:
       - governance-files
       - docs-lint
+      - link-check
+      - code-quality
+      - tests
     runs-on: ubuntu-latest
     permissions:
       issues: write

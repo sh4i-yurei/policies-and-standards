@@ -18,6 +18,7 @@ jobs:
       run-code-gates: false
       notify-on-failure: true
       required-files: "CLAUDE.md"
+      check-kb-directory: false
     permissions:
       contents: read
       issues: write
