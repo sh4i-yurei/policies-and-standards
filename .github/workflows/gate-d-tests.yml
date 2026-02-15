@@ -61,6 +61,7 @@ jobs:
         with:
           node-version: "22"
           cache: "npm"
+          cache-dependency-path: ${{ inputs.working-directory }}/package-lock.json
       - name: Install dependencies
         run: npm ci
       - name: Run tests
@@ -86,12 +87,13 @@ jobs:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
-            target
+            ${{ inputs.working-directory }}/target
           key: cargo-test-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
             cargo-test-${{ runner.os }}-
-      - name: Install cargo-nextest
-        run: cargo install cargo-nextest
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-nextest
       - name: Run tests
         run: cargo nextest run --message-format libtest-json-plus 2>&1 | tee results.json
       - name: Upload test results

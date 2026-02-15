@@ -22,8 +22,8 @@ jobs:
           path: |
             ~/.cache/pip
             ~/.npm
-          key: config-validators-${{ runner.os }}
-          restore-keys: config-validators-
+          key: config-validators-${{ runner.os }}-v1
+          restore-keys: config-validators-${{ runner.os }}-
 
       - name: Install validators
         run: |
