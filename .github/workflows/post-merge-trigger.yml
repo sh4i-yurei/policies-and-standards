@@ -1,0 +1,24 @@
+# Local trigger for post-merge health check.
+# Calls the reusable post-merge workflow on push to main.
+#
+# policies-and-standards is a docs-only repo (no code gates).
+# Override required-files since this repo has no AGENTS.md/PLANS.md.
+
+name: "Post-Merge"
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  health-check:
+    uses: ./.github/workflows/post-merge.yml
+    with:
+      run-link-check: true
+      run-code-gates: false
+      notify-on-failure: true
+      required-files: "CLAUDE.md"
+      check-kb-directory: false
+    permissions:
+      contents: read
+      issues: write
