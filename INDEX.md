@@ -108,6 +108,7 @@ find the standard, workflow, or template you need.
 | [Session Handoff](06_Projects/Templates/ai/session_handoff_tpl.md) | Structured handoff artifact for multi-session continuity. |
 | [Session Review](06_Projects/Templates/ai/session_review_tpl.md) | End-of-session retrospective per STD-061. |
 | [Skill Template](06_Projects/Templates/ai/skill_tpl.md) | Author agent skills per STD-058. |
+| [Sprint Plan](06_Projects/Templates/ai/sprint_plan_tpl.md) | Multi-instance sprint plan per STD-062. |
 
 ### Architecture
 

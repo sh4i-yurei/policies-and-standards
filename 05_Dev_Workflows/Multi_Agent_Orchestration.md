@@ -1,7 +1,7 @@
 ---
 id: STD-062
 title: Multi-Agent Orchestration and Coordination
-version: 1.0.0
+version: 1.1.0
 category: workflow
 status: draft
 owner: sh4i-yurei
@@ -68,8 +68,16 @@ Before launching instances, the sprint plan MUST include:
 - Deliverable assignment per instance with complexity estimates
 - File overlap map identifying which deliverables touch the same files
 
-The sprint plan can be a section in the session handoff or a standalone
-document. No dedicated template is required.
+For sprints with three or more instances, use
+[TPL-PRJ-SPRINT-PLAN](../06_Projects/Templates/ai/sprint_plan_tpl.md)
+as the plan format. For two-instance sessions, a sprint plan section in
+the session handoff is sufficient.
+
+Projects MAY provide a `/sprint-plan` agent command to automate plan
+creation (selecting work items, distributing across instances, creating
+a tracking epic, and computing the file-overlap map). Supporting scripts
+such as `sprint-overlap.sh` are user-level tools maintained outside
+this repository.
 
 ## Workload balancing
 
@@ -104,6 +112,11 @@ After all instance PRs pass CI and review, a designated merge manager
 This is a planned phase budgeted in the sprint plan, not a reactive
 response to conflicts. Each merge invalidates remaining PRs, so order
 matters.
+
+Projects MAY provide a `/sprint-merge` agent command to automate this
+sequence: computing the file-overlap matrix, presenting the recommended
+merge order, and walking the human through each merge with rebase checks
+between steps.
 
 ## Review flow
 
@@ -170,4 +183,5 @@ Non-compliance is treated as a process defect:
 
 | Version | Date | Description |
 |---------|------|-------------|
+| 1.1.0 | 2026-02-15 | Add sprint plan template (TPL-PRJ-SPRINT-PLAN) and optional agent command references. |
 | 1.0.0 | 2026-02-15 | Initial release. Promotes multi-instance sprint protocol from project-local AGENTS.md to KB authority. |
