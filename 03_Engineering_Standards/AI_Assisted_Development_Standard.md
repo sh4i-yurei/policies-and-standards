@@ -1,13 +1,13 @@
 ---
 id: STD-004
 title: AI Assisted Development Standard
-version: 1.1.4
+version: 1.2.0
 category: engineering
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-14
+last_updated: 2026-02-15
 review_date: 2026-05-01
 extends: [STD-000, STD-005]
 tags: [ai, assisted_development, tooling, governance]
@@ -74,6 +74,8 @@ most recent session handoff artifact if one exists.
 6.2 Defects introduced by AI-assisted output SHALL be treated as implementation defects, not tooling failures.  
 6.3 AI-assisted analysis MAY be used to identify violations of standards, complexity issues, or refactoring opportunities.  
 6.4 AI-assisted systems MUST support traceability by aligning output with governing documents and issues.
+6.5 Commits containing AI-generated content SHOULD include a `Co-Authored-By` trailer identifying the AI system and model used (e.g., `Co-Authored-By: Claude Opus 4 <noreply@anthropic.com>`). This attribution supports audit traceability and is consistent with conventional Git co-author practices.
+6.6 AI-assisted systems operating as subagents (delegated tasks within a multi-agent orchestration) MUST verify content that references data models, field names, API contracts, or schemas against authoritative source documents before committing. Subagents MUST NOT rely solely on context passed from an orchestrating agent when the accuracy of structural references is critical.
 
 ## 7. Prohibited Behaviors
 
@@ -103,6 +105,8 @@ Any AI-assisted output that violates this standard SHALL be considered non-compl
 
 # Changelog
 
+- 1.2.0 - Added AI commit attribution (6.5) and subagent source
+  verification requirement (6.6).
 - 1.1.4 - Required ExecPlan and session handoff artifact in instruction
   context.
 - 1.1.3 - Linked tooling inventory location.
