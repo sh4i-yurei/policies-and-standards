@@ -50,6 +50,9 @@ find the standard, workflow, or template you need.
 | [Environment Segregation Standard](03_Engineering_Standards/Environment_Segregation_Standard.md) | STD-057 | Required environments and separation rules. |
 | [Agent Skills Standard](03_Engineering_Standards/Codex_Skills_Standard.md) | STD-058 | How agent skills are authored, stored, and governed. |
 | [AI Data Handling Standard](03_Engineering_Standards/AI_Data_Handling_Standard.md) | STD-060 | **Stub.** Placeholder for AI data handling policy. Do not enforce. |
+| [ML/Model Lifecycle Standard](03_Engineering_Standards/ML_Model_Lifecycle_Standard.md) | STD-063 | Training, evaluation, deployment, and monitoring of ML models. |
+| [Non-Deterministic Testing Standard](03_Engineering_Standards/Non_Deterministic_Testing_Standard.md) | STD-065 | Statistical assertions, seed management, and flakiness controls. |
+| [Performance Benchmarking Standard](03_Engineering_Standards/Performance_Benchmarking_Standard.md) | STD-066 | Benchmark baselines, regression detection, and load testing. |
 | [Tooling Inventory](03_Engineering_Standards/Tooling_Inventory.md) | TOOLING-001 | Approved tools and infrastructure components. |
 
 ### AI Rule Packs
@@ -94,6 +97,7 @@ find the standard, workflow, or template you need.
 | [Governance Process Audit](05_Dev_Workflows/governance-process-audit-checklist.md) | STD-059 | Checklist for auditing governance compliance. |
 | [Session Review and Retrospective](05_Dev_Workflows/session_review_standard.md) | STD-061 | Structured end-of-session retrospectives for AI-assisted work. |
 | [Multi-Agent Orchestration](05_Dev_Workflows/Multi_Agent_Orchestration.md) | STD-062 | Coordination requirements for multi-instance AI agent sprints. |
+| [Technical Debt Tracking Workflow](05_Dev_Workflows/Technical_Debt_Tracking_Workflow.md) | STD-064 | Classification, tracking, and paydown of technical debt. |
 
 ## 06 Templates
 
