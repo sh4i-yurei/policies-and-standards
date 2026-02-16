@@ -1,7 +1,7 @@
 ---
 id: STD-062
 title: Multi-Agent Orchestration and Coordination
-version: 1.1.0
+version: 1.2.0
 category: workflow
 status: draft
 owner: sh4i-yurei
@@ -126,6 +126,27 @@ review. Cross-instance review — where one AI instance reviews another's
 PR — SHOULD NOT be added because it creates context-switching overhead
 for marginal value over existing review layers.
 
+## Worker completion protocol
+
+Each worker instance MUST complete these steps after finishing all
+assigned tasks, without waiting for orchestrator prompting:
+
+1. Run local CI gates on the branch (see
+   [CI/CD Pipeline Model](CI_CD_Pipeline_Model.md) STD-030).
+2. Commit and push the branch.
+3. Create a pull request targeting main.
+4. Verify CI gates pass on the PR.
+5. Notify the orchestrator or human that the PR is ready.
+
+The orchestrator owns merge sequencing (section "Merge management"),
+but each instance owns its PR through creation. Worker instances
+SHOULD NOT delegate PR creation to the orchestrator.
+
+After pushing fixes for review comments, worker instances MUST resolve
+addressed review threads via the GitHub `resolveReviewThread` GraphQL
+mutation. Replying to a comment is not sufficient — the thread must be
+explicitly resolved.
+
 ## Subagent verification
 
 Subagent-generated content that references data models, field names, API
@@ -183,5 +204,6 @@ Non-compliance is treated as a process defect:
 
 | Version | Date | Description |
 |---------|------|-------------|
+| 1.2.0 | 2026-02-15 | Add worker completion protocol and review thread resolution requirement. |
 | 1.1.0 | 2026-02-15 | Add sprint plan template (TPL-PRJ-SPRINT-PLAN) and optional agent command references. |
 | 1.0.0 | 2026-02-15 | Initial release. Promotes multi-instance sprint protocol from project-local AGENTS.md to KB authority. |
