@@ -141,7 +141,9 @@
     "scipy",
     "statsmodels",
     "promptfoo",
-    "deepeval"
+    "deepeval",
+    "recalibrated",
+    "benchstat"
   ],
   "dictionaries": ["softwareTerms"]
 }

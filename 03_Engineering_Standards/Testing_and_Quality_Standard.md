@@ -1,7 +1,7 @@
 ---
 id: STD-008
 title: Testing and Quality Standard
-version: 1.1.0
+version: 1.1.1
 category: engineering
 status: active
 approver: sh4i-yurei
@@ -48,6 +48,8 @@ governing issue per [Issue_and_Change_Management_Policy](../01_Governance/Issue_
 3.2 Integration tests MUST validate interactions between modules or systems.  
 3.3 End-to-end tests MAY be used to validate user-facing or system-level flows.  
 3.4 Tests MUST be written to validate behavior, not implementation detail.
+3.5 Performance-sensitive paths MUST include benchmark tests per
+[Performance_Benchmarking_Standard](Performance_Benchmarking_Standard.md).
 
 ## 4. Test Design Principles
 
@@ -98,6 +100,7 @@ Any implementation activity that does not meet the requirements of this standard
 
 # Changelog
 
+- 1.1.1 - Added §3.5 cross-reference to Performance Benchmarking Standard (STD-064).
 - 1.1.0 - Added §4.5 cross-reference to Non-Deterministic Testing Standard (STD-063).
 - 1.0.2 - Added traceability links and coverage gap documentation path.
 - 1.0.1 - Set owner/reviewer/approver values.
