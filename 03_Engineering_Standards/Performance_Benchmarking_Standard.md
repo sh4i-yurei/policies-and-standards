@@ -207,4 +207,4 @@ and remediated before the next production release.
 
 # Changelog
 
-- 0.1.0 -- Initial draft.
+- 0.1.0 - Initial draft.

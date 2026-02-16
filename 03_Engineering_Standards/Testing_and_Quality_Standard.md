@@ -105,8 +105,9 @@ Any implementation activity that does not meet the requirements of this standard
 
 # Changelog
 
-- 1.1.1 - Added §3.5 cross-reference to Performance Benchmarking Standard (STD-066).
-- 1.1.0 - Added §4.5 cross-reference to Non-Deterministic Testing Standard (STD-065).
+- 1.1.1 - Added §3.5 cross-reference to Performance Benchmarking
+  Standard (STD-066) and §4.5 cross-reference to Non-Deterministic
+  Testing Standard (STD-065).
 - 1.0.2 - Added traceability links and coverage gap documentation path.
 - 1.0.1 - Set owner/reviewer/approver values.
 
