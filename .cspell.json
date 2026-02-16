@@ -133,7 +133,9 @@
     "Dockerfiles",
     "steveyegge",
     "worktree",
-    "worktrees"
+    "worktrees",
+    "hyperparameters",
+    "paydown"
   ],
   "dictionaries": ["softwareTerms"]
 }
