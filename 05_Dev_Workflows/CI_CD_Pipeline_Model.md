@@ -1,7 +1,7 @@
 ---
 id: STD-030
 title: CI/CD Pipeline and Validation Model
-version: 1.3.0
+version: 1.4.0
 category: workflow
 status: active
 approver: sh4i-yurei
@@ -374,6 +374,63 @@ SHOULD distill applicable KB standards so the reviewer has project
 context. Project repos that reference the KB MUST maintain custom
 instructions that reflect the pinned KB version.
 
+#### Hallucination Detection
+
+AI-generated code and documentation are susceptible to hallucinated
+content — plausible-sounding but fabricated references that do not
+exist. Gate G MUST include checks targeting the following detection
+scope:
+
+- **Fabricated references**: citations to standards, RFCs, library
+  documentation, or API pages that do not exist.
+- **Invented APIs**: calls to functions, methods, classes, or endpoints
+  that are not part of the dependency's actual public interface at the
+  pinned version.
+- **Phantom dependencies**: imports of packages or modules that are not
+  declared in the project's dependency manifest or lockfile.
+- **Non-existent configuration**: references to configuration keys,
+  environment variables, or CLI flags that the target tool or framework
+  does not support.
+
+##### Automated checks
+
+Where feasible, CI SHOULD include automated hallucination detection:
+
+- Import validation: verify that all imported modules resolve against
+  installed dependencies.
+- Link checking: validate that URLs referenced in code comments and
+  documentation return non-404 responses.
+- API surface validation: where tooling exists, verify that referenced
+  symbols exist in the declared dependency version.
+
+Automated checks are advisory until explicitly promoted to blocking via
+the exception governance process defined in this document.
+
+##### Manual review gates
+
+Human reviewers MUST treat hallucination-prone patterns as high-priority
+review targets during Gate G triage:
+
+- Newly introduced third-party API calls SHOULD be verified against
+  official documentation.
+- References to external standards or specifications SHOULD be
+  spot-checked for existence.
+- AI-generated configuration blocks SHOULD be validated against the
+  target tool's documentation.
+
+##### Custom instructions integration
+
+Copilot custom instructions (`.github/copilot-instructions.md`) SHOULD
+include directives that instruct the AI reviewer to flag potential
+hallucinations, specifically:
+
+- unrecognized import paths or package names
+- API calls not present in common library signatures
+- references to standards or documents that cannot be cross-referenced
+  within the repository or KB
+
+#### Pass / Fail
+
 Initially advisory; future blocking behavior must be explicitly governed.
 
 ## Pipeline triggers and environments
@@ -559,6 +616,8 @@ be considered non-compliant and subject to rollback or remediation.
 
 # Changelog
 
+- 1.4.0 - Expanded Gate G with hallucination detection scope, automated
+  checks, manual review gates, and custom instructions integration.
 - 1.3.0 - Expanded Gate G with Copilot auto-review via rulesets and custom instructions requirement.
 - 1.2.1 - Added failure notification requirements and notify-on-failure reusable workflow reference.
 - 1.2.0 - Added pipeline optimization section covering dependency caching, parallel execution, conditional gating, concurrency control, performance budgets, and build artifact promotion.
