@@ -1,13 +1,13 @@
 ---
 id: STD-005
 title: Coding Standards and Conventions
-version: 1.1.2
+version: 1.2.0
 category: engineering
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-12
+last_updated: 2026-02-15
 review_date: 2026-05-01
 extends: [STD-000]
 tags: [coding, conventions, quality, testing, maintainability]
@@ -78,11 +78,38 @@ per [Issue_and_Change_Management_Policy](../01_Governance/Issue_and_Change_Manag
 7.3 Automated validation SHOULD enforce linting, testing, and static analysis.  
 7.4 Code that fails validation MUST NOT be merged or released.
 
-## 8. Relationship to AI-Assisted Development
+## 8. Dependency Management
 
-8.1 These coding standards apply equally to human-authored and AI-generated code.  
-8.2 AI-assisted code generation MUST comply with this standard and with [AI_Assisted_Development_Standard](AI_Assisted_Development_Standard.md).  
-8.3 Violations introduced by AI-generated code SHALL be treated as implementation defects, not tooling errors.
+8.1 Every project MUST commit a lockfile (e.g., `package-lock.json`,
+`Cargo.lock`, `poetry.lock`, `go.sum`) that pins exact resolved
+versions. Lockfiles MUST NOT be gitignored.
+8.2 Dependency manifests SHOULD pin to the narrowest version range that
+satisfies requirements (e.g., exact version or tilde range rather than
+wildcard).
+8.3 Security updates (CVEs, advisories) MUST be applied within 7
+calendar days of disclosure for critical/high severity and within 30
+days for medium/low severity.
+8.4 Feature and minor version updates SHOULD be reviewed and applied at
+least monthly. Major version upgrades require an assessed migration plan
+documented in the governing issue.
+8.5 Projects SHOULD enable automated dependency update tooling
+(Dependabot, Renovate, or equivalent). Configuration SHOULD:
+
+- group minor and patch updates to reduce PR noise
+- auto-merge patch updates that pass CI when confidence is high
+- require manual review for major version bumps
+
+8.6 Breaking changes introduced by dependency updates MUST be caught by
+existing tests. If a dependency upgrade causes test failures, the
+upgrade MUST NOT be merged until the failures are resolved.
+8.7 Unused dependencies MUST be removed promptly. Dependency audits
+SHOULD be performed as part of periodic housekeeping.
+
+## 9. Relationship to AI-Assisted Development
+
+9.1 These coding standards apply equally to human-authored and AI-generated code.
+9.2 AI-assisted code generation MUST comply with this standard and with [AI_Assisted_Development_Standard](AI_Assisted_Development_Standard.md).
+9.3 Violations introduced by AI-generated code SHALL be treated as implementation defects, not tooling errors.
 
 # Implementation Notes
 
@@ -95,8 +122,8 @@ per [Issue_and_Change_Management_Policy](../01_Governance/Issue_and_Change_Manag
 
 # Continuous Improvement and Compliance Metrics
 
-9.1 Metrics MAY include defect density, test coverage trends, and refactor frequency.  
-9.2 Findings SHOULD inform refinements to standards and development practices.
+10.1 Metrics MAY include defect density, test coverage trends, and refactor frequency.
+10.2 Findings SHOULD inform refinements to standards and development practices.
 
 # Compliance
 
@@ -104,6 +131,9 @@ Any code that violates this standard SHALL be considered non-compliant and subje
 
 # Changelog
 
+- 1.2.0 - Added dependency management section (8): lockfile policy,
+  update cadence, automated tooling guidance, and breaking change
+  handling.
 - 1.1.2 - Added traceability links for justification and issue tracking.
 - 1.1.1 - Set owner/reviewer/approver values.
 
