@@ -48,18 +48,23 @@ governing issue per [Issue_and_Change_Management_Policy](../01_Governance/Issue_
 3.2 Integration tests MUST validate interactions between modules or systems.  
 3.3 End-to-end tests MAY be used to validate user-facing or system-level flows.  
 3.4 Tests MUST be written to validate behavior, not implementation detail.
-3.5 Performance-sensitive paths MUST include benchmark tests per
-[Performance_Benchmarking_Standard](Performance_Benchmarking_Standard.md).
+3.5 Performance-sensitive paths SHOULD include benchmark tests, following
+guidance in
+[Performance_Benchmarking_Standard](Performance_Benchmarking_Standard.md)
+where applicable.
 
 ## 4. Test Design Principles
 
-4.1 Tests MUST be deterministic and repeatable.
+4.1 Tests for deterministic components MUST be deterministic and
+repeatable. Non-deterministic components are governed by
+[Non_Deterministic_Testing_Standard](Non_Deterministic_Testing_Standard.md).
 4.2 Tests MUST avoid reliance on external systems unless explicitly intended.
 4.3 Mocks, stubs, or fakes MUST be used to isolate dependencies where appropriate.
 4.4 Tests MUST clearly communicate intent and expected outcomes.
-4.5 Components with inherently non-deterministic outputs MUST follow
+4.5 Components with inherently non-deterministic outputs SHOULD follow
 [Non_Deterministic_Testing_Standard](Non_Deterministic_Testing_Standard.md)
 for statistical assertions, seed management, and flakiness controls.
+This reference becomes mandatory when STD-065 reaches active status.
 
 ## 5. Relationship to Technical Specifications
 

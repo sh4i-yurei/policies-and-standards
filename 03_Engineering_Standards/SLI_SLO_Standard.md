@@ -90,10 +90,11 @@ be recorded in [operational_notes_tpl](../06_Projects/Templates/operations/opera
 
 ## 8. Performance benchmarking
 
-8.1 Systems with performance-sensitive SLOs MUST establish benchmark
+8.1 Systems with performance-sensitive SLOs SHOULD establish benchmark
 baselines and regression thresholds per
 [Performance_Benchmarking_Standard](Performance_Benchmarking_Standard.md).
-8.2 Benchmark regression thresholds MUST align with the SLO targets
+This reference becomes mandatory when STD-066 reaches active status.
+8.2 Benchmark regression thresholds SHOULD align with the SLO targets
 defined under this standard.
 
 # Implementation Notes
