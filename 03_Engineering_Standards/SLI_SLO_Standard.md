@@ -116,7 +116,7 @@ release to production.
 
 # Changelog
 
-- 0.3.0 - Added §8 cross-reference to Performance Benchmarking Standard (STD-064).
+- 0.3.0 - Added §8 cross-reference to Performance Benchmarking Standard (STD-066).
 - 0.2.3 - Added traceability links and exception record locations.
 - 0.2.2 - Set owner/reviewer/approver values.
 
