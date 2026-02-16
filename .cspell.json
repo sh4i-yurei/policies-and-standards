@@ -135,7 +135,13 @@
     "worktree",
     "worktrees",
     "hyperparameters",
-    "paydown"
+    "paydown",
+    "Kolmogorov",
+    "Smirnov",
+    "scipy",
+    "statsmodels",
+    "promptfoo",
+    "deepeval"
   ],
   "dictionaries": ["softwareTerms"]
 }
