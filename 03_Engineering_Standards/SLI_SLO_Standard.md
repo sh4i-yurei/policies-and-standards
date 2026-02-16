@@ -1,13 +1,13 @@
 ---
 id: STD-043
 title: Service level objectives and indicators standard
-version: 0.2.3
+version: 0.3.0
 category: engineering
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-12
+last_updated: 2026-02-15
 extends: [STD-000, STD-008, STD-037]
 tags: [sli, slo, reliability, observability, standards]
 ---
@@ -88,6 +88,15 @@ management workflow per [Issue_and_Change_Management_Policy](../01_Governance/Is
 be recorded in [operational_notes_tpl](../06_Projects/Templates/operations/operational_notes_tpl.md) or [adr_tpl](../06_Projects/Templates/architecture/adr_tpl.md).  
 7.2 Exceptions MUST include a time-bound remediation plan.
 
+## 8. Performance benchmarking
+
+8.1 Systems with performance-sensitive SLOs SHOULD establish benchmark
+baselines and regression thresholds per
+[Performance_Benchmarking_Standard](Performance_Benchmarking_Standard.md).
+This reference becomes mandatory when STD-066 reaches active status.
+8.2 Benchmark regression thresholds SHOULD align with the SLO targets
+defined under this standard.
+
 # Implementation Notes
 
 - Use [observability_and_feedback](../05_Dev_Workflows/observability_and_feedback.md) and
@@ -108,6 +117,7 @@ release to production.
 
 # Changelog
 
+- 0.3.0 - Added §8 cross-reference to Performance Benchmarking Standard (STD-066).
 - 0.2.3 - Added traceability links and exception record locations.
 - 0.2.2 - Set owner/reviewer/approver values.
 
