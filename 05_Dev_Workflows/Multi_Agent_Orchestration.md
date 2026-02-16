@@ -132,8 +132,7 @@ Each worker instance MUST complete these steps after finishing all
 assigned tasks, without waiting for orchestrator prompting:
 
 1. Run local CI gates on the branch (see
-   [CI/CD Pipeline Model](../03_Engineering_Standards/CI_CD_Pipeline_Model.md)
-   STD-030).
+   [CI/CD Pipeline Model](CI_CD_Pipeline_Model.md) STD-030).
 2. Commit and push the branch.
 3. Create a pull request targeting main.
 4. Verify CI gates pass on the PR.
