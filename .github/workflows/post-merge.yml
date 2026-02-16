@@ -126,7 +126,7 @@ jobs:
             | xargs yamllint $YAMLLINT_ARGS
 
       - name: Check for cspell config
-        id: cspell-check
+        id: cspell_check
         run: |
           if [ -f ".cspell.json" ]; then
             echo "has_config=true" >> "$GITHUB_OUTPUT"
@@ -136,7 +136,7 @@ jobs:
           fi
 
       - uses: streetsidesoftware/cspell-action@v8
-        if: steps.cspell-check.outputs.has_config == 'true'
+        if: steps.cspell_check.outputs.has_config == 'true'
         with:
           files: "**/*.md"
           config: ".cspell.json"

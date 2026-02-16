@@ -64,6 +64,10 @@ across repos and provide a unified view of agent performance.
   - Date first for chronological sort
   - Project name for identification and search
   - Session number (`s<N>`) cross-references PLANS.md
+- Multi-instance sessions: `YYYY-MM-DD_<project>_s<N>_i<M>_review.md`
+  - Instance suffix (`_i<M>_`) identifies the agent that produced the
+    review
+  - Daily reports reference these per-instance files
 
 ## Required content
 
@@ -117,8 +121,8 @@ a consolidated view.
 - The daily report is produced after all instances have completed their
   individual reviews.
 - Content MUST include: per-instance summaries, aggregate metrics,
-  friction points with root cause analysis, coordination assessment,
-  and consolidated action items.
+  friction points, coordination assessment, and consolidated action
+  items.
 - Sessions with two instances SHOULD produce a daily report if
   significant coordination issues occurred.
 
