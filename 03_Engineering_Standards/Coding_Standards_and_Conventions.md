@@ -81,8 +81,10 @@ per [Issue_and_Change_Management_Policy](../01_Governance/Issue_and_Change_Manag
 ## 8. Dependency Management
 
 8.1 Every project MUST commit a lockfile (e.g., `package-lock.json`,
-`Cargo.lock`, `poetry.lock`, `go.sum`) that pins exact resolved
-versions. Lockfiles MUST NOT be gitignored.
+`Cargo.lock`, `poetry.lock`) that pins exact resolved versions.
+Lockfiles MUST NOT be gitignored. For Go projects, `go.mod` defines
+version requirements and `go.sum` provides integrity checksums; both
+MUST be committed.
 8.2 Dependency manifests SHOULD pin to the narrowest version range that
 satisfies requirements (e.g., exact version or tilde range rather than
 wildcard).
