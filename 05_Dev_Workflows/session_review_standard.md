@@ -113,7 +113,7 @@ a consolidated view.
 - The daily report follows
   [daily_report_tpl](../06_Projects/Templates/ai/daily_report_tpl.md)
   (TPL-PRJ-DAILY-REPORT).
-- Storage: `~/session-reviews/<project>/daily/YYYY-MM-DD_daily_report.md`
+- Storage: `~/session-reviews/<project>/YYYY-MM-DD_<project>_daily_report.md`
 - The daily report is produced after all instances have completed their
   individual reviews.
 - Content MUST include: per-instance summaries, aggregate metrics,
