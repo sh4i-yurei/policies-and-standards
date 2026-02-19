@@ -16,7 +16,7 @@ jobs:
       security-events: write
     continue-on-error: ${{ !inputs.blocking }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
@@ -33,6 +33,6 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: ${{ !inputs.blocking }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Dependency review
         uses: actions/dependency-review-action@v4

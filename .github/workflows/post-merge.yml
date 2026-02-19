@@ -59,7 +59,7 @@ jobs:
     name: "Required governance files"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Check required files exist
         env:
@@ -105,7 +105,7 @@ jobs:
     name: "Documentation lint"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: DavidAnson/markdownlint-cli2-action@v22
         with:
@@ -146,7 +146,7 @@ jobs:
     if: inputs.run-link-check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: gaurav-nelson/github-action-markdown-link-check@v1
         with:
@@ -170,7 +170,7 @@ jobs:
               ;;
           esac
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: actions/setup-python@v5
         if: inputs.language == 'python'
@@ -205,7 +205,7 @@ jobs:
               ;;
           esac
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: actions/setup-python@v5
         if: inputs.language == 'python'
