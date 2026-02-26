@@ -1,5 +1,6 @@
 # lychee link checker configuration
-# Replaces markdown-link-check (.github/mlc_config.json)
+# Intended to replace markdown-link-check (.github/mlc_config.json)
+# Gate B CI still uses mlc — swap when lychee is wired into CI
 
 # Exclude patterns
 exclude_path = [
@@ -31,8 +32,8 @@ max_retries = 3
 # Accept these status codes as valid
 accept = [200, 301, 302]
 
-# Treat 429 (rate limited) as warning, not error
-# This is handled by max_retries + backoff
+# 429 (rate limited) will be retried per max_retries above.
+# If retries exhaust, 429 is treated as an error (not in accept list).
 
 # Only check markdown files
 include = [".+\\.md$"]
