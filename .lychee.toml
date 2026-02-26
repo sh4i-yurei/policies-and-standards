@@ -1,0 +1,42 @@
+# lychee link checker configuration
+# Intended to replace markdown-link-check (.github/mlc_config.json)
+# Gate B CI still uses mlc — swap when lychee is wired into CI
+
+# Exclude patterns
+exclude_path = [
+    "node_modules",
+    ".git",
+    # Template files reference CODE_OF_CONDUCT.md and CONTRIBUTING.md
+    # that exist in target projects, not in the templates directory
+    "06_Projects/Templates/project_root/contributing_tpl.md",
+    "06_Projects/Templates/project_root/readme_tpl.md",
+]
+
+exclude = [
+    "^https?://localhost",
+    "^https?://127\\.0\\.0\\.1",
+    "^https?://example\\.com",
+    # GitHub rate limits anonymous requests heavily
+    "^https?://github\\.com",
+    # Template files reference files that exist in target projects, not here
+    ".*CODE_OF_CONDUCT\\.md$",
+    ".*/CONTRIBUTING\\.md$",
+]
+
+# Timeout per request
+timeout = 30
+
+# Retry on transient failures
+max_retries = 3
+
+# Accept these status codes as valid
+accept = [200, 301, 302]
+
+# 429 (rate limited) will be retried per max_retries above.
+# If retries exhaust, 429 is treated as an error (not in accept list).
+
+# Only check markdown files
+include = [".+\\.md$"]
+
+# Don't follow redirects endlessly
+max_redirects = 5

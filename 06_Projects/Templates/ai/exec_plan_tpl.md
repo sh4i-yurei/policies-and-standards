@@ -1,13 +1,13 @@
 ---
 id: TPL-PRJ-EXEC-PLAN
 title: ExecPlan template
-version: 0.1.4
+version: 0.2.0
 category: project
 status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-02-14
+last_updated: 2026-02-25
 extends: [STD-001, STD-004, STD-032]
 tags: [template, ai, execplan, planning]
 ---
@@ -68,8 +68,13 @@ List exact commands and expected outcomes.
 
 ## Validation and Acceptance
 
-Describe how to verify behavior. Include test commands and expected
-results.
+Describe how to verify behavior. Use WHEN/THEN format for testable
+acceptance criteria:
+
+- WHEN: <condition or action>
+  THEN: <observable, verifiable result>
+
+Include test commands and expected results.
 
 ## Idempotence and Recovery
 
@@ -106,9 +111,9 @@ ExecPlans that omit required sections are non-compliant.
 
 # Changelog
 
+- 0.2.0 - Added WHEN/THEN format guidance to Validation and Acceptance.
 - 0.1.4 - Added enforcement guidance for mandatory ExecPlan criteria.
 - 0.1.3 - Set owner/reviewer/approver values.
 - 0.1.2 - Added owner/reviewer/approver frontmatter fields.
-
 - 0.1.1 - Defined storage location and clarified citation guidance.
 - 0.1.0 - Initial draft.

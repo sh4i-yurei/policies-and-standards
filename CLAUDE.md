@@ -12,7 +12,7 @@ are markdown with YAML frontmatter.
 
 Before starting any work in this repo or any governed project, check:
 
-- [INDEX.md](INDEX.md) — full registry of all 93 governed documents
+- [INDEX.md](INDEX.md) — full registry of all 97 governed documents
 - [Onboarding](00_Orientation/Onboarding.md) — reading path and KB structure
 
 ## Key entry points
@@ -51,8 +51,3 @@ frontmatter validation. Pre-commit hooks mirror these locally.
 - All changes via pull requests (squash merge, linear history)
 - Per STD-031: branch naming `<type>/<short-name>` (feature/, fix/, chore/, docs/)
 - Maintainer approval required before merge
-
-## Privileged operations
-
-Use `/usr/local/sbin/codex-helper.sh` for any privileged operations.
-Do not run raw `sudo`.

@@ -17,6 +17,7 @@ SKIP_PATTERN="README.md|SECURITY.md|INDEX.md|CLAUDE.md|CONTRIBUTING.md|CODE_OF_C
 
 for f in $(find "$DIR" -name '*.md' \
   -not -path '*/.github/*' \
+  -not -path '*/.claude/*' \
   -not -path '*/node_modules/*' \
   -not -path '*/.git/*' | sort); do
 
