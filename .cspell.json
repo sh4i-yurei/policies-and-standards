@@ -144,7 +144,12 @@
     "deepeval",
     "recalibrated",
     "benchstat",
-    "ngram"
+    "ngram",
+    "govulncheck",
+    "gosec",
+    "workstream",
+    "workstreams",
+    "unvalidated"
   ],
   "dictionaries": ["softwareTerms"]
 }

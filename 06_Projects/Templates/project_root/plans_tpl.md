@@ -1,15 +1,15 @@
 ---
 id: TPL-PRJ-PLANS
 title: PLANS.md template
-version: 0.1.4
+version: 0.2.0
 category: project
 status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-02-12
+last_updated: 2026-02-25
 extends: [STD-001, STD-004, STD-032]
-tags: [template, ai, plans, execplan]
+tags: [template, ai, plans, execplan, milestones]
 ---
 # Purpose
 
@@ -48,6 +48,51 @@ ExecPlans are living execution plans for complex tasks and MUST follow
 - Progress, Surprises & Discoveries, Decision Log, and Outcomes &
   Retrospective MUST be updated as work proceeds.
 
+### Default milestone structure
+
+Use POC → MVP → Polish as the default progression unless the project
+warrants a different structure:
+
+- **POC** — Prove the approach works. Minimal scope, throwaway code
+  acceptable. Exit when the core hypothesis is validated.
+- **MVP** — Deliver a usable, tested implementation of core features.
+  Production-quality code, CI passing, docs current.
+- **Polish** — Harden edge cases, optimize performance, add secondary
+  features, complete documentation.
+
+#### Milestone sections
+
+Each milestone SHOULD include these subsections:
+
+```md
+### Milestone: <name>
+
+**Objective**: <one sentence>
+
+#### Deliverables
+
+- <concrete output 1>
+- <concrete output 2>
+
+#### Gotchas
+
+Known failure modes, risks, and watch-outs for this milestone:
+
+- <expected difficulty or risk>
+- <dependency that could slip>
+- <technical assumption to validate early>
+
+#### Exit criteria
+
+Testable conditions that MUST be true before the milestone is complete.
+Use WHEN/THEN format:
+
+- WHEN: <condition or action>
+  THEN: <observable, verifiable result>
+- WHEN: <condition or action>
+  THEN: <observable, verifiable result>
+```
+
 ### Review and optimization
 
 - Review the ExecPlan at each milestone and before handoffs.
@@ -58,6 +103,19 @@ ExecPlans are living execution plans for complex tasks and MUST follow
 Create one ExecPlan file per complex task and keep it up to date
 throughout implementation. Store ExecPlans under
 `plans/exec_plans/<YYYY-MM-DD>_<short_slug>.md`.
+
+## Deferred items
+
+Track work that is intentionally postponed with explicit activation
+triggers. Items without trigger conditions are documentation debt —
+they will never activate.
+
+| Item | Trigger Condition | Owner | Created |
+|------|-------------------|-------|---------|
+| <deferred work item> | <specific, testable condition that activates this item> | <owner> | <YYYY-MM-DD> |
+
+Review deferred items at each milestone boundary. When a trigger
+condition is met, convert the item to an issue or ExecPlan task.
 
 # Implementation Notes
 
@@ -74,9 +132,10 @@ Complex tasks executed without an ExecPlan are non-compliant.
 
 # Changelog
 
+- 0.2.0 - Added default milestone structure (POC/MVP/Polish), gotchas and
+  exit criteria per milestone, WHEN/THEN format, and deferred items table.
 - 0.1.4 - Replaced subjective "ambiguous" criterion with objective scoping language.
 - 0.1.3 - Set owner/reviewer/approver values.
 - 0.1.2 - Added owner/reviewer/approver frontmatter fields.
-
 - 0.1.1 - Clarified self-contained expectations and storage location.
 - 0.1.0 - Initial draft.

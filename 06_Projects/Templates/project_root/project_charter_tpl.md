@@ -1,15 +1,15 @@
 ---
 id: TPL-PRJ-CHARTER
-title: Project charter template
-version: 0.2.6
+title: Project charter template (Tier 2)
+version: 0.3.0
 category: project
 status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-02-12
+last_updated: 2026-02-25
 extends: [STD-001, STD-032]
-tags: [template, project, charter]
+tags: [template, project, charter, tier-2]
 ---
 
 # Purpose
@@ -18,7 +18,10 @@ Anchor scope, goals, and constraints before design and implementation.
 
 # Scope
 
-Use for Tier 2 and Tier 3 work per [SDLC_With_AI](../../../05_Dev_Workflows/SDLC_With_AI.md).
+This is the **Tier 2** charter template. Use for standard feature work
+per [SDLC_With_AI](../../../05_Dev_Workflows/SDLC_With_AI.md).
+See also: [Tier 1 Charter](charter-t1_tpl.md) (mini-spec) and
+[Tier 3 Charter](charter-t3_tpl.md) (comprehensive).
 
 # Standard
 
@@ -46,6 +49,15 @@ What problem are we solving and why now?
 ## Goals and outcomes
 
 List measurable goals and success criteria.
+
+## Acceptance criteria
+
+Testable conditions for project success. Use WHEN/THEN format:
+
+- WHEN: \<condition or action\>
+  THEN: \<observable, verifiable result\>
+- WHEN: \<condition or action\>
+  THEN: \<observable, verifiable result\>
 
 ## Non-goals and exclusions
 
@@ -89,9 +101,10 @@ Projects without a charter are non-compliant for Tier 2 and Tier 3.
 
 # Changelog
 
+- 0.3.0 - Added Tier 2 label, tiered charter cross-references, and
+  WHEN/THEN acceptance criteria section.
 - 0.2.6 - Set owner/reviewer/approver values.
 - 0.2.5 - Added owner/reviewer/approver frontmatter fields.
-
 - 0.2.4 - Replaced placeholder standard reference.
 - 0.2.3 - Added design governance and approval section.
 - 0.2.2 - Linked risk register template.

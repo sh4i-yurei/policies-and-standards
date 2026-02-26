@@ -136,6 +136,7 @@ find the standard, workflow, or template you need.
 | [System Design](06_Projects/Templates/design/system_design_tpl.md) | System scope, boundaries, and architecture. |
 | [Module Design](06_Projects/Templates/design/module_design_tpl.md) | Module responsibilities and dependencies. |
 | [Technical Specification](06_Projects/Templates/design/technical_specification_tpl.md) | Implementation instructions from approved designs. |
+| [AI Feature Spec](06_Projects/Templates/design/ai_feature_spec_tpl.md) | AI/model integration spec with quality requirements. |
 | [Lightweight Design](06_Projects/Templates/design/lightweight-design_tpl.md) | Tier 2 design: problem, approach, rollback. |
 | [Schema Definition](06_Projects/Templates/design/schema-definition_tpl.md) | Data, API, and configuration schemas. |
 
@@ -173,7 +174,10 @@ find the standard, workflow, or template you need.
 | [AGENTS.md](06_Projects/Templates/project_root/agents_tpl.md) | AI agent configuration and constraints. |
 | [PLANS.md](06_Projects/Templates/project_root/plans_tpl.md) | ExecPlan rules and when plans are required. |
 | [KB AI Context](06_Projects/Templates/project_root/kb-ai-context_tpl.md) | KB references and pinning for governed repos. |
-| [Project Charter](06_Projects/Templates/project_root/project_charter_tpl.md) | Scope, goals, constraints, and risks. |
+| [Project Charter (T2)](06_Projects/Templates/project_root/project_charter_tpl.md) | Scope, goals, constraints, and risks (standard). |
+| [Charter T1 Mini-Spec](06_Projects/Templates/project_root/charter-t1_tpl.md) | One-page mini-spec for cross-file Tier 1 work. |
+| [Charter T3 Comprehensive](06_Projects/Templates/project_root/charter-t3_tpl.md) | Full charter with ADRs, risk table, eval criteria. |
+| [Project Questionnaire](06_Projects/Templates/project_root/project_questionnaire_tpl.md) | Pre-coding interview (10 questions). |
 | [PR Template](06_Projects/Templates/project_root/pull-request-template_tpl.md) | Standardized PR descriptions with required references. |
 | [README](06_Projects/Templates/project_root/readme_tpl.md) | Project overview and quick start. |
 | [Contributing](06_Projects/Templates/project_root/contributing_tpl.md) | Contribution guidelines and workflow. |

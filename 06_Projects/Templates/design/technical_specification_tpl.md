@@ -1,13 +1,13 @@
 ---
 id: TPL-PRJ-TECH-SPEC
 title: Technical specification template
-version: 0.2.4
+version: 0.3.0
 category: project
 status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-02-12
+last_updated: 2026-02-25
 extends: [STD-001, STD-023]
 tags: [template, specification, implementation]
 ---
@@ -67,6 +67,13 @@ Expected errors, retry/backoff rules, and how failures are surfaced.
 Configuration keys, defaults, and how they are set. List new
 dependencies and approvals required.
 
+## Acceptance criteria
+
+Testable conditions for spec completion. Use WHEN/THEN format:
+
+- WHEN: \<condition or action\>
+  THEN: \<observable, verifiable result\>
+
 ## Testing requirements
 
 Test cases to add or update (unit, integration, e2e). Coverage goals and
@@ -115,9 +122,9 @@ are non-compliant.
 
 # Changelog
 
+- 0.3.0 - Added WHEN/THEN acceptance criteria section.
 - 0.2.4 - Set owner/reviewer/approver values.
 - 0.2.3 - Added owner/reviewer/approver frontmatter fields.
-
 - 0.2.2 - Added success metrics section and rollout details.
 - 0.2.1 - Added schema definition linkage section.
 - 0.2.0 - Added validation/rollout guidance and clearer placeholders.
