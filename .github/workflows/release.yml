@@ -44,7 +44,7 @@ jobs:
 
       - name: Check tag does not exist
         run: |
-          if git rev-parse "v${{ inputs.version }}" >/dev/null 2>&1; then
+          if git show-ref --tags --verify --quiet "refs/tags/v${{ inputs.version }}"; then
             echo "::error::Tag v${{ inputs.version }} already exists"
             exit 1
           fi
@@ -77,9 +77,18 @@ jobs:
       - name: Validate frontmatter
         run: ./scripts/validate-frontmatter.sh .
 
+      - name: Check Markdown links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: "yes"
+          config-file: ".github/mlc_config.json"
+
+      - name: Validate version references
+        run: ./scripts/validate-version-refs.sh .
+
   release:
     needs: lint
-    if: ${{ !inputs.dry_run }}
+    if: ${{ inputs.dry_run != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -102,7 +111,7 @@ jobs:
 
   dry-run:
     needs: lint
-    if: ${{ inputs.dry_run }}
+    if: ${{ inputs.dry_run == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
