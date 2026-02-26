@@ -1,0 +1,128 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (e.g., 2.2.0)"
+        required: true
+        type: string
+      dry_run:
+        description: "Preview changelog without publishing"
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Ensure release is from main
+        run: |
+          if [ "${GITHUB_REF}" != "refs/heads/main" ]; then
+            echo "::error::Releases must be run from main. Current: ${GITHUB_REF}"
+            exit 1
+          fi
+
+      - name: Validate version format
+        run: |
+          if ! echo "${{ inputs.version }}" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::Version must be semver (e.g., 2.2.0), got: ${{ inputs.version }}"
+            exit 1
+          fi
+
+      - name: Check tag does not exist
+        run: |
+          if git show-ref --tags --verify --quiet "refs/tags/v${{ inputs.version }}"; then
+            echo "::error::Tag v${{ inputs.version }} already exists"
+            exit 1
+          fi
+
+  lint:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: DavidAnson/markdownlint-cli2-action@v22
+        with:
+          globs: "**/*.md"
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: Run yamllint
+        run: |
+          find . \( -name '*.yml' -o -name '*.yaml' \) \
+            -not -path './node_modules/*' \
+            -not -path './.git/*' -print0 | \
+            xargs -0 yamllint -d relaxed
+
+      - uses: streetsidesoftware/cspell-action@v8
+        with:
+          config: ".cspell.json"
+          files: "**/*.md"
+
+      - name: Validate frontmatter
+        run: ./scripts/validate-frontmatter.sh .
+
+      - name: Check Markdown links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: "yes"
+          config-file: ".github/mlc_config.json"
+
+      - name: Validate version references
+        run: ./scripts/validate-version-refs.sh .
+
+  release:
+    needs: lint
+    if: ${{ inputs.dry_run != 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Install git-cliff
+        uses: kenji-miyake/setup-git-cliff@v2
+
+      - name: Generate changelog
+        run: git cliff --tag "v${{ inputs.version }}" -o RELEASE_NOTES.md
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "v${{ inputs.version }}" \
+            --title "v${{ inputs.version }}" \
+            --notes-file RELEASE_NOTES.md
+
+  dry-run:
+    needs: lint
+    if: ${{ inputs.dry_run == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Install git-cliff
+        uses: kenji-miyake/setup-git-cliff@v2
+
+      - name: Preview changelog
+        run: |
+          echo "## Changelog preview for v${{ inputs.version }}"
+          echo "---"
+          git cliff --tag "v${{ inputs.version }}"
