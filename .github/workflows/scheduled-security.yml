@@ -22,6 +22,7 @@ jobs:
   codeql:
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       security-events: write
     steps:
       - uses: actions/checkout@v6
@@ -36,3 +37,15 @@ jobs:
 
       - name: Run CodeQL analysis
         uses: github/codeql-action/analyze@v4
+
+  notify:
+    needs: codeql
+    if: failure()
+    uses: ./.github/workflows/notify-on-failure.yml
+    permissions:
+      issues: write
+    with:
+      gate-name: "Scheduled Security Scan"
+      error-summary: >-
+        Weekly CodeQL scan detected issues. Check the run
+        logs for details on newly disclosed CVEs.
