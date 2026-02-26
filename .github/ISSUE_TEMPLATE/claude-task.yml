@@ -1,0 +1,53 @@
+name: Claude Task
+description: Structured task for AI-assisted documentation work
+labels: ["needs-triage"]
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Claude Context
+      description: What the AI needs to know
+      placeholder: |
+        Relevant standards, existing sections, constraints.
+        Link to INDEX.md or specific STD-xxx docs.
+    validations:
+      required: true
+  - type: textarea
+    id: affected-files
+    attributes:
+      label: Affected Files
+      description: Glob patterns for files that should be modified
+      placeholder: |
+        03_Engineering_Standards/*.md
+        06_Projects/Templates/**/*.md
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Use WHEN/THEN format
+      placeholder: |
+        WHEN: markdownlint runs on modified files
+        THEN: zero errors reported
+    validations:
+      required: true
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Technical Constraints
+      description: Standards compliance, cross-references, formatting
+      placeholder: |
+        - Must follow STD-001 (7 mandatory sections)
+        - Must update INDEX.md if adding new docs
+  - type: dropdown
+    id: size
+    attributes:
+      label: Size Estimate
+      options:
+        - "xs (< 50 LOC, 1 file)"
+        - "s (50-200 LOC, 1-2 files)"
+        - "m (200-500 LOC, 2-3 files)"
+        - "l (> 500 LOC — needs decomposition)"
+    validations:
+      required: true

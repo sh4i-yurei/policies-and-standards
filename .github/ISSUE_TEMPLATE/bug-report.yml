@@ -1,0 +1,57 @@
+name: Bug Report
+description: Report a documentation error or broken reference
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Brief description of the issue
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: How to observe the issue
+      placeholder: |
+        1. Open STD-032 (SDLC_With_AI.md)
+        2. Click link to STD-008 in section 4
+        3. Link is broken (404)
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+    validations:
+      required: true
+  - type: textarea
+    id: affected-files
+    attributes:
+      label: Affected Files
+      description: Which files contain the error (glob patterns)
+      placeholder: "05_Dev_Workflows/*.md"
+  - type: textarea
+    id: error-output
+    attributes:
+      label: Error Output
+      description: Paste lint errors, link-check output, etc.
+      render: shell
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      options:
+        - WSL2
+        - CI
+        - Docker
+        - Other
+    validations:
+      required: true
