@@ -1,0 +1,86 @@
+name: "Gate G - AI Commit Attribution"
+
+on:
+  workflow_call:
+    inputs:
+      blocking:
+        description: "Whether missing attribution blocks merge"
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  attribution:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Check AI commit attribution
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          echo "::group::Checking PR commits for AI attribution"
+
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          if [ -z "$PR_NUMBER" ]; then
+            echo "::error::No PR number. Gate G must run in a pull_request context."
+            exit 1
+          fi
+
+          COMMITS=$(gh api \
+            "repos/${{ github.repository }}/pulls/${PR_NUMBER}/commits" \
+            --jq '.[].sha') || {
+            echo "::error::Failed to fetch commits for PR #${PR_NUMBER}"
+            exit 1
+          }
+
+          if [ -z "$COMMITS" ]; then
+            echo "::error::No commits returned for PR #${PR_NUMBER}"
+            exit 1
+          fi
+
+          TOTAL=0
+          MISSING=0
+          MISSING_LIST=""
+
+          for SHA in $COMMITS; do
+            TOTAL=$((TOTAL + 1))
+            MSG=$(git log -1 --format='%B' "$SHA")
+
+            if echo "$MSG" | grep -qiE \
+              'co-authored-by:.*\b(chatgpt|claude|copilot|gpt|openai|anthropic|cursor|gemini)\b'; then
+              echo "✓ ${SHA:0:8} — AI attribution found"
+            else
+              MISSING=$((MISSING + 1))
+              MISSING_LIST="${MISSING_LIST}"$'\n'"  - ${SHA:0:8}: $(git log -1 --format='%s' "$SHA")"
+              echo "⚠ ${SHA:0:8} — no AI attribution detected"
+            fi
+          done
+
+          echo "::endgroup::"
+          echo ""
+          echo "## Results"
+          echo "Commits checked: ${TOTAL}"
+          echo "Missing attribution: ${MISSING}"
+
+          if [ "$MISSING" -gt 0 ]; then
+            echo ""
+            echo "Expected: Co-Authored-By header with AI tool name"
+            echo "(e.g., Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>)"
+            echo ""
+            # Individual warnings render better than multiline
+            while IFS= read -r line; do
+              [ -n "$line" ] && echo "::warning::Missing attribution: $line"
+            done <<< "$MISSING_LIST"
+
+            if [ "${{ inputs.blocking }}" = "true" ]; then
+              echo "::error::Blocking mode — attribution required"
+              exit 1
+            fi
+          else
+            echo "✓ All commits have AI attribution"
+          fi
