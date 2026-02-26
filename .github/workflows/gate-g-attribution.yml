@@ -21,12 +21,27 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          set -euo pipefail
+
           echo "::group::Checking PR commits for AI attribution"
 
-          # Fetch PR commits via API (handles squash/rebase accurately)
           PR_NUMBER="${{ github.event.pull_request.number }}"
-          COMMITS=$(gh api "repos/${{ github.repository }}/pulls/${PR_NUMBER}/commits" \
-            --jq '.[].sha')
+          if [ -z "$PR_NUMBER" ]; then
+            echo "::error::No PR number. Gate G must run in a pull_request context."
+            exit 1
+          fi
+
+          COMMITS=$(gh api \
+            "repos/${{ github.repository }}/pulls/${PR_NUMBER}/commits" \
+            --jq '.[].sha') || {
+            echo "::error::Failed to fetch commits for PR #${PR_NUMBER}"
+            exit 1
+          }
+
+          if [ -z "$COMMITS" ]; then
+            echo "::error::No commits returned for PR #${PR_NUMBER}"
+            exit 1
+          fi
 
           TOTAL=0
           MISSING=0
@@ -36,12 +51,12 @@ jobs:
             TOTAL=$((TOTAL + 1))
             MSG=$(git log -1 --format='%B' "$SHA")
 
-            # Check for Co-Authored-By with known AI patterns
-            if echo "$MSG" | grep -qiE 'co-authored-by:.*\b(claude|copilot|gpt|openai|anthropic|cursor|gemini)\b'; then
+            if echo "$MSG" | grep -qiE \
+              'co-authored-by:.*\b(claude|copilot|gpt|openai|anthropic|cursor|gemini)\b'; then
               echo "✓ ${SHA:0:8} — AI attribution found"
             else
               MISSING=$((MISSING + 1))
-              MISSING_LIST="${MISSING_LIST}\n  - ${SHA:0:8}: $(git log -1 --format='%s' "$SHA")"
+              MISSING_LIST="${MISSING_LIST}"$'\n'"  - ${SHA:0:8}: $(git log -1 --format='%s' "$SHA")"
               echo "⚠ ${SHA:0:8} — no AI attribution detected"
             fi
           done
@@ -54,10 +69,13 @@ jobs:
 
           if [ "$MISSING" -gt 0 ]; then
             echo ""
-            echo "::warning::${MISSING} commit(s) without AI attribution:${MISSING_LIST}"
-            echo ""
             echo "Expected: Co-Authored-By header with AI tool name"
             echo "(e.g., Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>)"
+            echo ""
+            # Individual warnings render better than multiline
+            while IFS= read -r line; do
+              [ -n "$line" ] && echo "::warning::Missing attribution: $line"
+            done <<< "$MISSING_LIST"
 
             if [ "${{ inputs.blocking }}" = "true" ]; then
               echo "::error::Blocking mode — attribution required"
