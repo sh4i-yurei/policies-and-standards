@@ -1,7 +1,7 @@
 ---
 id: STD-030
 title: CI/CD Pipeline and Validation Model
-version: 1.5.0
+version: 1.5.1
 category: workflow
 status: active
 approver: sh4i-yurei
@@ -358,10 +358,12 @@ Gate G provides AI-assisted code review via two complementary tools:
 
 1. **CodeRabbit** (primary): Configured via `.coderabbit.yaml` per
    repo. Reviews trigger automatically on PR creation and each push.
-   With `request_changes_workflow: true` and `commit_status: true`,
-   CodeRabbit submits "Request Changes" reviews when it finds issues
-   and reports a commit status check. Adding this check as a required
-   status check promotes Gate G from advisory to blocking.
+   With `request_changes_workflow: true`, CodeRabbit submits "Request
+   Changes" reviews when it finds issues. Branch protection rules that
+   require approved reviews then block merge until issues are resolved.
+   `commit_status: true` reports a status check when the review
+   completes; `fail_commit_status: true` fails that check only when
+   CodeRabbit cannot perform the review at all (not on findings).
 
 2. **GitHub Copilot** (secondary): Configured via GitHub branch
    rulesets with automatic code review enabled. Reviews trigger on PR
@@ -458,9 +460,12 @@ hallucinations, specifically:
 
 #### Pass / Fail
 
-CodeRabbit is blocking when added as a required status check in branch
-protection (`commit_status: true` + `fail_commit_status: true` in
-`.coderabbit.yaml`). Copilot review and AI commit attribution are
+CodeRabbit is blocking when branch protection requires approved reviews
+and `request_changes_workflow: true` is set in `.coderabbit.yaml`. The
+commit status check (`commit_status: true`) is informational — it
+reports success when the review completes, regardless of findings.
+`fail_commit_status: true` only fails the check when CodeRabbit cannot
+perform the review. Copilot review and AI commit attribution are
 advisory. Promotion of advisory checks to blocking requires explicit
 approval via the exception governance process defined in this document.
 
@@ -648,6 +653,10 @@ be considered non-compliant and subject to rollback or remediation.
 
 # Changelog
 
+- 1.5.1 - Corrected Gate G blocking mechanism description: blocking
+  works via request_changes_workflow (Request Changes reviews) + branch
+  protection requiring approved reviews, not via commit status checks.
+  Fixed --force-push (invalid flag) to --force/--force-with-lease.
 - 1.5.0 - Added CodeRabbit as primary Gate G implementation alongside
   Copilot. Documented .coderabbit.yaml, .coderabbit/standards.md, and
   gate-g-attribution.yml as Gate G artifacts. Updated Pass/Fail to

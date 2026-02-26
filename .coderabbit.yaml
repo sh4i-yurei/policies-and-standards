@@ -1,3 +1,4 @@
+# yamllint disable-line rule:line-length
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 #
 # CodeRabbit configuration for policies-and-standards (documentation KB).
@@ -39,11 +40,14 @@ reviews:
         All governed documents MUST have YAML frontmatter with: id, title,
         version, category, status, owner, reviewer, approver, last_updated,
         extends, tags. MUST follow the 7-section structure defined by STD-001:
-        Purpose, Scope, Standard, Implementation Notes, Continuous Improvement,
-        Compliance, Changelog. Flag version decrements. Flag missing changelog
-        entries when version is bumped. ATX-style headings only (# not ===).
-        Cross-references MUST use standard relative markdown links. Flag
-        broken relative links.
+        Purpose, Scope, Standard, Implementation Notes, Continuous Improvement
+        and Compliance Metrics, Compliance, Changelog. Flag version decrements.
+        Flag missing changelog entries when version is bumped. ATX-style
+        headings only (# not ===). Cross-references MUST use standard
+        relative markdown links. Flag broken relative links.
+        EXEMPT: Files under .coderabbit/ are CodeRabbit configuration, not
+        governed documents — do not flag them for missing frontmatter or
+        section structure.
     - path: "06_Projects/Templates/**"
       instructions: |
         Template files. The id field in frontmatter MUST use TPL- prefix.
@@ -55,7 +59,8 @@ reviews:
         GitHub Actions workflows. Actions MUST be pinned to SHA or major
         version tag — flag unpinned actions (e.g., @main without SHA).
         No hardcoded secrets or tokens. Shell scripts MUST use
-        set -euo pipefail. Flag any use of --no-verify or --force-push.
+        set -euo pipefail. Flag any use of --no-verify, --force, or
+        --force-with-lease.
 
   tools:
     markdownlint:

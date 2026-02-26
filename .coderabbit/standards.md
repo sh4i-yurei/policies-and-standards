@@ -9,8 +9,8 @@ Mechanically-checkable rules for AI code review. These supplement
    fields: `id`, `title`, `version`, `category`, `status`, `owner`,
    `reviewer`, `approver`, `last_updated`, `extends`, `tags`.
 2. Governed documents MUST contain exactly 7 sections: Purpose, Scope,
-   Standard, Implementation Notes, Continuous Improvement, Compliance,
-   Changelog.
+   Standard, Implementation Notes, Continuous Improvement and Compliance
+   Metrics, Compliance, Changelog.
 3. Every version bump MUST have a corresponding Changelog entry
    describing the change.
 
@@ -21,7 +21,7 @@ Mechanically-checkable rules for AI code review. These supplement
    absolute URLs to the same repo.
 3. No trailing whitespace. Files MUST end with a single newline.
 
-## Templates (STD-056)
+## Templates
 
 1. Template `id` fields MUST use the `TPL-` prefix.
 2. Templates MUST contain placeholder markers (angle-bracket tokens
