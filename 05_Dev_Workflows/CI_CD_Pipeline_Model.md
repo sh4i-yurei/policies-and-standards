@@ -1,13 +1,13 @@
 ---
 id: STD-030
 title: CI/CD Pipeline and Validation Model
-version: 1.4.0
+version: 1.5.0
 category: workflow
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-15
+last_updated: 2026-02-26
 extends:
   - STD-000
   - STD-003
@@ -354,11 +354,44 @@ Initially reporting-only; promotion to blocking requires explicit approval.
 
 ### Gate G - AI Review as Validator
 
-**(PHASED IN)**
+Gate G provides AI-assisted code review via two complementary tools:
 
-AI-assisted review is configured via GitHub branch rulesets with
-automatic Copilot code review enabled. Reviews trigger on PR creation
-and on each new push to the PR branch.
+1. **CodeRabbit** (primary): Configured via `.coderabbit.yaml` per
+   repo. Reviews trigger automatically on PR creation and each push.
+   With `request_changes_workflow: true` and `commit_status: true`,
+   CodeRabbit submits "Request Changes" reviews when it finds issues
+   and reports a commit status check. Adding this check as a required
+   status check promotes Gate G from advisory to blocking.
+
+2. **GitHub Copilot** (secondary): Configured via GitHub branch
+   rulesets with automatic code review enabled. Reviews trigger on PR
+   creation and on each push.
+
+#### Configuration artifacts
+
+- `.coderabbit.yaml` — CodeRabbit configuration (schema v2). MUST
+  set `profile: assertive` and `request_changes_workflow: true` for
+  governed repos. `path_instructions` MUST map KB standards to file
+  glob patterns. `tools.ruff.enabled` SHOULD be `false` when a
+  PostToolUse formatting hook (e.g., forge.sh) is active, to prevent
+  style feedback loops.
+
+- `.coderabbit/standards.md` — Distilled, mechanically-checkable
+  rules from the KB. CodeRabbit reads this via
+  `knowledge_base.code_guidelines`. Only include specific, actionable
+  rules — vague instructions produce no improvement.
+
+- `.github/copilot-instructions.md` — Repository custom instructions
+  for Copilot. SHOULD distill applicable KB standards so the reviewer
+  has project context. Project repos that reference the KB MUST
+  maintain custom instructions that reflect the pinned KB version.
+
+#### AI commit attribution
+
+The reusable workflow `gate-g-attribution.yml` checks PR commits for
+AI tool attribution (`Co-Authored-By` headers). Currently advisory
+(`blocking: false`). Repos SHOULD call this workflow in their CI
+pipeline.
 
 AI-assisted review MUST:
 
@@ -367,12 +400,6 @@ AI-assisted review MUST:
 - reference applicable standards
 
 - propose concrete fixes where possible
-
-
-Repository custom instructions (`.github/copilot-instructions.md`)
-SHOULD distill applicable KB standards so the reviewer has project
-context. Project repos that reference the KB MUST maintain custom
-instructions that reflect the pinned KB version.
 
 #### Hallucination Detection
 
@@ -431,7 +458,11 @@ hallucinations, specifically:
 
 #### Pass / Fail
 
-Initially advisory; future blocking behavior must be explicitly governed.
+CodeRabbit is blocking when added as a required status check in branch
+protection (`commit_status: true` + `fail_commit_status: true` in
+`.coderabbit.yaml`). Copilot review and AI commit attribution are
+advisory. Promotion of advisory checks to blocking requires explicit
+approval via the exception governance process defined in this document.
 
 ## Pipeline triggers and environments
 
@@ -506,9 +537,10 @@ Recommended cache paths by language:
 
 Independent validation gates SHOULD run in parallel. Gates A through F
 have no inter-gate dependencies and SHOULD execute concurrently within
-a single CI run. Gate G (AI review) is currently advisory and MAY run
-asynchronously or on a separate schedule, so it is excluded from
-these parallelism and performance budget requirements.
+a single CI run. Gate G (AI review) runs asynchronously via the
+CodeRabbit GitHub App and is excluded from these parallelism and
+performance budget requirements. The Gate G attribution check runs
+as a standard CI job.
 
 Sub-jobs within a gate (e.g., Gate B's markdownlint, yamllint,
 link-check, cspell, and version-consistency) SHOULD also run in parallel
@@ -616,6 +648,10 @@ be considered non-compliant and subject to rollback or remediation.
 
 # Changelog
 
+- 1.5.0 - Added CodeRabbit as primary Gate G implementation alongside
+  Copilot. Documented .coderabbit.yaml, .coderabbit/standards.md, and
+  gate-g-attribution.yml as Gate G artifacts. Updated Pass/Fail to
+  reflect blocking behavior via required status checks.
 - 1.4.0 - Expanded Gate G with hallucination detection scope, automated
   checks, manual review gates, and custom instructions integration.
 - 1.3.0 - Expanded Gate G with Copilot auto-review via rulesets and custom instructions requirement.
