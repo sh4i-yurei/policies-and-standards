@@ -28,7 +28,6 @@ reviews:
 
   path_filters:
     - "!.quint/**"
-    - "!.coderabbit/**"
     - "!**/node_modules/**"
     - "!**/*.lock"
     - "!**/fixtures/**"
