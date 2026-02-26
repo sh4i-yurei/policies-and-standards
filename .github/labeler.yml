@@ -1,0 +1,46 @@
+# PR auto-labeler configuration
+# See: https://github.com/actions/labeler
+
+type:docs:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "00_Orientation/**"
+          - "01_Governance/**"
+          - "02_Documentation_Standards/**"
+          - "03_Engineering_Standards/**"
+          - "04_Design_Framework/**"
+          - "05_Dev_Workflows/**"
+          - "06_Projects/**"
+          - "*.md"
+
+type:ci:
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/workflows/**"
+          - ".github/labeler.yml"
+          - ".github/dependabot.yml"
+          - ".github/CODEOWNERS"
+
+type:chore:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "scripts/**"
+          - ".pre-commit-config.yaml"
+          - ".markdownlint.yaml"
+          - ".cspell.json"
+          - ".lychee.toml"
+          - "cliff.toml"
+
+scope:standards:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "03_Engineering_Standards/**"
+          - "04_Design_Framework/**"
+
+scope:kb:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "00_Orientation/**"
+          - "01_Governance/**"
+          - "02_Documentation_Standards/**"
+          - "INDEX.md"
