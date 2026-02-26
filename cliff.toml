@@ -35,4 +35,4 @@ commit_parsers = [
     { message = "^perf", group = "Performance" },
     { message = "^research", group = "Research" },
 ]
-tag_pattern = "[0-9].*"
+tag_pattern = "v?[0-9].*"
