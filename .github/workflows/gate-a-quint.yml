@@ -28,7 +28,7 @@ jobs:
           # Files that count as code/config (not docs, CI, or repo meta)
           CODE_CHANGES=$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" | \
             grep -vE '\.(md|txt|rst)$' | \
-            grep -vE '^(docs/|README|\.github/|\.claude/|\.mcp\.json)' | \
+            grep -vE '^(docs/|README|\.github/|\.claude/|\.beads/|\.mcp\.json)' | \
             head -1)
 
           if [ -z "$CODE_CHANGES" ]; then
