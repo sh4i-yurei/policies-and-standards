@@ -52,7 +52,7 @@ jobs:
             MSG=$(git log -1 --format='%B' "$SHA")
 
             if echo "$MSG" | grep -qiE \
-              'co-authored-by:.*\b(claude|copilot|gpt|openai|anthropic|cursor|gemini)\b'; then
+              'co-authored-by:.*\b(chatgpt|claude|copilot|gpt|openai|anthropic|cursor|gemini)\b'; then
               echo "✓ ${SHA:0:8} — AI attribution found"
             else
               MISSING=$((MISSING + 1))
