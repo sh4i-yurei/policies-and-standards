@@ -1,0 +1,38 @@
+name: "Scheduled Security Scan"
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Monday 6:00 UTC
+  workflow_dispatch:
+    inputs:
+      language:
+        description: "CodeQL language to analyze"
+        required: false
+        default: "python"
+        type: string
+  workflow_call:
+    inputs:
+      language:
+        description: "CodeQL language to analyze"
+        required: false
+        type: string
+        default: "python"
+
+jobs:
+  codeql:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ inputs.language || 'python' }}
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v4
+
+      - name: Run CodeQL analysis
+        uses: github/codeql-action/analyze@v4
