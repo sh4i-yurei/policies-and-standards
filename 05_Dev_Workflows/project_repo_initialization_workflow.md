@@ -1,13 +1,13 @@
 ---
 id: STD-054
 title: Project repository initialization workflow
-version: 0.1.21
+version: 0.1.20
 category: workflow
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-26
+last_updated: 2026-02-27
 extends: [STD-003, STD-020, STD-032, STD-056]
 tags: [workflow, repository, initialization, templates, onboarding]
 ---
@@ -195,10 +195,10 @@ non-compliant.
 
 # Changelog
 
-- 0.1.21 - Added CodeRabbit configuration and standards artifacts to
-  section 5 (AI context and prompt assets) with template references.
 - 0.1.20 - Added branch protection requirements (section 2.2) — review
-  approval count, dismiss stale reviews, linear history.
+  approval count, dismiss stale reviews, linear history. Added
+  CodeRabbit configuration and standards artifacts to section 5 (AI
+  context and prompt assets) with template references.
 - 0.1.19 - Added Copilot custom instructions to AI context assets
   per STD-030 Gate G.
 - 0.1.18 - Added CLAUDE.md tool discovery requirement to section 5 per

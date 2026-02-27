@@ -1,5 +1,5 @@
 ---
-id: TPL-CI-CODERABBIT-STANDARDS
+id: TPL-PRJ-CODERABBIT-STANDARDS
 title: CodeRabbit standards template
 version: 0.1.0
 category: template
