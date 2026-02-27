@@ -153,7 +153,8 @@
     "coderabbit",
     "CodeRabbit",
     "pipefail",
-    "setext"
+    "setext",
+    "Errorf"
   ],
   "dictionaries": ["softwareTerms"]
 }

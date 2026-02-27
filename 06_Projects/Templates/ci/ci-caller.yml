@@ -24,15 +24,18 @@ jobs:
   gate-c-code:
     uses: sh4i-yurei/policies-and-standards/.github/workflows/gate-c-code.yml@main
     with:
-      language: python  # change to: python | node | rust | java
+      language: python # change to: python | node | rust | java
 
   gate-d-tests:
     uses: sh4i-yurei/policies-and-standards/.github/workflows/gate-d-tests.yml@main
     with:
-      language: python  # change to: python | node | rust | java
+      language: python # change to: python | node | rust | java
 
   gate-e-config:
     uses: sh4i-yurei/policies-and-standards/.github/workflows/gate-e-config.yml@main
 
   gate-f-security:
     uses: sh4i-yurei/policies-and-standards/.github/workflows/gate-f-security.yml@main
+
+  gate-g-attribution:
+    uses: sh4i-yurei/policies-and-standards/.github/workflows/gate-g-attribution.yml@main

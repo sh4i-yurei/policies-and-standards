@@ -1,7 +1,7 @@
 ---
 id: STD-030
 title: CI/CD Pipeline and Validation Model
-version: 1.5.1
+version: 1.6.0
 category: workflow
 status: active
 approver: sh4i-yurei
@@ -354,34 +354,46 @@ Initially reporting-only; promotion to blocking requires explicit approval.
 
 ### Gate G - AI Review as Validator
 
-Gate G provides AI-assisted code review via two complementary tools:
+Gate G provides AI-assisted code review via two complementary tools
+operating at different stages of the development workflow:
 
-1. **CodeRabbit** (primary): Configured via `.coderabbit.yaml` per
-   repo. Reviews trigger automatically on PR creation and each push.
-   With `request_changes_workflow: true`, CodeRabbit submits "Request
-   Changes" reviews when it finds issues. Branch protection rules that
-   require approved reviews then block merge until issues are resolved.
-   `commit_status: true` reports a status check when the review
-   completes; `fail_commit_status: true` fails that check only when
-   CodeRabbit cannot perform the review at all (not on findings).
+1. **CodeRabbit** (pre-push, local): Runs via the CodeRabbit CLI
+   during the `/pr-ready` gate check, before code is pushed to GitHub.
+   The CLI uses the repo's `.coderabbit.yaml` for `path_instructions`,
+   `tools`, and `knowledge_base` settings. Findings are advisory — P1
+   findings flag the PR as NOT READY in the `/pr-ready` report, but the
+   developer can override. The CodeRabbit GitHub App is installed but
+   `auto_review.enabled` is set to `false`; manual review via
+   `@coderabbit review` on a PR is available as a fallback.
 
-2. **GitHub Copilot** (secondary): Configured via GitHub branch
-   rulesets with automatic code review enabled. Reviews trigger on PR
-   creation and on each push.
+2. **GitHub Copilot** (post-push, GitHub): Configured via GitHub
+   branch rulesets with automatic code review enabled. Reviews trigger
+   on PR creation and on each push. Copilot is the primary GitHub-side
+   reviewer and has no rate limits.
+
+The merge gate is `required_approving_review_count: 1` — a human MUST
+give formal approval before merge (per
+[git_and_branching_workflow](git_and_branching_workflow.md), AI
+reviewers provide feedback, not approval). The human reads CodeRabbit's
+local findings and Copilot's PR review before approving.
 
 #### Configuration artifacts
 
-- `.coderabbit.yaml` — CodeRabbit configuration (schema v2). MUST
-  set `profile: assertive` and `request_changes_workflow: true` for
-  governed repos. `path_instructions` MUST map KB standards to file
-  glob patterns. `tools.ruff.enabled` SHOULD be `false` when a
+- `.coderabbit.yaml` — CodeRabbit configuration (schema v2). MUST set
+  `auto_review.enabled: false` for governed repos (reviews run locally
+  via CLI, not on GitHub). `path_instructions` MUST map KB standards to
+  file glob patterns. `knowledge_base.code_guidelines.enabled` MUST be
+  `true`. Settings in `reviews.*` (e.g., `request_changes_workflow`,
+  `commit_status`) apply only to manual `@coderabbit review` fallback
+  and are optional. `tools.ruff.enabled` SHOULD be `false` when a
   PostToolUse formatting hook (e.g., forge.sh) is active, to prevent
   style feedback loops.
 
 - `.coderabbit/standards.md` — Distilled, mechanically-checkable
   rules from the KB. CodeRabbit reads this via
   `knowledge_base.code_guidelines`. Only include specific, actionable
-  rules — vague instructions produce no improvement.
+  rules — vague instructions produce no improvement. Used by both the
+  CLI and manual GitHub reviews.
 
 - `.github/copilot-instructions.md` — Repository custom instructions
   for Copilot. SHOULD distill applicable KB standards so the reviewer
@@ -460,14 +472,25 @@ hallucinations, specifically:
 
 #### Pass / Fail
 
-CodeRabbit is blocking when branch protection requires approved reviews
-and `request_changes_workflow: true` is set in `.coderabbit.yaml`. The
-commit status check (`commit_status: true`) is informational — it
-reports success when the review completes, regardless of findings.
-`fail_commit_status: true` only fails the check when CodeRabbit cannot
-perform the review. Copilot review and AI commit attribution are
-advisory. Promotion of advisory checks to blocking requires explicit
-approval via the exception governance process defined in this document.
+CodeRabbit runs locally during `/pr-ready` and is advisory. P1 findings
+(correctness bugs, security) flag the PR as NOT READY, but the developer
+can override. P2/P3 findings are warnings only. If the CodeRabbit CLI is
+not installed or not authenticated, the gate reports SKIP.
+
+Copilot review is advisory — it auto-reviews on GitHub but does not
+block merge directly. AI commit attribution is advisory.
+
+The merge gate is branch protection requiring one human approval
+(`required_approving_review_count: 1`). This is the only blocking
+element — the human reads AI reviewer feedback and gives formal approval.
+
+If CodeRabbit is manually triggered on a PR via `@coderabbit review`
+and `request_changes_workflow: true` is set, its "Request Changes"
+review counts against the approval requirement. Dismiss the review if
+the finding is a false positive.
+
+Promotion of advisory checks to blocking requires explicit approval via
+the exception governance process defined in this document.
 
 ## Pipeline triggers and environments
 
@@ -542,10 +565,10 @@ Recommended cache paths by language:
 
 Independent validation gates SHOULD run in parallel. Gates A through F
 have no inter-gate dependencies and SHOULD execute concurrently within
-a single CI run. Gate G (AI review) runs asynchronously via the
-CodeRabbit GitHub App and is excluded from these parallelism and
-performance budget requirements. The Gate G attribution check runs
-as a standard CI job.
+a single CI run. Gate G CodeRabbit review runs locally before push (via
+`/pr-ready`) and is not part of CI. Copilot reviews asynchronously on
+GitHub after push. The Gate G attribution check runs as a standard CI
+job.
 
 Sub-jobs within a gate (e.g., Gate B's markdownlint, yamllint,
 link-check, cspell, and version-consistency) SHOULD also run in parallel
@@ -653,6 +676,13 @@ be considered non-compliant and subject to rollback or remediation.
 
 # Changelog
 
+- 1.6.0 - Revised Gate G architecture: CodeRabbit reviews run locally
+  via CLI during /pr-ready (pre-push, advisory), replacing GitHub App
+  auto-review. Copilot is primary GitHub-side reviewer (post-push).
+  Merge gate is human approval (required_approving_review_count: 1).
+  CodeRabbit GitHub App auto_review disabled; manual @coderabbit review
+  available as fallback. Updated configuration artifacts, Pass/Fail,
+  and parallel execution sections.
 - 1.5.1 - Corrected Gate G blocking mechanism description: blocking
   works via request_changes_workflow (Request Changes reviews) + branch
   protection requiring approved reviews, not via commit status checks.
