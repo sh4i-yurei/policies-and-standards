@@ -377,6 +377,20 @@ give formal approval before merge (per
 reviewers provide feedback, not approval). The human reads CodeRabbit's
 local findings and Copilot's PR review before approving.
 
+#### Finding severity
+
+Gate G findings use a three-level severity scale:
+
+- **P1 (blocks merge)**: Correctness bugs, security vulnerabilities,
+  data loss risks. `/pr-ready` reports NOT READY.
+- **P2 (important)**: Missing error handling, test coverage gaps,
+  breaking API changes. Warnings only — does not block.
+- **P3 (minor)**: Style, naming, documentation suggestions. Warnings
+  only — does not block.
+
+CodeRabbit CLI maps its finding types to this scale:
+`potential_issue` and `security` → P1/P2, `suggestion` → P3.
+
 #### Configuration artifacts
 
 - `.coderabbit.yaml` — CodeRabbit configuration (schema v2). MUST set

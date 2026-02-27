@@ -4,10 +4,10 @@ title: CodeRabbit standards template
 version: 0.1.0
 category: template
 status: active
-owner: "<owner>"
-reviewer: "<reviewer>"
-approver: "<approver>"
-last_updated: "<YYYY-MM-DD>"
+owner: sh4i-yurei
+reviewer: sh4i-yurei
+approver: sh4i-yurei
+last_updated: 2026-02-27
 extends: [STD-030]
 tags: [template, coderabbit, gate-g, review]
 ---

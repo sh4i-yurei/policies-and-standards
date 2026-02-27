@@ -63,8 +63,11 @@ with:
   stale approvals and forces re-review
 - `enforce_admins: false` — admin bypass for rate limit, outage, or
   false positive scenarios
-- `required_linear_history: true` — squash-merge only per
-  [git_and_branching_workflow](git_and_branching_workflow.md)
+- `required_linear_history: true` — prevents merge commits per
+  [git_and_branching_workflow](git_and_branching_workflow.md). To
+  enforce squash-only, also disable rebase merges in the repository
+  settings (Settings → General → Pull Requests → only "Allow squash
+  merging" enabled)
 - `allow_force_pushes: false` — force push to default branch is
   prohibited
 
