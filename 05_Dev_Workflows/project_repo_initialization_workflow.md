@@ -1,13 +1,13 @@
 ---
 id: STD-054
 title: Project repository initialization workflow
-version: 0.1.19
+version: 0.1.20
 category: workflow
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-15
+last_updated: 2026-02-26
 extends: [STD-003, STD-020, STD-032, STD-056]
 tags: [workflow, repository, initialization, templates, onboarding]
 ---
@@ -52,6 +52,23 @@ under this knowledge base.
 2.1 AGENTS.md MUST include the sudo policy from [agents_tpl](../06_Projects/Templates/project_root/agents_tpl.md),
 including use of `/usr/local/sbin/codex-helper.sh` for privileged
 operations.
+
+2.2 GitHub branch protection MUST be configured on the default branch
+with:
+
+- `required_approving_review_count: 1` — at least one formal approval
+  before merge (from human, Copilot, or CodeRabbit)
+- `dismiss_stale_reviews: true` — pushing fixes after review dismisses
+  stale approvals and forces re-review
+- `enforce_admins: false` — admin bypass for rate limit, outage, or
+  false positive scenarios
+- `required_linear_history: true` — squash-merge only per
+  [git_and_branching_workflow](git_and_branching_workflow.md)
+- `allow_force_pushes: false` — force push to default branch is
+  prohibited
+
+Required status checks are configured per the project's CI gate matrix
+(see [CI_CD_Pipeline_Model](CI_CD_Pipeline_Model.md)).
 
 ## 3. Planning and design requirements by tier
 
@@ -163,6 +180,8 @@ non-compliant.
 
 # Changelog
 
+- 0.1.20 - Added branch protection requirements (section 2.2) — review
+  approval count, dismiss stale reviews, linear history.
 - 0.1.19 - Added Copilot custom instructions to AI context assets
   per STD-030 Gate G.
 - 0.1.18 - Added CLAUDE.md tool discovery requirement to section 5 per
