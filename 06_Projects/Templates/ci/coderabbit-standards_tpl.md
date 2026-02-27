@@ -8,14 +8,23 @@ owner: "<owner>"
 reviewer: "<reviewer>"
 approver: "<approver>"
 last_updated: "<YYYY-MM-DD>"
+extends: [STD-030]
 tags: [template, coderabbit, gate-g, review]
 ---
 
-# CodeRabbit Standards — \<project-name\>
+# Purpose
+
+Provide a template for `.coderabbit/standards.md` — the file CodeRabbit
+reads via `knowledge_base.code_guidelines` to apply project-specific
+review rules. Used by both the local CLI and manual GitHub reviews.
+
+# Scope
+
+All governed repositories that have a `.coderabbit.yaml` configuration.
+
+# Standard
 
 Place this file at `.coderabbit/standards.md` in the project root.
-CodeRabbit reads it via `knowledge_base.code_guidelines` and applies
-these rules during review (both CLI and manual GitHub review).
 
 Only include **specific, mechanically-checkable rules**. Vague
 instructions like "write clean code" produce no improvement.
@@ -59,6 +68,23 @@ instructions like "write clean code" produce no improvement.
 - GitHub Actions MUST pin actions to SHA or major version tag.
 - Shell scripts MUST use `set -euo pipefail`.
 - No hardcoded secrets or tokens.
+
+# Implementation Notes
+
+- Keep rules concise — one sentence per rule.
+- Avoid duplicating rules that linters already enforce (e.g., ruff
+  handles import ordering, no need to add it here).
+- Update this file when ADRs or standards change.
+
+# Continuous Improvement and Compliance Metrics
+
+- Track false positive rate from CodeRabbit findings referencing
+  these rules. Remove rules that consistently produce false positives.
+
+# Compliance
+
+Governed repositories without `.coderabbit/standards.md` are missing a
+required Gate G artifact per STD-030.
 
 # Changelog
 
