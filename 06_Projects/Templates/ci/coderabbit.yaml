@@ -1,0 +1,83 @@
+# yamllint disable-line rule:line-length
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+#
+# CodeRabbit configuration template for governed repositories.
+# Gate G — AI review as validator (STD-030).
+#
+# Architecture: CodeRabbit reviews run LOCALLY via CLI during /pr-ready
+# (before push). GitHub-side auto-review is disabled. Copilot handles
+# PR-side reviews after push.
+#
+# Settings under reviews.* are for manual @coderabbit review fallback only.
+# Settings under path_instructions, tools, and knowledge_base are used by
+# both the CLI and manual GitHub reviews.
+#
+# Usage: Copy to .coderabbit.yaml in the project root. Customize
+# path_instructions for the project's language and conventions.
+
+language: en-US
+
+reviews:
+  profile: assertive
+  request_changes_workflow: true
+  high_level_summary: true
+  high_level_summary_in_walkthrough: true
+  poem: false
+  review_status: false
+  commit_status: false
+  fail_commit_status: false
+  sequence_diagrams: true
+  assess_linked_issues: true
+  enable_prompt_for_ai_agents: true
+
+  auto_review:
+    enabled: false
+    drafts: false
+    ignore_title_keywords:
+      - WIP
+      - DO NOT MERGE
+
+  path_filters:
+    - "!.quint/**"
+    - "!**/*.lock"
+    - "!**/fixtures/**"
+
+  # TODO: Add project-specific path_instructions below.
+  # Map KB standards to file glob patterns. Example:
+  #
+  # path_instructions:
+  #   - path: "src/**/*.py"
+  #     instructions: |
+  #       Python code review. Type hints REQUIRED on all public functions.
+  #       No bare except: or except Exception: pass. No import *.
+  #   - path: "docs/**"
+  #     instructions: |
+  #       Governed documentation. YAML frontmatter required.
+  #   - path: ".github/workflows/**"
+  #     instructions: |
+  #       GitHub Actions. Actions MUST be pinned to SHA or major version.
+  path_instructions: []
+
+  tools:
+    shellcheck:
+      enabled: true
+    gitleaks:
+      enabled: true
+    # Enable project-specific linters:
+    # ruff:
+    #   enabled: true    # Python projects
+    # golangci-lint:
+    #   enabled: true    # Go projects
+    # eslint:
+    #   enabled: true    # Node projects
+
+knowledge_base:
+  code_guidelines:
+    enabled: true
+  learnings:
+    scope: local
+  web_search:
+    enabled: true
+
+chat:
+  auto_reply: true

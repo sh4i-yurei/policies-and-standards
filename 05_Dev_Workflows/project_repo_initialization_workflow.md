@@ -1,13 +1,13 @@
 ---
 id: STD-054
 title: Project repository initialization workflow
-version: 0.1.19
+version: 0.1.20
 category: workflow
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-15
+last_updated: 2026-02-27
 extends: [STD-003, STD-020, STD-032, STD-056]
 tags: [workflow, repository, initialization, templates, onboarding]
 ---
@@ -52,6 +52,27 @@ under this knowledge base.
 2.1 AGENTS.md MUST include the sudo policy from [agents_tpl](../06_Projects/Templates/project_root/agents_tpl.md),
 including use of `/usr/local/sbin/codex-helper.sh` for privileged
 operations.
+
+2.2 GitHub branch protection MUST be configured on the default branch
+with:
+
+- `required_approving_review_count: 1` — at least one formal human
+  approval before merge (AI reviewers provide feedback, not approval
+  per [git_and_branching_workflow](git_and_branching_workflow.md))
+- `dismiss_stale_reviews: true` — pushing fixes after review dismisses
+  stale approvals and forces re-review
+- `enforce_admins: false` — admin bypass for rate limit, outage, or
+  false positive scenarios
+- `required_linear_history: true` — prevents merge commits per
+  [git_and_branching_workflow](git_and_branching_workflow.md). To
+  enforce squash-only, also disable rebase merges in the repository
+  settings (Settings → General → Pull Requests → only "Allow squash
+  merging" enabled)
+- `allow_force_pushes: false` — force push to default branch is
+  prohibited
+
+Required status checks are configured per the project's CI gate matrix
+(see [CI_CD_Pipeline_Model](CI_CD_Pipeline_Model.md)).
 
 ## 3. Planning and design requirements by tier
 
@@ -127,6 +148,15 @@ Add for all governed repositories:
   scripts and their invocation syntax per
   [KB_Integration_Standard](../03_Engineering_Standards/KB_Integration_Standard.md)
   section 7.
+- CodeRabbit configuration:
+  `.coderabbit.yaml` with `auto_review.enabled: false` and
+  project-specific `path_instructions` per
+  [CI_CD_Pipeline_Model](CI_CD_Pipeline_Model.md) Gate G. Template:
+  [coderabbit.yaml](../06_Projects/Templates/ci/coderabbit.yaml)
+- CodeRabbit standards:
+  `.coderabbit/standards.md` with mechanically-checkable rules distilled
+  from the KB. Template:
+  [coderabbit-standards_tpl](../06_Projects/Templates/ci/coderabbit-standards_tpl.md)
 - Copilot custom instructions:
   `.github/copilot-instructions.md` with distilled KB rules for
   AI-assisted code review per
@@ -138,7 +168,9 @@ Add for all governed repositories:
 - Related templates: [ai_context_pack_tpl](../06_Projects/Templates/ai/ai_context_pack_tpl.md), [plans_tpl](../06_Projects/Templates/project_root/plans_tpl.md),
   [exec_plan_tpl](../06_Projects/Templates/ai/exec_plan_tpl.md), [repo_orientation_skill_tpl](../06_Projects/Templates/ai/repo_orientation_skill_tpl.md), [skill_tpl](../06_Projects/Templates/ai/skill_tpl.md),
   [prompts_tpl](../06_Projects/Templates/prompts/prompts_tpl.md), [command-catalog_tpl](../06_Projects/Templates/prompts/command-catalog_tpl.md),
-  [context-reset_checklist_tpl](../06_Projects/Templates/prompts/context-reset_checklist_tpl.md).
+  [context-reset_checklist_tpl](../06_Projects/Templates/prompts/context-reset_checklist_tpl.md),
+  [coderabbit.yaml](../06_Projects/Templates/ci/coderabbit.yaml),
+  [coderabbit-standards_tpl](../06_Projects/Templates/ci/coderabbit-standards_tpl.md).
 
 ## 6. Verification
 
@@ -163,6 +195,10 @@ non-compliant.
 
 # Changelog
 
+- 0.1.20 - Added branch protection requirements (section 2.2) — review
+  approval count, dismiss stale reviews, linear history. Added
+  CodeRabbit configuration and standards artifacts to section 5 (AI
+  context and prompt assets) with template references.
 - 0.1.19 - Added Copilot custom instructions to AI context assets
   per STD-030 Gate G.
 - 0.1.18 - Added CLAUDE.md tool discovery requirement to section 5 per
