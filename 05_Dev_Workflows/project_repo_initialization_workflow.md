@@ -56,8 +56,9 @@ operations.
 2.2 GitHub branch protection MUST be configured on the default branch
 with:
 
-- `required_approving_review_count: 1` — at least one formal approval
-  before merge (from human, Copilot, or CodeRabbit)
+- `required_approving_review_count: 1` — at least one formal human
+  approval before merge (AI reviewers provide feedback, not approval
+  per [git_and_branching_workflow](git_and_branching_workflow.md))
 - `dismiss_stale_reviews: true` — pushing fixes after review dismisses
   stale approvals and forces re-review
 - `enforce_admins: false` — admin bypass for rate limit, outage, or
