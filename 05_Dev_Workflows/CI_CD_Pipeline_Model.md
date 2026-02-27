@@ -7,7 +7,7 @@ status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-26
+last_updated: 2026-02-27
 extends:
   - STD-000
   - STD-003
@@ -381,8 +381,9 @@ local findings and Copilot's PR review before approving.
 
 Gate G findings use a three-level severity scale:
 
-- **P1 (blocks merge)**: Correctness bugs, security vulnerabilities,
-  data loss risks. `/pr-ready` reports NOT READY.
+- **P1 (critical)**: Correctness bugs, security vulnerabilities,
+  data loss risks. `/pr-ready` reports NOT READY (advisory — developer
+  can override, but should resolve before requesting human approval).
 - **P2 (important)**: Missing error handling, test coverage gaps,
   breaking API changes. Warnings only — does not block.
 - **P3 (minor)**: Style, naming, documentation suggestions. Warnings
@@ -695,8 +696,9 @@ be considered non-compliant and subject to rollback or remediation.
   auto-review. Copilot is primary GitHub-side reviewer (post-push).
   Merge gate is human approval (required_approving_review_count: 1).
   CodeRabbit GitHub App auto_review disabled; manual @coderabbit review
-  available as fallback. Updated configuration artifacts, Pass/Fail,
-  and parallel execution sections.
+  available as fallback. Added finding severity scale (P1/P2/P3).
+  Updated configuration artifacts, Pass/Fail, and parallel execution
+  sections.
 - 1.5.1 - Corrected Gate G blocking mechanism description: blocking
   works via request_changes_workflow (Request Changes reviews) + branch
   protection requiring approved reviews, not via commit status checks.
