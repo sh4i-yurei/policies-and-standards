@@ -149,7 +149,11 @@
     "gosec",
     "workstream",
     "workstreams",
-    "unvalidated"
+    "unvalidated",
+    "coderabbit",
+    "CodeRabbit",
+    "pipefail",
+    "setext"
   ],
   "dictionaries": ["softwareTerms"]
 }
