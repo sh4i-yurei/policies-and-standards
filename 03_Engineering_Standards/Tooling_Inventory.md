@@ -162,7 +162,9 @@ This inventory applies to all activities within the development environment. Too
 
 - `sandbox-runtime` (`@anthropic-ai/sandbox-runtime`) - Evaluated and
   deferred. Incompatible with WSL2 (Claude Code `/sandbox` command
-  requires Linux host, not WSL2). May revisit when WSL2 support lands.
+  requires native Linux with full namespace support; WSL2's restricted
+  `/proc` and missing unprivileged user namespace capabilities prevent
+  bubblewrap sandboxing). May revisit when WSL2 support lands.
 
 - Monitoring: `sandbox-metrics.sh` (execution stats, fallback
   frequency), `sandbox-cleanup.sh` (orphaned containers, stale images).

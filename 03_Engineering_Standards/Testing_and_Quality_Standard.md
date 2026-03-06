@@ -22,7 +22,7 @@ This document defines **what quality must be demonstrated**, not how test toolin
 
 This standard applies to all source code and configuration logic developed under governed projects. It applies equally to human-authored and AI-assisted implementation.
 
-This standard does not define CI/CD workflows or test execution infrastructure.
+This standard does not define CI/CD workflows or test execution infrastructure, except where execution environment affects test determinism and result visibility (see §5).
 
 # Standard
 

@@ -3,7 +3,7 @@ id: ADR-sandbox-architecture
 title: Docker sandbox architecture for test and type-check execution
 version: 1.0.0
 category: design
-status: accepted
+status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
@@ -12,7 +12,17 @@ extends: [STD-030, STD-008, STD-057]
 tags: [adr, sandbox, docker, testing]
 ---
 
-# ADR: Docker Sandbox Architecture for Test and Type-Check Execution
+# Purpose
+
+Document the architectural decision to use Docker-based sandboxing for
+isolated test and type-check execution in the AI development environment.
+
+# Scope
+
+This ADR applies to all test and type-check execution triggered by
+Claude Code hooks and skills across governed projects.
+
+# Standard
 
 ## Metadata
 
@@ -112,3 +122,23 @@ availability and warns if it's down.
   Per-project image builds add ~30s on first run (cached thereafter).
 - Follow-up: Revisit `sandbox-runtime` when WSL2 support is added.
   Consider auto-starting Docker Desktop via session-start hook.
+
+# Implementation Notes
+
+- Base Docker images must be built before first use (`docker build`).
+- Per-project images are built automatically by `sandbox-exec.sh` on
+  first run or when dependency files change.
+
+# Continuous Improvement and Compliance Metrics
+
+- Track sandbox vs in-host execution ratio via `sandbox-metrics.sh`.
+- Fallback frequency trending upward indicates Docker availability issues.
+
+# Compliance
+
+Test execution without sandbox isolation when Docker is available is
+non-compliant with STD-030 Gate D.
+
+# Changelog
+
+- 1.0.0 - Initial ADR.
