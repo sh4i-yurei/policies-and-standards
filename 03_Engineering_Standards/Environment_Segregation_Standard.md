@@ -1,13 +1,13 @@
 ---
 id: STD-057
 title: Environment segregation standard
-version: 0.1.2
+version: 0.2.0
 category: engineering
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-12
+last_updated: 2026-03-06
 extends: [STD-000, STD-006, STD-030, STD-035]
 tags: [environment, deployment, operations, release]
 ---
@@ -60,13 +60,25 @@ environment identifier `dev`, `staging`, or `prod`.
 4.2 Tests that alter data or availability MUST run in development or
 staging only, not production.
 
-## 5. Exceptions
+## 5. Sandbox execution environments
 
-5.1 If a staging environment cannot be maintained, the project MUST
+5.1 Projects using sandboxed test or type-check execution MUST document
+sandbox configuration (base image, resource limits, network policy) in
+version control.
+
+5.2 Sandbox containers MUST use `env=dev` labels per §3.
+
+5.3 Sandbox images SHOULD be per-project with pre-installed dependencies,
+rebuilt when dependency files change. Base images and per-project images
+MUST be documented in the project's operational notes.
+
+## 6. Exceptions
+
+6.1 If a staging environment cannot be maintained, the project MUST
 record an exception in the [project_charter_tpl](../06_Projects/Templates/project_root/project_charter_tpl.md) or [deployment_tpl](../06_Projects/Templates/operations/deployment_tpl.md)
 with risk acceptance and approval.
 
-5.2 Exceptions MUST include alternative validation steps before
+6.2 Exceptions MUST include alternative validation steps before
 production promotion.
 
 # Implementation Notes
@@ -86,6 +98,9 @@ resources are non-compliant.
 
 # Changelog
 
+- 0.2.0 - Added §5 Sandbox execution environments: configuration
+  documentation, env=dev labeling, per-project image requirements.
+  Renumbered Exceptions to §6.
 - 0.1.2 - Added traceability links for environment records and exceptions.
 - 0.1.1 - Set owner/reviewer/approver values.
 

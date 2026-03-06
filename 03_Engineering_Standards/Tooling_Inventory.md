@@ -1,13 +1,13 @@
 ---
 id: TOOLING-001
 title: Tooling inventory
-version: 1.4.0
+version: 1.5.0
 category: reference
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-15
+last_updated: 2026-03-06
 extends: [STD-003]
 tags: [tooling, infrastructure, inventory]
 ---
@@ -152,6 +152,23 @@ This inventory applies to all activities within the development environment. Too
 - KB RAG service (rag-service) - KB retrieval and source quoting
 
 
+## Sandbox isolation
+
+- Docker sandbox (`sandbox-exec.sh`) - Per-project sandboxed test and
+  type-check execution via Docker containers. Uses `--network=none`,
+  read-only source mounts, 2 GB memory / 2 CPU limits. Per-project
+  images with pre-installed dependencies (hash-cached via dep file
+  checksums). Base images: `claude-sandbox-python`, `claude-sandbox-go`.
+
+- `sandbox-runtime` (`@anthropic-ai/sandbox-runtime`) - Evaluated and
+  deferred. Incompatible with WSL2 (Claude Code `/sandbox` command
+  requires Linux host, not WSL2). May revisit when WSL2 support lands.
+
+- Monitoring: `sandbox-metrics.sh` (execution stats, fallback
+  frequency), `sandbox-cleanup.sh` (orphaned containers, stale images).
+  Logs at `~/.claude/logs/sandbox/`.
+
+
 ## Tool integration requirements
 
 1. All tools MUST be configured to enforce standards defined in [Coding_Standards_and_Conventions](Coding_Standards_and_Conventions.md) and [Documentation_Standard](../02_Documentation_Standards/Documentation_Standard.md).
@@ -178,6 +195,8 @@ Use of unapproved tools or bypassing required checks is non-compliant.
 
 # Changelog
 
+- 1.5.0 - Added Sandbox isolation section: Docker sandbox (sandbox-exec.sh),
+  sandbox-runtime (deferred), monitoring tools.
 - 1.4.0 - Added vulture (dead code detection) and pip-audit (dependency CVE scanning)
   to Python section.
 - 1.3.0 - Added debugging/testing tools (pytest-json-report, cargo-nextest, structlog,

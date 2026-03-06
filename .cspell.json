@@ -154,7 +154,10 @@
     "CodeRabbit",
     "pipefail",
     "setext",
-    "Errorf"
+    "Errorf",
+    "sandboxed",
+    "bubblewrap",
+    "cpus"
   ],
   "dictionaries": ["softwareTerms"]
 }
