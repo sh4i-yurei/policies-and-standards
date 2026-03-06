@@ -1,13 +1,13 @@
 ---
 id: STD-008
 title: Testing and Quality Standard
-version: 1.1.1
+version: 1.2.0
 category: engineering
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-15
+last_updated: 2026-03-06
 review_date: 2026-05-01
 extends: [STD-000, STD-005, STD-023]
 tags: [testing, quality, validation, reliability]
@@ -22,7 +22,7 @@ This document defines **what quality must be demonstrated**, not how test toolin
 
 This standard applies to all source code and configuration logic developed under governed projects. It applies equally to human-authored and AI-assisted implementation.
 
-This standard does not define CI/CD workflows or test execution infrastructure.
+This standard does not define CI/CD workflows or test execution infrastructure, except where execution environment affects test determinism and result visibility (see §5).
 
 # Standard
 
@@ -66,24 +66,34 @@ repeatable. Non-deterministic components are governed by
 for statistical assertions, seed management, and flakiness controls.
 This reference becomes mandatory when STD-065 reaches active status.
 
-## 5. Relationship to Technical Specifications
+## 5. Test Execution Environment
 
-5.1 Tests MUST map directly to behaviors defined in approved
-[Technical_Specification_Standard](../04_Design_Framework/Technical_Specification_Standard.md).  
-5.2 Tests SHALL serve as executable confirmation of specification intent.  
-5.3 Missing or failing tests SHALL be treated as implementation defects.
+5.1 Tests SHOULD execute in sandboxed environments (Docker containers
+with `--network=none`) to ensure clean state and eliminate host-side
+artifacts.
+5.2 When sandboxed execution is unavailable, results MUST be visibly
+tagged (e.g., `(in-host)`) to distinguish from sandboxed runs.
+5.3 Fallback to in-host execution MUST be logged so that sandbox
+bypass frequency is measurable.
 
-## 6. Quality Gates and Validation
+## 6. Relationship to Technical Specifications
 
-6.1 Code MUST NOT be merged or released if required tests fail.  
-6.2 Validation results MUST be visible and reviewable.  
-6.3 Test failures introduced by AI-assisted code SHALL be treated no differently than human-authored failures.
+6.1 Tests MUST map directly to behaviors defined in approved
+[Technical_Specification_Standard](../04_Design_Framework/Technical_Specification_Standard.md).
+6.2 Tests SHALL serve as executable confirmation of specification intent.
+6.3 Missing or failing tests SHALL be treated as implementation defects.
 
-## 7. Maintenance and Evolution
+## 7. Quality Gates and Validation
 
-7.1 Tests MUST evolve alongside production code.  
-7.2 Obsolete or misleading tests MUST be revised or removed.  
-7.3 Refactoring MUST preserve test coverage and intent.
+7.1 Code MUST NOT be merged or released if required tests fail.
+7.2 Validation results MUST be visible and reviewable.
+7.3 Test failures introduced by AI-assisted code SHALL be treated no differently than human-authored failures.
+
+## 8. Maintenance and Evolution
+
+8.1 Tests MUST evolve alongside production code.
+8.2 Obsolete or misleading tests MUST be revised or removed.
+8.3 Refactoring MUST preserve test coverage and intent.
 
 # Implementation Notes
 
@@ -96,8 +106,8 @@ This reference becomes mandatory when STD-065 reaches active status.
 
 # Continuous Improvement and Compliance Metrics
 
-8.1 Metrics MAY include test coverage trends, defect escape rate, and rework frequency.  
-8.2 Findings SHOULD inform improvements to specification clarity and test practices.
+- Metrics MAY include test coverage trends, defect escape rate, and rework frequency.
+- Findings SHOULD inform improvements to specification clarity and test practices.
 
 # Compliance
 
@@ -105,6 +115,8 @@ Any implementation activity that does not meet the requirements of this standard
 
 # Changelog
 
+- 1.2.0 - Added §5 Test Execution Environment: sandboxed execution with
+  visible in-host tagging. Renumbered subsequent sections.
 - 1.1.1 - Added §3.5 cross-reference to Performance Benchmarking
   Standard (STD-066) and §4.5 cross-reference to Non-Deterministic
   Testing Standard (STD-065).

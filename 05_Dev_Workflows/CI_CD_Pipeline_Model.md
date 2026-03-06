@@ -1,13 +1,13 @@
 ---
 id: STD-030
 title: CI/CD Pipeline and Validation Model
-version: 1.6.0
+version: 1.7.0
 category: workflow
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-27
+last_updated: 2026-03-06
 extends:
   - STD-000
   - STD-003
@@ -318,6 +318,15 @@ Fail if required documentation is missing or malformed.
 - Default Python tool: `pytest`
 
 - Fail on any test failure
+
+- When Docker is available, test execution MUST use sandboxed containers
+  (`--network=none`, read-only source mount, per-project images with
+  pre-installed dependencies). Sandboxed execution prevents host-side
+  artifacts, network access during tests, and stale environment state.
+
+- In-host execution is permitted only when Docker is unavailable, and
+  MUST be tagged as `(in-host)` in all output to maintain visibility
+  of the fallback. Fallback events MUST be logged for metrics tracking.
 
 
 ---
@@ -691,6 +700,8 @@ be considered non-compliant and subject to rollback or remediation.
 
 # Changelog
 
+- 1.7.0 - Gate D: sandboxed test execution REQUIRED when Docker is
+  available. In-host fallback MUST be tagged and logged.
 - 1.6.0 - Revised Gate G architecture: CodeRabbit reviews run locally
   via CLI during /pr-ready (pre-push, advisory), replacing GitHub App
   auto-review. Copilot is primary GitHub-side reviewer (post-push).
