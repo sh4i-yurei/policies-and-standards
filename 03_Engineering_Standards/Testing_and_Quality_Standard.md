@@ -106,8 +106,8 @@ bypass frequency is measurable.
 
 # Continuous Improvement and Compliance Metrics
 
-9.1 Metrics MAY include test coverage trends, defect escape rate, and rework frequency.
-9.2 Findings SHOULD inform improvements to specification clarity and test practices.
+- Metrics MAY include test coverage trends, defect escape rate, and rework frequency.
+- Findings SHOULD inform improvements to specification clarity and test practices.
 
 # Compliance
 

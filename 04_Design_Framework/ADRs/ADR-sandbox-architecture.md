@@ -1,3 +1,17 @@
+---
+id: ADR-sandbox-architecture
+title: Docker sandbox architecture for test and type-check execution
+version: 1.0.0
+category: design
+status: accepted
+owner: sh4i-yurei
+reviewer: sh4i-yurei
+approver: sh4i-yurei
+last_updated: 2026-03-06
+extends: [STD-030, STD-008, STD-057]
+tags: [adr, sandbox, docker, testing]
+---
+
 # ADR: Docker Sandbox Architecture for Test and Type-Check Execution
 
 ## Metadata
