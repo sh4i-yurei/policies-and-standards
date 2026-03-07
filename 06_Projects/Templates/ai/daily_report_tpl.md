@@ -198,12 +198,13 @@ insights that no individual session review captures.
 |--------|-------|----------|--------|
 | <action> | <who> | <high/medium/low> | <session, daily interview, or carry-forward> |
 
-Cross-reference with `tasks.jsonl` (`bash ~/bin/tasks.sh list`) to
-ensure no items are missed. `tasks.jsonl` and `tasks.sh` are external
-session tooling (see STD-061 §Action item tracking); skip this step
-if the tasks workflow is not in use. Items from the daily interview
-that don't appear in session reviews should be added here and synced
-to tasks.jsonl after writing.
+If `tasks.jsonl` is in use, cross-reference with
+`bash ~/bin/tasks.sh list` to ensure no items are missed.
+`tasks.jsonl` and `tasks.sh` are external session tooling not
+governed by this repo; skip this step if the tasks workflow is not
+in use. Items from the daily interview that don't appear in session
+reviews should be added here and, if the tasks workflow is active,
+synced to tasks.jsonl after writing.
 
 ### Closed Today
 
@@ -227,9 +228,9 @@ interview that affect future work.
   interview first. The interview focuses on cross-session patterns
   and system health, not individual session details (those are
   already captured in session-close reviews).
-- Read all session reviews for today AND pull from `tasks.jsonl`
-  before starting the interview. Present a cross-session analysis
-  to the user, then capture their feedback.
+- Read all session reviews for today before starting the interview.
+  If the `tasks.jsonl` workflow is active, also pull from it. Present
+  a cross-session analysis to the user, then capture their feedback.
 - Keep entries concise. Link to PRs and issues rather than duplicating
   details.
 - Trend indicators compare to the most recent previous daily report

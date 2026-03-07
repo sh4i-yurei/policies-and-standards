@@ -53,6 +53,8 @@ across repos and provide a unified view of agent performance.
 ~/session-reviews/
 ├── <project>/
 │   ├── YYYY-MM-DD_<project>_s<N>_review.md
+│   ├── daily/
+│   │   └── YYYY-MM-DD_daily_report.md
 │   └── ...
 └── <other-project>/
     └── ...
