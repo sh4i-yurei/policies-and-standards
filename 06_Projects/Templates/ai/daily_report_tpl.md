@@ -1,27 +1,33 @@
 ---
 id: TPL-PRJ-DAILY-REPORT
 title: Daily report template
-version: 0.1.0
+version: 0.2.0
 category: template
 status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-02-15
+last_updated: 2026-03-07
 extends: [STD-001, STD-004, STD-032, STD-061]
-tags: [template, ai, session, reporting, multi-instance]
+tags: [template, ai, session, reporting, multi-instance, operations]
 ---
 
 # Purpose
 
-Provide a structured template for aggregating per-instance session
-reviews into a daily roll-up report so that cross-instance coordination,
-friction points, and trends are captured consistently.
+Provide a structured template for end-of-day operational roll-up
+reports that synthesize per-session reviews, conduct a cross-session
+operational interview, and capture strategic direction. The daily
+report serves two functions beyond simple aggregation: (1) detecting
+cross-session patterns that individual reviews miss, and (2) aligning
+on priorities and system health with the user.
 
 # Scope
 
-Use at the end of any multi-instance AI-assisted work day. Save as
-`~/session-reviews/<project>/YYYY-MM-DD_<project>_daily_report.md`.
+Use at the end of any AI-assisted work day — single-instance or
+multi-instance. Save as
+`~/session-reviews/<project>/daily/YYYY-MM-DD_daily_report.md`.
+For global sessions:
+`~/session-reviews/global/daily/YYYY-MM-DD_daily_report.md`.
 Extends [session_review_standard](../../../05_Dev_Workflows/session_review_standard.md)
 (STD-061).
 
@@ -38,22 +44,24 @@ Extends [session_review_standard](../../../05_Dev_Workflows/session_review_stand
 |-------|-------|
 | Project | <project name> |
 | Date | <YYYY-MM-DD> |
-| Session | <session number> |
-| Instances | <count of instances that ran> |
+| Sessions | <session IDs covered, e.g., "Global S14, Global S15"> |
+| Instances | <count of sessions/instances that ran> |
 | Report author | <who compiled this report> |
 
 ## Work Summary
 
-Narrative summary of the day's work across all instances.
-Highlight major accomplishments, blockers, and cross-instance
-coordination.
+Narrative summary of the day's work across all sessions. Highlight
+major accomplishments, blockers, and cross-session coordination.
+Include the overall trajectory — what capability or milestone was
+advanced today?
 
 ## Per-Instance Summary
 
-Summarize each instance's contributions. Pull from individual
-session review files (`<date>_<project>_s<N>_i<M>_review.md`).
+Summarize each session's contributions. Pull from individual session
+review files (`<date>_<project>_s<N>_review.md` or
+`<date>_<project>_s<N>_i<M>_review.md` for multi-instance).
 
-### Instance <N>: <branch or scope>
+### <Session ID>: <branch or scope>
 
 | Metric | Value |
 |--------|-------|
@@ -69,7 +77,21 @@ session review files (`<date>_<project>_s<N>_i<M>_review.md`).
 
 **Friction:** <any blockers or issues>
 
-<!-- Repeat the Instance section for each instance -->
+<!-- Repeat the section above for each session/instance -->
+
+## Per-Session Ratings
+
+Map session review self-ratings (1-10 scale) into a comparison table.
+This enables cross-session trend detection at a glance.
+
+| Session | Orchestration | Code Quality | Communication | Rules | Overall |
+|---------|--------------|-------------|---------------|-------|---------|
+| <S/I ID> | <1-10> | <1-10> | <1-10> | <1-10> | <1-10> |
+| <S/I ID> | <1-10> | <1-10> | <1-10> | <1-10> | <1-10> |
+| **Average** | **<avg>** | **<avg>** | **<avg>** | **<avg>** | **<avg>** |
+
+Trend vs previous daily report averages: <up/down/flat per area>.
+Flag any area where the trend is "down" across 2+ daily reports.
 
 ## Aggregate Metrics
 
@@ -83,32 +105,51 @@ session review files (`<date>_<project>_s<N>_i<M>_review.md`).
 | Avg autonomy | <1-5> | <1-5> | <up/down/flat> |
 
 Trend column compares to the most recent previous daily report.
-Use arrows or text indicators consistently.
+Use arrows or text indicators consistently. Note any scale
+differences between reports (e.g., 1-10 vs 1-5).
 
 ## Friction Points
 
-List friction points observed across instances, grouped by type.
+List friction points observed across sessions, grouped by type.
 
 ### Process Friction
 
-- <description> — <which instances affected> — <severity>
+- <description> — <which sessions affected> — <severity>
 
 ### Tooling Friction
 
-- <description> — <which instances affected> — <severity>
+- <description> — <which sessions affected> — <severity>
 
 ### Coordination Friction
 
-- <description> — <which instances affected> — <severity>
+- <description> — <which sessions affected> — <severity>
 
 ## Coordination Assessment
 
-Evaluate how well multi-instance work was coordinated.
+Evaluate how well multi-instance/multi-session work was coordinated.
+For single-instance sessions, assess cross-session continuity instead.
 
 - **Branch isolation**: <did instances stay on their branches?>
 - **Work overlap**: <any duplicated effort?>
 - **Dependency management**: <did blocking dependencies cause delays?>
 - **Communication**: <was inter-instance information flow adequate?>
+- **Cross-session continuity**: <did handoffs preserve context?>
+
+## Operational Analysis — What Worked
+
+Cross-session view of effective patterns. Focus on:
+- Infrastructure or process improvements that paid off today
+- Decisions that proved correct
+- Behaviors or tools that reduced friction
+- Capabilities that matured or reached production readiness
+
+## Operational Analysis — What Needs Improvement
+
+Cross-session view of systemic issues. Focus on:
+- Recurring behavioral patterns (not one-off mistakes)
+- Gaps in tooling, hooks, or process
+- Action items or interventions that haven't produced results
+- Structural problems vs behavioral problems
 
 ## Recommendations
 
@@ -126,40 +167,95 @@ Evaluate how well multi-instance work was coordinated.
 
 ### Tooling
 
-- <tool or script improvement>
+- <tool or script improvement, integration to explore>
+
+## Daily Interview Insights
+
+Capture the user's cross-session feedback from the operational
+interview. This section records the actual conversation — what the
+user observed, patterns they identified, strategic direction they
+set, and decisions they made. Structure as:
+
+- **User assessment**: overall read on the day
+- **Patterns identified**: recurring issues, behavioral trends
+- **Strategic direction**: priorities for next sessions, tool
+  decisions, process changes
+- **Vision**: longer-term goals or integration plans discussed
+- **Agent self-assessment**: what the agent identified as working
+  well, needing improvement, and recommended actions
+
+This section is the primary differentiator between the daily report
+and a simple aggregation of session reviews. The interview surfaces
+insights that no individual session review captures.
 
 ## Consolidated Action Items
 
 | Action | Owner | Priority | Source |
 |--------|-------|----------|--------|
-| <action> | <who> | <high/medium/low> | <instance or friction point> |
+| <action> | <who> | <high/medium/low> | <session, daily interview, or carry-forward> |
+
+Cross-reference with `tasks.jsonl` (`bash ~/bin/tasks.sh list`) to
+ensure no items are missed. Items from the daily interview that don't
+appear in session reviews should be added here and synced to
+tasks.jsonl after writing.
+
+### Closed Today
+
+| Action | Source | Resolution |
+|--------|--------|------------|
+| <action> | <original source> | <how it was resolved> |
+
+Track closure rate across daily reports for trend analysis.
 
 ## Notes
 
 Additional observations, lessons learned, or context for the next
-session.
+session. Include any decisions or priority changes from the daily
+interview that affect future work.
 ```
 
 # Implementation Notes
 
-- The report is compiled from individual instance session reviews, not
-  generated independently. Read all instance reviews before writing.
+- The report requires an **operational interview** with the user
+  before writing. Do NOT write the report without conducting the
+  interview first. The interview focuses on cross-session patterns
+  and system health, not individual session details (those are
+  already captured in session-close reviews).
+- Read all session reviews for today AND pull from `tasks.jsonl`
+  before starting the interview. Present a cross-session analysis
+  to the user, then capture their feedback.
 - Keep entries concise. Link to PRs and issues rather than duplicating
   details.
-- Trend indicators compare to the most recent previous daily report for
-  the same project.
+- Trend indicators compare to the most recent previous daily report
+  for the same project.
 - Action items carry forward to subsequent sessions until resolved.
+  Sync new items to `tasks.jsonl` after writing the report.
+- Update the most recent handoff if the interview produces priority
+  changes or new strategic direction.
+- The daily report is valuable for single-session days too — the
+  operational interview and trend tracking provide value beyond
+  multi-instance aggregation.
 
 # Continuous Improvement and Compliance Metrics
 
 - Track action item closure rate across daily reports.
+- Monitor per-session ratings trends for persistent patterns.
 - Monitor coordination assessment trends for persistent friction.
+- Flag any quality area trending "down" across 2+ consecutive daily
+  reports.
 
 # Compliance
 
-Multi-instance sessions completed without a daily roll-up are
-non-compliant when three or more instances operated in the same session.
+Work days with two or more sessions should produce a daily roll-up.
+Multi-instance sessions (three or more instances in the same session)
+MUST produce a daily roll-up per STD-061.
 
 # Changelog
 
+- 0.2.0 — Major revision. Added operational interview requirement,
+  per-session ratings table, operational analysis sections (what
+  worked / what needs improvement), daily interview insights section,
+  closed-today table, tasks.jsonl integration, work-day boundary
+  support. Updated scope to include single-instance days. Updated
+  compliance to recommend (not require) for 2+ session days.
 - 0.1.0 — Initial draft.
