@@ -45,7 +45,8 @@ Extends [session_review_standard](../../../05_Dev_Workflows/session_review_stand
 | Project | <project name> |
 | Date | <YYYY-MM-DD> |
 | Sessions | <session IDs covered, e.g., "Global S14, Global S15"> |
-| Instances | <count of sessions/instances that ran> |
+| Session count | <number of sessions covered in this report> |
+| Instance count | <total AI instances across all sessions (e.g., "2 sessions, both single-instance" or "1 session, 3 instances")> |
 | Report author | <who compiled this report> |
 
 ## Work Summary
@@ -55,7 +56,7 @@ major accomplishments, blockers, and cross-session coordination.
 Include the overall trajectory — what capability or milestone was
 advanced today?
 
-## Per-Instance Summary
+## Per-Session Summary
 
 Summarize each session's contributions. Pull from individual session
 review files (`<date>_<project>_s<N>_review.md` or
@@ -129,10 +130,10 @@ List friction points observed across sessions, grouped by type.
 Evaluate how well multi-instance/multi-session work was coordinated.
 For single-instance sessions, assess cross-session continuity instead.
 
-- **Branch isolation**: <did instances stay on their branches?>
-- **Work overlap**: <any duplicated effort?>
+- **Branch isolation**: <did sessions/instances stay on their branches?>
+- **Work overlap**: <any duplicated effort across sessions?>
 - **Dependency management**: <did blocking dependencies cause delays?>
-- **Communication**: <was inter-instance information flow adequate?>
+- **Communication**: <was information flow between sessions adequate?>
 - **Cross-session continuity**: <did handoffs preserve context?>
 
 ## Operational Analysis — What Worked
