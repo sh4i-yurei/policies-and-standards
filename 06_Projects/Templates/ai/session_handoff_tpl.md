@@ -1,13 +1,13 @@
 ---
 id: TPL-PRJ-HANDOFF
 title: Session handoff template
-version: 0.2.0
+version: 0.3.0
 category: template
 status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-02-15
+last_updated: 2026-03-06
 extends: [STD-001, STD-004, STD-032]
 tags: [template, ai, handoff, session, continuity]
 ---
@@ -80,6 +80,16 @@ cross-project scope in the handoff content.
 - Branch: <branch name>
 - Working tree: <clean | dirty — list uncommitted files if dirty>
 
+## Action Item Ledger
+
+Reconcile ALL open action items from the previous handoff. Every prior
+item MUST appear with an explicit status — no silent drops. New items
+from this session are added at the bottom.
+
+| Item | Status | Owner | Source | Notes |
+|------|--------|-------|--------|-------|
+| <action> | <done/carried/deferred/dropped/reassigned> | <agent/user> | <S#> | <reason if deferred/dropped> |
+
 ## Next Tasks
 
 - <Specific, actionable task 1>
@@ -108,6 +118,18 @@ cross-project scope in the handoff content.
   2. `~/session-handoffs/global/` for cross-project handoffs
 - Keep handoff artifacts concise; link to ExecPlans and design docs
   rather than duplicating content.
+- The Action Item Ledger is cumulative within the handoff chain. Each
+  handoff reconciles the previous handoff's ledger. Items with status
+  `done` or `dropped` MAY be pruned after appearing in one subsequent
+  handoff (to prevent unbounded growth). Items with status `carried`
+  MUST remain until resolved.
+- When transitioning from project-specific to global sessions, scan
+  the most recent handoff from each active project subdirectory in
+  `~/session-handoffs/` and incorporate any open items into the global
+  ledger with their project origin tagged.
+- Projects marked ARCHIVED or PAUSED in `~/CLAUDE.md` should have their
+  open items tagged as `deferred (project archived/paused)` rather than
+  carried forward.
 - PLANS.md stays in the project repository and is updated in the next
   PR — never as a standalone session-close commit.
 
@@ -123,6 +145,9 @@ is non-compliant per
 
 # Changelog
 
+- 0.3.0 — Added Action Item Ledger section for explicit carry-forward
+  tracking. Added implementation notes for ledger lifecycle, global
+  session scanning, and archived project handling.
 - 0.2.0 — Storage moved from `plans/handoffs/` to
   `~/session-handoffs/<project>/`. Added naming convention, multi-instance
   routing, and cross-project routing rules.
