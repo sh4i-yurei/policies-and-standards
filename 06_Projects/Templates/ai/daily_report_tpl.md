@@ -86,12 +86,14 @@ session section to satisfy STD-061's per-instance summary requirement.
 ## Per-Session Ratings
 
 Map session review self-ratings (1-10 scale) into a comparison table.
+One row per session review artifact — for multi-instance sessions,
+include one row per instance review (e.g., S14-I1, S14-I2).
 This enables cross-session trend detection at a glance.
 
 | Session | Orchestration and planning | Code and config quality | Communication | Rule adherence | Overall session |
 |---------|---------------------------|--------------------------|---------------|----------------|--------------------|
-| <S/I ID> | <1-10> | <1-10> | <1-10> | <1-10> | <1-10> |
-| <S/I ID> | <1-10> | <1-10> | <1-10> | <1-10> | <1-10> |
+| <session or instance ID> | <1-10> | <1-10> | <1-10> | <1-10> | <1-10> |
+| <session or instance ID> | <1-10> | <1-10> | <1-10> | <1-10> | <1-10> |
 | **Average** | **<avg>** | **<avg>** | **<avg>** | **<avg>** | **<avg>** |
 
 Trend vs previous daily report averages: <up/down/flat per area>.
