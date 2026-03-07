@@ -82,9 +82,11 @@ cross-project scope in the handoff content.
 
 ## Action Item Ledger
 
-Reconcile ALL open action items from the previous handoff. Every prior
-item MUST appear with an explicit status — no silent drops. New items
-from this session are added at the bottom.
+Reconcile ALL action items that were open at the end of the previous
+handoff. Each item MUST appear in this ledger with an explicit status —
+no silent drops. Items that already reached a terminal status (done or
+dropped) in an earlier ledger MAY be omitted. New items from this
+session are added at the bottom.
 
 | Item | Status | Owner | Source | Notes |
 |------|--------|-------|--------|-------|
@@ -128,8 +130,8 @@ from this session are added at the bottom.
   `~/session-handoffs/` and incorporate any open items into the global
   ledger with their project origin tagged.
 - Projects marked ARCHIVED or PAUSED in `~/CLAUDE.md` should have their
-  open items tagged as `deferred (project archived/paused)` rather than
-  carried forward.
+  open items set to status `deferred` with the reason (e.g., "project
+  archived" or "project paused") in the Notes column.
 - PLANS.md stays in the project repository and is updated in the next
   PR — never as a standalone session-close commit.
 
