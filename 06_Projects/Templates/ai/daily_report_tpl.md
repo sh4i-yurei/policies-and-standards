@@ -88,8 +88,8 @@ session section to satisfy STD-061's per-instance summary requirement.
 Map session review self-ratings (1-10 scale) into a comparison table.
 This enables cross-session trend detection at a glance.
 
-| Session | Orchestration | Code Quality | Communication | Rules | Overall |
-|---------|--------------|-------------|---------------|-------|---------|
+| Session | Orchestration and planning | Code and config quality | Communication | Rule adherence | Overall session |
+|---------|---------------------------|--------------------------|---------------|----------------|--------------------|
 | <S/I ID> | <1-10> | <1-10> | <1-10> | <1-10> | <1-10> |
 | <S/I ID> | <1-10> | <1-10> | <1-10> | <1-10> | <1-10> |
 | **Average** | **<avg>** | **<avg>** | **<avg>** | **<avg>** | **<avg>** |
@@ -236,7 +236,8 @@ interview that affect future work.
 - Trend indicators compare to the most recent previous daily report
   for the same project.
 - Action items carry forward to subsequent sessions until resolved.
-  Sync new items to `tasks.jsonl` after writing the report.
+  If the `tasks.jsonl` workflow is active, sync new items after
+  writing the report.
 - Update the most recent handoff if the interview produces priority
   changes or new strategic direction.
 - The daily report is valuable for single-session days too — the
