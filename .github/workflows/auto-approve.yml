@@ -33,7 +33,8 @@ jobs:
               query($owner: String!, $repo: String!, $number: Int!) {
                 repository(owner: $owner, name: $repo) {
                   pullRequest(number: $number) {
-                    reviewThreads(first: 100) {
+                    reviewThreads(first: 250) {
+                      pageInfo { hasNextPage }
                       nodes {
                         isResolved
                         isOutdated
@@ -51,7 +52,13 @@ jobs:
               number: pr.number,
             });
 
-            const threads = repository.pullRequest.reviewThreads.nodes;
+            const reviewThreads = repository.pullRequest.reviewThreads;
+            if (reviewThreads.pageInfo.hasNextPage) {
+              console.log('Too many review threads to check — skipping approval');
+              return;
+            }
+
+            const threads = reviewThreads.nodes;
             const unresolvedThreads = threads.filter(t =>
               !t.isResolved && !t.isOutdated
             );
@@ -61,15 +68,43 @@ jobs:
               return;
             }
 
-            // 2. Check required status checks
-            const { data: checks } = await github.rest.repos.getCombinedStatusForRef({
+            // 2. Check required status checks (both legacy statuses and check runs)
+            const { data: statuses } = await github.rest.repos.getCombinedStatusForRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: pr.head.sha,
             });
 
-            if (checks.state !== 'success') {
-              console.log(`Combined status: ${checks.state} — skipping approval`);
+            if (statuses.state !== 'success' && statuses.total_count > 0) {
+              console.log(`Combined status: ${statuses.state} — skipping approval`);
+              return;
+            }
+
+            const { data: checkRuns } = await github.rest.checks.listForRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: pr.head.sha,
+              filter: 'latest',
+            });
+
+            // Exclude this workflow's own check run from evaluation
+            const otherRuns = checkRuns.check_runs.filter(cr =>
+              cr.name !== 'auto-approve'
+            );
+            const checksInProgress = otherRuns.some(cr =>
+              cr.status !== 'completed'
+            );
+            const checksFailed = otherRuns.some(cr =>
+              cr.conclusion && !['success', 'skipped', 'neutral'].includes(cr.conclusion)
+            );
+
+            if (checksInProgress) {
+              console.log('Check runs still in progress — skipping approval');
+              return;
+            }
+
+            if (checksFailed) {
+              console.log('Check runs failed — skipping approval');
               return;
             }
 
@@ -81,7 +116,7 @@ jobs:
             });
 
             const hasApproval = reviews.some(r =>
-              r.user.login === 'github-actions[bot]' && r.state === 'APPROVED'
+              r.user?.login === 'github-actions[bot]' && r.state === 'APPROVED'
             );
 
             if (hasApproval) {
