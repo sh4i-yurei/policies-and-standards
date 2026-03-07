@@ -46,7 +46,8 @@ Extends [session_review_standard](../../../05_Dev_Workflows/session_review_stand
 | Date | <YYYY-MM-DD> |
 | Sessions | <session IDs covered, e.g., "Global S14, Global S15"> |
 | Session count | <number of sessions covered in this report> |
-| Instance count | <total AI instances across all sessions (e.g., "2 sessions, both single-instance" or "1 session, 3 instances")> |
+| Instance count | <total number of AI instances across all sessions> |
+| Instance notes | <optional: per-session breakdown, e.g., "S14 single-instance, S15 3-instance"> |
 | Report author | <who compiled this report> |
 
 ## Work Summary
@@ -61,6 +62,8 @@ advanced today?
 Summarize each session's contributions. Pull from individual session
 review files (`<date>_<project>_s<N>_review.md` or
 `<date>_<project>_s<N>_i<M>_review.md` for multi-instance).
+For multi-instance sessions, break down per instance within the
+session section to satisfy STD-061's per-instance summary requirement.
 
 ### <Session ID>: <branch or scope>
 
@@ -196,9 +199,11 @@ insights that no individual session review captures.
 | <action> | <who> | <high/medium/low> | <session, daily interview, or carry-forward> |
 
 Cross-reference with `tasks.jsonl` (`bash ~/bin/tasks.sh list`) to
-ensure no items are missed. Items from the daily interview that don't
-appear in session reviews should be added here and synced to
-tasks.jsonl after writing.
+ensure no items are missed. `tasks.jsonl` and `tasks.sh` are external
+session tooling (see STD-061 §Action item tracking); skip this step
+if the tasks workflow is not in use. Items from the daily interview
+that don't appear in session reviews should be added here and synced
+to tasks.jsonl after writing.
 
 ### Closed Today
 
