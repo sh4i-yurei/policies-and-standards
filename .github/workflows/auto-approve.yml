@@ -34,6 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+      contents: read
     steps:
       - name: Check review threads and approve
         uses: actions/github-script@v8
@@ -136,6 +137,11 @@ jobs:
               query($owner: String!, $repo: String!, $number: Int!) {
                 repository(owner: $owner, name: $repo) {
                   pullRequest(number: $number) {
+                    commits(last: 1) {
+                      nodes {
+                        commit { pushedDate }
+                      }
+                    }
                     reviewThreads(first: 100) {
                       pageInfo { hasNextPage }
                       nodes {
@@ -151,6 +157,19 @@ jobs:
               repo: context.repo.repo,
               number: pr.number,
             });
+
+            // 3a. Guard against new pushes during the sleep.
+            //     If head changed, bail — a new run will handle it.
+            const freshPushedAt = new Date(
+              fresh.pullRequest.commits.nodes[0].commit.pushedDate
+            );
+            if (freshPushedAt.getTime() !== headPushedAt.getTime()) {
+              console.log(
+                `Head changed during settlement (was ${headPushedAt.toISOString()}, ` +
+                `now ${freshPushedAt.toISOString()}) — skipping, new run will handle`
+              );
+              return;
+            }
 
             if (fresh.pullRequest.reviewThreads.pageInfo.hasNextPage) {
               console.log('Too many review threads after settlement — skipping approval');
