@@ -1,13 +1,13 @@
 ---
 id: STD-061
 title: Session Review and Retrospective Standard
-version: 0.2.1
+version: 0.3.0
 category: workflow
 status: draft
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-03-07
+last_updated: 2026-03-11
 review_date: 2026-05-14
 extends: [STD-000, STD-004, STD-032]
 tags: [session, review, retrospective, ai, process-improvement]
@@ -138,6 +138,73 @@ additionally assess:
 - Communication effectiveness (were handoffs clear?)
 - Orchestration quality (was work distributed efficiently?)
 
+## Weekly report
+
+A weekly report synthesizes all session reviews from a complete ISO work
+week (Monday through Sunday) into cross-project trend analysis, quality
+metrics, and threshold-based alerts. Unlike session reviews and daily
+reports, the weekly report is fully automated infrastructure with no
+human interaction required.
+
+### Generation
+
+- Generated automatically every Monday at 00:30 via systemd timer or
+  cron (after the ISO week boundary closes).
+- Manual trigger: `python3 ~/scripts/weekly_report.py [--week YYYY-WNN]`
+- The script determines its own reporting period by scanning for
+  missing completed ISO weeks.
+- If the scheduled run is missed, the next successful run generates
+  separate reports for EACH missed week (oldest first). Reports are
+  never consolidated across weeks.
+- Reports are idempotent — existing reports are not overwritten.
+
+### Work week boundary
+
+The work week is strictly Monday 00:00 through Sunday 23:59 of one ISO
+week. A report generated on Tuesday still covers only the previous
+Monday through Sunday — it never includes days from the current
+incomplete week.
+
+### Storage and naming
+
+```text
+~/session-reviews/global/weekly/
+├── YYYY-WNN_weekly_report.md
+├── YYYY-WNN_weekly_metrics.json    (machine-readable sidecar)
+└── charts/
+    ├── YYYY-WNN_rating_trends.png
+    ├── YYYY-WNN_token_usage.png
+    ├── YYYY-WNN_failure_distribution.png
+    └── YYYY-WNN_cross_project.png
+```
+
+### Required content
+
+The weekly report follows
+[weekly_report_tpl](../06_Projects/Templates/ai/weekly_report_tpl.md)
+(TPL-PRJ-WEEKLY-REPORT) and MUST contain: velocity metrics, quality
+trajectory with trailing 8-week trends, efficiency metrics (token
+costs, cache hit ratio), stability metrics, cross-project comparison,
+failure analysis with TF-IDF clustering, instinct effectiveness
+tracking, and threshold-based alerts.
+
+### Alert thresholds
+
+| Metric | GREEN | YELLOW | RED |
+|--------|-------|--------|-----|
+| avg_overall | >= 7.0 | >= 5.0 | < 5.0 |
+| high_severity_failures | 0 | <= 2 | > 2 |
+| closure_rate | >= 70% | >= 40% | < 40% |
+| failure_rate (per session) | <= 0.5 | <= 1.0 | > 1.0 |
+| error_rate | <= 5% | <= 15% | > 15% |
+
+### Notion sync
+
+Weekly data is pushed to a dedicated Weekly Reports Notion database
+(separate from the Sessions database) after each report is generated.
+Sync is non-blocking — failures are logged but do not prevent report
+generation.
+
 # Implementation Notes
 
 - The session review complements but does not replace the session
@@ -168,6 +235,10 @@ the previous session and reference any open action items.
 
 # Changelog
 
+- 0.3.0 — Added weekly report section: automated cross-project trend
+  analysis with DORA-adapted metrics, failure clustering, instinct
+  effectiveness tracking, threshold-based alerts, and backlog recovery.
+  References TPL-PRJ-WEEKLY-REPORT.
 - 0.2.1 — Updated daily report storage path to use `daily/` subdirectory,
   aligning with the TPL-PRJ-DAILY-REPORT template and actual practice.
 - 0.2.0 — Added daily report requirement for multi-instance sessions
