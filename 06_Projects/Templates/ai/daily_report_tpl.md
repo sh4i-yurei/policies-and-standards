@@ -262,8 +262,8 @@ interview that affect future work.
 # Compliance
 
 Work days with two or more sessions SHOULD produce a daily roll-up.
-Multi-instance sessions (three or more instances in the same session)
-MUST produce a daily roll-up per STD-061.
+Sessions with three or more concurrent AI instances MUST produce a
+daily roll-up per STD-061.
 
 # Changelog
 
