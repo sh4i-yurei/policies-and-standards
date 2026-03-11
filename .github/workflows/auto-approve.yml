@@ -1,6 +1,6 @@
 # Reusable auto-approve workflow.
 #
-# Approves PRs when all review threads are resolved and CI passes.
+# Approves PRs when all review threads are resolved.
 # Copilot code review only submits COMMENTED state (by design), so this
 # provides the APPROVED review required by branch protection.
 #
@@ -21,8 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-      checks: read
-      statuses: read
     steps:
       - name: Check review threads and approve
         uses: actions/github-script@v8
@@ -75,47 +73,7 @@ jobs:
               return;
             }
 
-            // 2. Check required status checks (both legacy statuses and check runs)
-            const { data: statuses } = await github.rest.repos.getCombinedStatusForRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: pr.head.sha,
-            });
-
-            if (statuses.state !== 'success' && statuses.total_count > 0) {
-              console.log(`Combined status: ${statuses.state} — skipping approval`);
-              return;
-            }
-
-            const { data: checkRuns } = await github.rest.checks.listForRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: pr.head.sha,
-              filter: 'latest',
-            });
-
-            // Exclude this workflow's own check run from evaluation
-            const otherRuns = checkRuns.check_runs.filter(cr =>
-              cr.name !== 'auto-approve'
-            );
-            const checksInProgress = otherRuns.some(cr =>
-              cr.status !== 'completed'
-            );
-            const checksFailed = otherRuns.some(cr =>
-              cr.conclusion && !['success', 'skipped', 'neutral'].includes(cr.conclusion)
-            );
-
-            if (checksInProgress) {
-              console.log('Check runs still in progress — skipping approval');
-              return;
-            }
-
-            if (checksFailed) {
-              console.log('Check runs failed — skipping approval');
-              return;
-            }
-
-            // 3. Check if already approved by github-actions[bot]
+            // 2. Check if already approved by github-actions[bot]
             const { data: reviews } = await github.rest.pulls.listReviews({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -131,13 +89,13 @@ jobs:
               return;
             }
 
-            // 4. All clear — approve
+            // 3. All clear — approve
             await github.rest.pulls.createReview({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: pr.number,
               event: 'APPROVE',
-              body: 'All review threads resolved and status checks passing.',
+              body: 'All review threads resolved. Branch protection enforces CI.',
             });
 
             console.log('PR approved by github-actions[bot]');
