@@ -1,0 +1,25 @@
+# Local caller for the reusable auto-approve workflow.
+# Triggers on review submissions and PR pushes, then delegates to the
+# shared workflow that checks threads before approving.
+#
+# Two triggers needed because GitHub gates bot-triggered runs
+# (Copilot reviews) as "action_required". The synchronize trigger
+# fires as the human pusher, bypassing the gate. The reusable
+# workflow guards against premature approval (requires at least
+# one review before approving).
+
+name: Auto Approve
+
+on:
+  pull_request_review:
+    types: [submitted]
+    branches: [main]
+  pull_request:
+    types: [synchronize]
+    branches: [main]
+
+jobs:
+  approve:
+    uses: ./.github/workflows/auto-approve.yml
+    permissions:
+      pull-requests: write
