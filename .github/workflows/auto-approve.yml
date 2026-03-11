@@ -125,8 +125,57 @@ jobs:
               return;
             }
 
-            // 3. Check if already approved by github-actions[bot]
-            const hasApproval = reviews.some(r =>
+            // 3. Wait for reviewer to finish posting threads.
+            //    Copilot submits the review object (COMMENTED state) 10-30s
+            //    before individual threads appear. Re-query threads after a
+            //    delay to catch any threads posted during that window.
+            console.log('Review found for current commit — waiting 60s for threads to settle...');
+            await new Promise(resolve => setTimeout(resolve, 60000));
+
+            const { repository: fresh } = await github.graphql(`
+              query($owner: String!, $repo: String!, $number: Int!) {
+                repository(owner: $owner, name: $repo) {
+                  pullRequest(number: $number) {
+                    reviewThreads(first: 100) {
+                      pageInfo { hasNextPage }
+                      nodes {
+                        isResolved
+                        isOutdated
+                      }
+                    }
+                  }
+                }
+              }
+            `, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              number: pr.number,
+            });
+
+            if (fresh.pullRequest.reviewThreads.pageInfo.hasNextPage) {
+              console.log('Too many review threads after settlement — skipping approval');
+              return;
+            }
+
+            const freshUnresolved = fresh.pullRequest.reviewThreads.nodes.filter(t =>
+              !t.isResolved && !t.isOutdated
+            );
+
+            if (freshUnresolved.length > 0) {
+              console.log(`${freshUnresolved.length} unresolved thread(s) after settlement — skipping approval`);
+              return;
+            }
+
+            // 4. Check if already approved by github-actions[bot]
+            //    Re-fetch reviews — another run may have approved during
+            //    the 60s settlement wait.
+            const { data: freshReviews } = await github.rest.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number,
+            });
+
+            const hasApproval = freshReviews.some(r =>
               r.user?.login === 'github-actions[bot]' && r.state === 'APPROVED'
             );
 
@@ -135,7 +184,7 @@ jobs:
               return;
             }
 
-            // 4. All clear — approve
+            // 5. All clear — approve
             await github.rest.pulls.createReview({
               owner: context.repo.owner,
               repo: context.repo.repo,
