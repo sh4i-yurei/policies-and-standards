@@ -1,0 +1,17 @@
+# Local caller for the reusable auto-approve workflow.
+# Triggers on review submissions and PR updates, then delegates to
+# the shared workflow that checks threads + CI before approving.
+
+name: Auto Approve
+
+on:
+  pull_request_review:
+    types: [submitted]
+  pull_request:
+    types: [synchronize]
+
+jobs:
+  approve:
+    uses: sh4i-yurei/policies-and-standards/.github/workflows/auto-approve.yml@main
+    permissions:
+      pull-requests: write
