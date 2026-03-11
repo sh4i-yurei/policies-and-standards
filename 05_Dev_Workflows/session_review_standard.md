@@ -1,13 +1,13 @@
 ---
 id: STD-061
 title: Session Review and Retrospective Standard
-version: 0.2.0
+version: 0.2.1
 category: workflow
 status: draft
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-02-15
+last_updated: 2026-03-07
 review_date: 2026-05-14
 extends: [STD-000, STD-004, STD-032]
 tags: [session, review, retrospective, ai, process-improvement]
@@ -53,6 +53,8 @@ across repos and provide a unified view of agent performance.
 ~/session-reviews/
 ├── <project>/
 │   ├── YYYY-MM-DD_<project>_s<N>_review.md
+│   ├── daily/
+│   │   └── YYYY-MM-DD_daily_report.md
 │   └── ...
 └── <other-project>/
     └── ...
@@ -117,7 +119,7 @@ a consolidated view.
 - The daily report follows
   [daily_report_tpl](../06_Projects/Templates/ai/daily_report_tpl.md)
   (TPL-PRJ-DAILY-REPORT).
-- Storage: `~/session-reviews/<project>/YYYY-MM-DD_<project>_daily_report.md`
+- Storage: `~/session-reviews/<project>/daily/YYYY-MM-DD_daily_report.md`
 - The daily report is produced after all instances have completed their
   individual reviews.
 - Content MUST include: per-instance summaries, aggregate metrics,
@@ -166,6 +168,8 @@ the previous session and reference any open action items.
 
 # Changelog
 
+- 0.2.1 — Updated daily report storage path to use `daily/` subdirectory,
+  aligning with the TPL-PRJ-DAILY-REPORT template and actual practice.
 - 0.2.0 — Added daily report requirement for multi-instance sessions
   (3+ instances). References TPL-PRJ-DAILY-REPORT.
 - 0.1.0 — Initial draft. Based on Session 7 prototype review.
