@@ -10,8 +10,9 @@
 #     GitHub gates bot-triggered runs as "action_required" (no opt-out).
 #     Copilot's reviews are bot-triggered, so that event never runs.
 #   - pull_request [synchronize] fires on each push — triggered by the
-#     human pusher, so it runs without gating. The "has review" guard
-#     below prevents approving before any reviewer has looked at the code.
+#     human pusher, so it runs without gating. The "current commit review"
+#     guard below prevents approving before any reviewer has reviewed the
+#     latest push (compares review timestamp vs head commit push time).
 #   - required_conversation_resolution in branch protection is the final
 #     safety net — even if auto-approve fires, unresolved threads block merge.
 #
@@ -45,11 +46,16 @@ jobs:
                    pull_number: context.issue.number
                  })).data;
 
-            // 1. Query all review threads via GraphQL
+            // 1. Query review threads AND head commit push time via GraphQL
             const { repository } = await github.graphql(`
               query($owner: String!, $repo: String!, $number: Int!) {
                 repository(owner: $owner, name: $repo) {
                   pullRequest(number: $number) {
+                    commits(last: 1) {
+                      nodes {
+                        commit { pushedDate }
+                      }
+                    }
                     reviewThreads(first: 100) {
                       pageInfo { hasNextPage }
                       nodes {
@@ -69,7 +75,12 @@ jobs:
               number: pr.number,
             });
 
-            const reviewThreads = repository.pullRequest.reviewThreads;
+            const pullRequest = repository.pullRequest;
+            const headPushedAt = new Date(
+              pullRequest.commits.nodes[0].commit.pushedDate
+            );
+
+            const reviewThreads = pullRequest.reviewThreads;
             if (reviewThreads.pageInfo.hasNextPage) {
               console.log('Too many review threads to check — skipping approval');
               return;
@@ -85,21 +96,32 @@ jobs:
               return;
             }
 
-            // 2. Require at least one review before approving.
-            //    Prevents the synchronize trigger from approving on the
-            //    initial push before Copilot (or any reviewer) has looked.
+            // 2. Require a review for the CURRENT commit before approving.
+            //    Prevents approving before Copilot has reviewed the latest push.
+            //    Compares the latest non-bot review timestamp against the head
+            //    commit's push time — if no review exists after the push, skip.
             const { data: reviews } = await github.rest.pulls.listReviews({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: pr.number,
             });
 
-            const hasReview = reviews.some(r =>
-              r.user?.login !== 'github-actions[bot]'
-            );
+            const latestReview = reviews
+              .filter(r => r.user?.login !== 'github-actions[bot]')
+              .sort((a, b) =>
+                new Date(b.submitted_at) - new Date(a.submitted_at)
+              )[0];
 
-            if (!hasReview) {
+            if (!latestReview) {
               console.log('No reviews submitted yet — skipping approval');
+              return;
+            }
+
+            if (new Date(latestReview.submitted_at) < headPushedAt) {
+              console.log(
+                `Latest review (${latestReview.submitted_at}) is older than ` +
+                `head commit (${headPushedAt.toISOString()}) — skipping approval`
+              );
               return;
             }
 
