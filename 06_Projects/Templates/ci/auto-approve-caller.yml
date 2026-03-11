@@ -9,9 +9,14 @@
 #       -F can_approve_pull_request_reviews=true
 #
 # This calls the reusable auto-approve workflow in policies-and-standards.
-# The workflow approves PRs when all review threads are resolved.
-# Copilot code review only submits COMMENTED (not APPROVED), so
-# this provides the APPROVED review required by branch protection.
+# The workflow approves PRs when a reviewer has submitted at least one
+# review AND all review threads are resolved.
+#
+# Two triggers needed because GitHub gates bot-triggered runs
+# (Copilot reviews) as "action_required" with no opt-out. The
+# synchronize trigger fires as the human pusher, bypassing the gate.
+# The reusable workflow guards against premature approval (requires
+# at least one review before approving).
 
 name: Auto Approve
 
