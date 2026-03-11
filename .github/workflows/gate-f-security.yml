@@ -35,4 +35,4 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Dependency review
-        uses: actions/dependency-review-action@v4
+        uses: actions/dependency-review-action@v4.9.0
