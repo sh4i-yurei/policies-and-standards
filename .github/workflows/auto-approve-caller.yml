@@ -1,6 +1,6 @@
 # Local caller for the reusable auto-approve workflow.
 # Triggers on review submissions and PR updates, then delegates to
-# the shared workflow that checks threads + CI before approving.
+# the shared workflow that checks threads before approving.
 
 name: Auto Approve
 
@@ -17,5 +17,3 @@ jobs:
     uses: ./.github/workflows/auto-approve.yml
     permissions:
       pull-requests: write
-      checks: read
-      statuses: read
