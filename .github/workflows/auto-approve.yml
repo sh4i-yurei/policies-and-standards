@@ -1,24 +1,31 @@
-# Auto-approve PRs after all review threads are resolved and CI passes.
+# Reusable auto-approve workflow.
+#
+# Approves PRs when all review threads are resolved and CI passes.
 # Copilot code review only submits COMMENTED state (by design), so this
-# workflow provides the APPROVED review required by branch protection.
-# Requires repo setting: can_approve_pull_request_reviews = true
+# provides the APPROVED review required by branch protection.
+#
+# Caller repos must:
+#   1. Create a caller workflow that triggers on pull_request_review and
+#      pull_request [synchronize] (see 06_Projects/Templates/ci/auto-approve-caller.yml)
+#   2. Enable repo setting: can_approve_pull_request_reviews = true
+#      (Settings > Actions > General > "Allow GitHub Actions to create
+#      and approve pull requests")
 
 name: "Auto Approve"
 
 on:
-  pull_request_review:
-    types: [submitted]
-  pull_request:
-    types: [synchronize]
+  workflow_call:
 
 jobs:
   auto-approve:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+      checks: read
+      statuses: read
     steps:
       - name: Check review threads and approve
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const pr = context.payload.pull_request

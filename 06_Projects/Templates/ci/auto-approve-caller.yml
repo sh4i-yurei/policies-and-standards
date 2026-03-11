@@ -1,0 +1,32 @@
+# Auto Approve Caller Template
+#
+# Copy this file to .github/workflows/auto-approve.yml in your project repo.
+#
+# Prerequisites:
+#   Settings > Actions > General > "Allow GitHub Actions to create and
+#   approve pull requests" must be checked. Or via API:
+#     gh api repos/OWNER/REPO/actions/permissions -X PUT \
+#       -F can_approve_pull_request_reviews=true
+#
+# This calls the reusable auto-approve workflow in policies-and-standards.
+# The workflow approves PRs when all review threads are resolved and CI
+# passes. Copilot code review only submits COMMENTED (not APPROVED), so
+# this provides the APPROVED review required by branch protection.
+
+name: Auto Approve
+
+on:
+  pull_request_review:
+    types: [submitted]
+    branches: [main]
+  pull_request:
+    types: [synchronize]
+    branches: [main]
+
+jobs:
+  approve:
+    uses: sh4i-yurei/policies-and-standards/.github/workflows/auto-approve.yml@main
+    permissions:
+      pull-requests: write
+      checks: read
+      statuses: read
