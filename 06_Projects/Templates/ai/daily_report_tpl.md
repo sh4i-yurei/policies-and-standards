@@ -231,8 +231,8 @@ interview that affect future work.
   already captured in session-close reviews). If the user explicitly
   declines or is unavailable, proceed with the report and record
   "Interview declined" in the Daily Interview Insights section
-  (STD-061 requires the daily report even when the interview is
-  skipped).
+  (the daily report is still required for 3+ instance sessions per
+  STD-061, regardless of whether the interview is conducted).
 - Read all session reviews for today before starting the interview.
   If the `tasks.jsonl` workflow is active, also pull from it. Present
   a cross-session analysis to the user, then capture their feedback.

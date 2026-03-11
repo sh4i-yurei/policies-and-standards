@@ -169,7 +169,7 @@ the previous session and reference any open action items.
 # Changelog
 
 - 0.2.1 — Updated daily report storage path to use `daily/` subdirectory,
-  aligning with TPL-PRJ-DAILY-REPORT v0.2.0 and actual practice.
+  aligning with the TPL-PRJ-DAILY-REPORT template and actual practice.
 - 0.2.0 — Added daily report requirement for multi-instance sessions
   (3+ instances). References TPL-PRJ-DAILY-REPORT.
 - 0.1.0 — Initial draft. Based on Session 7 prototype review.
