@@ -28,8 +28,6 @@ sessions. REQUIRED for multi-instance sessions (3+ instances per
 STD-061). Also useful for single-session days when trend tracking or
 operational review is desired. Save as
 `~/session-reviews/<project>/daily/YYYY-MM-DD_daily_report.md`.
-For global sessions:
-`~/session-reviews/global/daily/YYYY-MM-DD_daily_report.md`.
 Extends [session_review_standard](../../../05_Dev_Workflows/session_review_standard.md)
 (STD-061).
 
@@ -178,6 +176,8 @@ Cross-session view of systemic issues. Focus on:
 - <tool or script improvement, integration to explore>
 
 ## Daily Interview Insights
+
+- Interview: <conducted|declined>
 
 Capture the user's cross-session feedback from the operational
 interview. This section records the actual conversation — what the
