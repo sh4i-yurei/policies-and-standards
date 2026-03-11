@@ -1,13 +1,13 @@
 ---
 id: TPL-PRJ-DAILY-REPORT
 title: Daily report template
-version: 0.2.0
+version: 0.2.1
 category: template
 status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-03-07
+last_updated: 2026-03-10
 extends: [STD-001, STD-004, STD-032, STD-061]
 tags: [template, ai, session, reporting, multi-instance, operations]
 ---
@@ -226,10 +226,13 @@ interview that affect future work.
 # Implementation Notes
 
 - The report requires an **operational interview** with the user
-  before writing. Do NOT write the report without conducting the
-  interview first. The interview focuses on cross-session patterns
+  before writing. The interview focuses on cross-session patterns
   and system health, not individual session details (those are
-  already captured in session-close reviews).
+  already captured in session-close reviews). If the user explicitly
+  declines or is unavailable, proceed with the report and record
+  "Interview declined" in the Daily Interview Insights section
+  (STD-061 requires the daily report even when the interview is
+  skipped).
 - Read all session reviews for today before starting the interview.
   If the `tasks.jsonl` workflow is active, also pull from it. Present
   a cross-session analysis to the user, then capture their feedback.
@@ -262,6 +265,8 @@ MUST produce a daily roll-up per STD-061.
 
 # Changelog
 
+- 0.2.1 — Allow proceeding without interview when user declines
+  (STD-061 compliance). Record "Interview declined" in insights section.
 - 0.2.0 — Major revision. Added operational interview requirement,
   per-session ratings table, operational analysis sections (what
   worked / what needs improvement), daily interview insights section,
