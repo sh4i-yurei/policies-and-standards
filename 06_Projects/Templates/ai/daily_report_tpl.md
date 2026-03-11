@@ -23,8 +23,10 @@ on priorities and system health with the user.
 
 # Scope
 
-Use at the end of any AI-assisted work day — single-instance or
-multi-instance. Save as
+RECOMMENDED at the end of any AI-assisted work day with two or more
+sessions. REQUIRED for multi-instance sessions (3+ instances per
+STD-061). Also useful for single-session days when trend tracking or
+operational review is desired. Save as
 `~/session-reviews/<project>/daily/YYYY-MM-DD_daily_report.md`.
 For global sessions:
 `~/session-reviews/global/daily/YYYY-MM-DD_daily_report.md`.
