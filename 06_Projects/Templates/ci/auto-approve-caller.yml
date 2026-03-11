@@ -19,9 +19,6 @@ on:
   pull_request_review:
     types: [submitted]
     branches: [main]
-  pull_request:
-    types: [synchronize]
-    branches: [main]
 
 jobs:
   approve:

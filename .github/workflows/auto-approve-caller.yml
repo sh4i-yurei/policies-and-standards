@@ -1,15 +1,14 @@
 # Local caller for the reusable auto-approve workflow.
-# Triggers on review submissions and PR updates, then delegates to
-# the shared workflow that checks threads before approving.
+# Triggers on review submissions, then delegates to the shared
+# workflow that checks threads before approving. Only fires on
+# pull_request_review (not synchronize) so approval waits until
+# a reviewer has actually reviewed the current code.
 
 name: Auto Approve
 
 on:
   pull_request_review:
     types: [submitted]
-    branches: [main]
-  pull_request:
-    types: [synchronize]
     branches: [main]
 
 jobs:
