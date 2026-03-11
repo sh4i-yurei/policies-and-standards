@@ -27,8 +27,8 @@ from structured session data across all projects.
 
 # Scope
 
-Generated automatically every Sunday at 22:00 via systemd timer or
-cron. Also triggered manually via
+Generated automatically every Monday at 00:30 via systemd timer or
+cron (after the ISO week boundary closes). Also triggered manually via
 `python3 ~/scripts/weekly_report.py [--week YYYY-WNN]`.
 
 Save as

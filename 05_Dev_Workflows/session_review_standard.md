@@ -148,8 +148,8 @@ human interaction required.
 
 ### Generation
 
-- Generated automatically every Sunday at 22:00 via systemd timer or
-  cron.
+- Generated automatically every Monday at 00:30 via systemd timer or
+  cron (after the ISO week boundary closes).
 - Manual trigger: `python3 ~/scripts/weekly_report.py [--week YYYY-WNN]`
 - The script determines its own reporting period by scanning for
   missing completed ISO weeks.
