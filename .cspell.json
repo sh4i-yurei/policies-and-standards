@@ -33,6 +33,7 @@
     "rustfmt",
     "checkstyle",
     "surefire",
+    "matplotlib",
     "mypy",
     "ruff",
     "pytest",
