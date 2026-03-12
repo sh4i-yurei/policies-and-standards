@@ -128,11 +128,11 @@ jobs:
 
             // 3. Wait for reviewer to finish posting threads.
             //    Copilot submits the review object (COMMENTED state) 10-30s
-            //    before individual threads appear. Poll with exponential
+            //    before individual threads appear. Poll with increasing
             //    backoff until thread state stabilizes (count + resolved
             //    status unchanged for 2 consecutive polls).
             //
-            //    Backoff: 5s, 10s, 15s, 20s, 30s (total ceiling: 120s).
+            //    Backoff schedule: 5s, 10s, 15s, 20s, 30s (total ceiling: 80s).
             //    Exits early when stable — fast on small/clean PRs.
             console.log('Review found for current commit — polling for thread settlement...');
 
@@ -140,10 +140,12 @@ jobs:
             let prevThreadCount = -1;
             let prevUnresolvedCount = -1;
             let stablePolls = 0;
+            let elapsed = 0;
             let fresh;
 
             for (const delay of delays) {
               await new Promise(resolve => setTimeout(resolve, delay));
+              elapsed += delay;
 
               const result = await github.graphql(`
                 query($owner: String!, $repo: String!, $number: Int!) {
@@ -196,14 +198,14 @@ jobs:
               ).length;
 
               console.log(
-                `Poll after ${delay / 1000}s: ${currentThreadCount} threads, ` +
+                `Poll at ${elapsed / 1000}s: ${currentThreadCount} threads, ` +
                 `${currentUnresolved} unresolved`
               );
 
               if (currentThreadCount === prevThreadCount &&
                   currentUnresolved === prevUnresolvedCount) {
                 stablePolls++;
-                if (stablePolls >= 2) {
+                if (stablePolls >= 1) {
                   console.log('Thread state stable for 2 consecutive polls — settled');
                   break;
                 }
