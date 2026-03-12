@@ -133,7 +133,8 @@ jobs:
             //    status unchanged for 2 consecutive polls).
             //
             //    Backoff schedule: 5s, 10s, 15s, 20s, 30s (total ceiling: 80s).
-            //    Exits early when stable — fast on small/clean PRs.
+            //    Minimum 30s before settlement (threads can arrive up to 30s
+            //    after review object). Exits early when stable past that floor.
             console.log('Review found for current commit — polling for thread settlement...');
 
             const delays = [5000, 10000, 15000, 20000, 30000];
@@ -205,8 +206,8 @@ jobs:
               if (currentThreadCount === prevThreadCount &&
                   currentUnresolved === prevUnresolvedCount) {
                 stablePolls++;
-                if (stablePolls >= 1) {
-                  console.log('Thread state stable for 2 consecutive polls — settled');
+                if (stablePolls >= 1 && elapsed >= 30000) {
+                  console.log('Thread state stable for 2 consecutive polls (>=30s elapsed) — settled');
                   break;
                 }
               } else {
