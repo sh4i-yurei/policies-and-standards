@@ -8,7 +8,7 @@ on:
         required: false
         type: boolean
         default: false
-      language:
+      codeql-language:
         description: "CodeQL language to analyze"
         required: false
         type: string
@@ -28,7 +28,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         with:
-          languages: ${{ inputs.language || 'python' }}
+          languages: ${{ inputs.codeql-language || 'python' }}
 
       - name: Autobuild
         uses: github/codeql-action/autobuild@v4
@@ -38,6 +38,8 @@ jobs:
 
   dependency-review:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     continue-on-error: ${{ !inputs.blocking }}
     steps:
       - uses: actions/checkout@v6
