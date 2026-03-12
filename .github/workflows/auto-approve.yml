@@ -128,66 +128,111 @@ jobs:
 
             // 3. Wait for reviewer to finish posting threads.
             //    Copilot submits the review object (COMMENTED state) 10-30s
-            //    before individual threads appear. Re-query threads after a
-            //    delay to catch any threads posted during that window.
-            console.log('Review found for current commit — waiting 60s for threads to settle...');
-            await new Promise(resolve => setTimeout(resolve, 60000));
+            //    before individual threads appear. Poll with increasing
+            //    backoff until thread state stabilizes (count + resolved
+            //    status unchanged for 2 consecutive polls).
+            //
+            //    Backoff delays: +5s, +10s, +15s, +20s, +30s
+            //    (polls at 5s, 15s, 30s, 50s, 80s elapsed).
+            //    Minimum 30s before settlement (threads can arrive up to 30s
+            //    after review object). Exits early when stable past that floor.
+            console.log('Review found for current commit — polling for thread settlement...');
 
-            const { repository: fresh } = await github.graphql(`
-              query($owner: String!, $repo: String!, $number: Int!) {
-                repository(owner: $owner, name: $repo) {
-                  pullRequest(number: $number) {
-                    commits(last: 1) {
-                      nodes {
-                        commit { pushedDate }
+            const BACKOFF_DELAYS_MS = [5000, 10000, 15000, 20000, 30000];
+            const SETTLEMENT_FLOOR_MS = 30000;
+            let prevThreadCount = -1;
+            let prevUnresolvedCount = -1;
+            let stableTransitions = 0;
+            let elapsed = 0;
+            let fresh;
+
+            for (const delay of BACKOFF_DELAYS_MS) {
+              await new Promise(resolve => setTimeout(resolve, delay));
+              elapsed += delay;
+
+              const result = await github.graphql(`
+                query($owner: String!, $repo: String!, $number: Int!) {
+                  repository(owner: $owner, name: $repo) {
+                    pullRequest(number: $number) {
+                      commits(last: 1) {
+                        nodes {
+                          commit { pushedDate }
+                        }
                       }
-                    }
-                    reviewThreads(first: 100) {
-                      pageInfo { hasNextPage }
-                      nodes {
-                        isResolved
-                        isOutdated
+                      reviewThreads(first: 100) {
+                        pageInfo { hasNextPage }
+                        nodes {
+                          isResolved
+                          isOutdated
+                        }
                       }
                     }
                   }
                 }
-              }
-            `, {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              number: pr.number,
-            });
+              `, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                number: pr.number,
+              });
 
-            // 3a. Guard against new pushes during the sleep.
-            //     If head changed, bail — a new run will handle it.
-            const freshPushedAt = new Date(
-              fresh.pullRequest.commits.nodes[0].commit.pushedDate
-            );
-            if (freshPushedAt.getTime() !== headPushedAt.getTime()) {
-              console.log(
-                `Head changed during settlement (was ${headPushedAt.toISOString()}, ` +
-                `now ${freshPushedAt.toISOString()}) — skipping, new run will handle`
+              fresh = result.repository;
+
+              // Guard against new pushes during polling.
+              const freshPushedAt = new Date(
+                fresh.pullRequest.commits.nodes[0].commit.pushedDate
               );
-              return;
+              if (freshPushedAt.getTime() !== headPushedAt.getTime()) {
+                console.log(
+                  `Head changed during settlement (was ${headPushedAt.toISOString()}, ` +
+                  `now ${freshPushedAt.toISOString()}) — skipping, new run will handle`
+                );
+                return;
+              }
+
+              if (fresh.pullRequest.reviewThreads.pageInfo.hasNextPage) {
+                console.log('Too many review threads — skipping approval');
+                return;
+              }
+
+              const currentThreads = fresh.pullRequest.reviewThreads.nodes;
+              const currentThreadCount = currentThreads.length;
+              const currentUnresolved = currentThreads.filter(t =>
+                !t.isResolved && !t.isOutdated
+              ).length;
+
+              console.log(
+                `Poll at ${elapsed / 1000}s: ${currentThreadCount} threads, ` +
+                `${currentUnresolved} unresolved`
+              );
+
+              if (currentThreadCount === prevThreadCount &&
+                  currentUnresolved === prevUnresolvedCount) {
+                stableTransitions++;
+                if (stableTransitions >= 1 && elapsed >= SETTLEMENT_FLOOR_MS) {
+                  console.log('Thread state stable for 2 consecutive polls (>=30s elapsed) — settled');
+                  break;
+                }
+              } else {
+                stableTransitions = 0;
+              }
+
+              prevThreadCount = currentThreadCount;
+              prevUnresolvedCount = currentUnresolved;
             }
 
-            if (fresh.pullRequest.reviewThreads.pageInfo.hasNextPage) {
-              console.log('Too many review threads after settlement — skipping approval');
-              return;
-            }
-
-            const freshUnresolved = fresh.pullRequest.reviewThreads.nodes.filter(t =>
+            // Check final thread state after settlement.
+            const settledUnresolved = fresh.pullRequest.reviewThreads.nodes.filter(t =>
               !t.isResolved && !t.isOutdated
             );
 
-            if (freshUnresolved.length > 0) {
-              console.log(`${freshUnresolved.length} unresolved thread(s) after settlement — skipping approval`);
+            if (settledUnresolved.length > 0) {
+              console.log(`${settledUnresolved.length} unresolved thread(s) after settlement — skipping approval`);
               return;
             }
 
             // 4. Check if already approved by github-actions[bot]
             //    Re-fetch reviews — another run may have approved during
-            //    the 60s settlement wait.
+            //    the settlement polling.
             const { data: freshReviews } = await github.rest.pulls.listReviews({
               owner: context.repo.owner,
               repo: context.repo.repo,

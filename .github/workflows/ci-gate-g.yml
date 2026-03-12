@@ -11,5 +11,8 @@ on:
 jobs:
   attribution:
     uses: ./.github/workflows/gate-g-attribution.yml
+    permissions:
+      contents: read
+      pull-requests: read
     with:
       blocking: false
