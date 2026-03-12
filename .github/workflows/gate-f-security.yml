@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       security-events: write
+      contents: read
     continue-on-error: ${{ !inputs.blocking }}
     steps:
       - uses: actions/checkout@v6
