@@ -132,19 +132,21 @@ jobs:
             //    backoff until thread state stabilizes (count + resolved
             //    status unchanged for 2 consecutive polls).
             //
-            //    Backoff schedule: 5s, 10s, 15s, 20s, 30s (total ceiling: 80s).
+            //    Backoff delays: +5s, +10s, +15s, +20s, +30s
+            //    (polls at 5s, 15s, 30s, 50s, 80s elapsed).
             //    Minimum 30s before settlement (threads can arrive up to 30s
             //    after review object). Exits early when stable past that floor.
             console.log('Review found for current commit — polling for thread settlement...');
 
-            const delays = [5000, 10000, 15000, 20000, 30000];
+            const BACKOFF_DELAYS_MS = [5000, 10000, 15000, 20000, 30000];
+            const SETTLEMENT_FLOOR_MS = 30000;
             let prevThreadCount = -1;
             let prevUnresolvedCount = -1;
-            let stablePolls = 0;
+            let stableTransitions = 0;
             let elapsed = 0;
             let fresh;
 
-            for (const delay of delays) {
+            for (const delay of BACKOFF_DELAYS_MS) {
               await new Promise(resolve => setTimeout(resolve, delay));
               elapsed += delay;
 
@@ -205,13 +207,13 @@ jobs:
 
               if (currentThreadCount === prevThreadCount &&
                   currentUnresolved === prevUnresolvedCount) {
-                stablePolls++;
-                if (stablePolls >= 1 && elapsed >= 30000) {
+                stableTransitions++;
+                if (stableTransitions >= 1 && elapsed >= SETTLEMENT_FLOOR_MS) {
                   console.log('Thread state stable for 2 consecutive polls (>=30s elapsed) — settled');
                   break;
                 }
               } else {
-                stablePolls = 0;
+                stableTransitions = 0;
               }
 
               prevThreadCount = currentThreadCount;
