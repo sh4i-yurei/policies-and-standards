@@ -8,10 +8,16 @@ on:
         required: false
         type: boolean
         default: false
+      language:
+        description: "CodeQL language to analyze"
+        required: false
+        type: string
+        default: "python"
 
 jobs:
   codeql:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       security-events: write
       contents: read
@@ -36,4 +42,4 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Dependency review
-        uses: actions/dependency-review-action@v4.9.0
+        uses: actions/dependency-review-action@v4
