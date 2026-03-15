@@ -8,10 +8,16 @@ on:
         required: false
         type: boolean
         default: false
+      codeql-language:
+        description: "CodeQL language to analyze"
+        required: false
+        type: string
+        default: "python"
 
 jobs:
   codeql:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       security-events: write
       contents: read
@@ -22,7 +28,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         with:
-          languages: ${{ inputs.language || 'python' }}
+          languages: ${{ inputs.codeql-language }}
 
       - name: Autobuild
         uses: github/codeql-action/autobuild@v4
@@ -32,8 +38,10 @@ jobs:
 
   dependency-review:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     continue-on-error: ${{ !inputs.blocking }}
     steps:
       - uses: actions/checkout@v6
       - name: Dependency review
-        uses: actions/dependency-review-action@v4.9.0
+        uses: actions/dependency-review-action@v4
