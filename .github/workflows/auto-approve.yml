@@ -6,9 +6,9 @@
 # review required by branch protection.
 #
 # Review guard: checks specifically for a review from
-# copilot-pull-request-reviewer[bot] whose commit_id matches the
-# current head SHA. Thread replies and human reviews do NOT pass
-# this guard — only an actual Copilot code review does.
+# copilot-pull-request-reviewer[bot]. If the review is for an older
+# commit, uses the compare API to verify no code changed since.
+# Thread replies and human reviews do NOT pass this guard.
 #
 # Trigger architecture (caller repos):
 #   - pull_request_review [submitted]: fires when Copilot posts review.
@@ -104,12 +104,13 @@ jobs:
               return;
             }
 
-            // 2. Require a Copilot review for the CURRENT commit.
+            // 2. Require a Copilot review that covers the current code.
             //    Only counts reviews from copilot-pull-request-reviewer[bot].
             //    Thread replies and human reviews do NOT pass this guard.
-            //    Uses commit_id (SHA) comparison, not timestamps, to avoid
-            //    races where Copilot submits a review for the old head after
-            //    a new push lands.
+            //    If the review is for an older commit, uses the compare API
+            //    to check whether any files changed since. No file changes
+            //    means the review still covers the current code (e.g., empty
+            //    commits, CI retriggers, merge commits without conflicts).
             const reviews = await github.paginate(
               github.rest.pulls.listReviews,
               { owner: context.repo.owner, repo: context.repo.repo, pull_number: pr.number, per_page: 100 }
@@ -120,7 +121,6 @@ jobs:
             const copilotReview = reviews
               .filter(r =>
                 r.user?.login === 'copilot-pull-request-reviewer[bot]' &&
-                r.commit_id === headSha &&
                 r.state === 'COMMENTED'
               )
               .sort((a, b) =>
@@ -128,8 +128,31 @@ jobs:
               )[0];
 
             if (!copilotReview) {
-              console.log(`No Copilot review for head SHA ${headSha.slice(0, 8)} — skipping approval`);
+              console.log('No Copilot review found — skipping approval');
               return;
+            }
+
+            // If review is for an older commit, check if code changed since.
+            if (copilotReview.commit_id !== headSha) {
+              const { data: comparison } = await github.rest.repos.compareCommits({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                base: copilotReview.commit_id,
+                head: headSha,
+              });
+
+              if (comparison.files.length > 0) {
+                console.log(
+                  `${comparison.files.length} file(s) changed since Copilot review ` +
+                  `(${copilotReview.commit_id.slice(0, 8)} → ${headSha.slice(0, 8)}) — skipping approval`
+                );
+                return;
+              }
+
+              console.log(
+                `No file changes since Copilot review ` +
+                `(${copilotReview.commit_id.slice(0, 8)} → ${headSha.slice(0, 8)}) — review still valid`
+              );
             }
 
             // 3. Wait for reviewer to finish posting threads.
