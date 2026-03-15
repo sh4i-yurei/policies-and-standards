@@ -1,13 +1,13 @@
 ---
 id: STD-030
 title: CI/CD Pipeline and Validation Model
-version: 1.7.0
+version: 1.7.1
 category: workflow
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-03-06
+last_updated: 2026-03-15
 extends:
   - STD-000
   - STD-003
@@ -304,7 +304,7 @@ Fail if required documentation is missing or malformed.
 
 - Enforces linting, formatting, and static analysis
 
-- Default Python tools: `ruff`, `black`, `mypy`
+- Default Python tools: `ruff` (lint + format), `mypy`
 
 - Fail on any violation
 
@@ -700,6 +700,8 @@ be considered non-compliant and subject to rollback or remediation.
 
 # Changelog
 
+- 1.7.1 - Gate C: removed black, standardized on ruff (lint + format).
+  Updated gate-c-code.yml, post-merge.yml, and default tooling list.
 - 1.7.0 - Gate D: sandboxed test execution REQUIRED when Docker is
   available. In-host fallback MUST be tagged and logged.
 - 1.6.0 - Revised Gate G architecture: CodeRabbit reviews run locally
