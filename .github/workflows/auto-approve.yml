@@ -134,25 +134,32 @@ jobs:
 
             // If review is for an older commit, check if code changed since.
             if (copilotReview.commit_id !== headSha) {
-              const { data: comparison } = await github.rest.repos.compareCommits({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                base: copilotReview.commit_id,
-                head: headSha,
-              });
+              try {
+                const { data: comparison } = await github.rest.repos.compareCommits({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  base: copilotReview.commit_id,
+                  head: headSha,
+                });
 
-              if (comparison.files.length > 0) {
+                if (comparison.files.length > 0) {
+                  console.log(
+                    `${comparison.files.length} file(s) changed since Copilot review ` +
+                    `(${copilotReview.commit_id.slice(0, 8)} → ${headSha.slice(0, 8)}) — skipping approval`
+                  );
+                  return;
+                }
+
                 console.log(
-                  `${comparison.files.length} file(s) changed since Copilot review ` +
-                  `(${copilotReview.commit_id.slice(0, 8)} → ${headSha.slice(0, 8)}) — skipping approval`
+                  `No file changes since Copilot review ` +
+                  `(${copilotReview.commit_id.slice(0, 8)} → ${headSha.slice(0, 8)}) — review covers current code`
+                );
+              } catch (err) {
+                console.log(
+                  `Compare API failed (${err.message}) — skipping approval (safe fallback)`
                 );
                 return;
               }
-
-              console.log(
-                `No file changes since Copilot review ` +
-                `(${copilotReview.commit_id.slice(0, 8)} → ${headSha.slice(0, 8)}) — review still valid`
-              );
             }
 
             // 3. Wait for reviewer to finish posting threads.
@@ -165,7 +172,7 @@ jobs:
             //    (polls at 5s, 15s, 30s, 50s, 80s elapsed).
             //    Minimum 30s before settlement (threads can arrive up to 30s
             //    after review object). Exits early when stable past that floor.
-            console.log('Review found for current commit — polling for thread settlement...');
+            console.log('Copilot review covers current code — polling for thread settlement...');
 
             const BACKOFF_DELAYS_MS = [5000, 10000, 15000, 20000, 30000];
             const SETTLEMENT_FLOOR_MS = 30000;
