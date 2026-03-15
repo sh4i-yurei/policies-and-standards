@@ -26,6 +26,7 @@
 # Caller repos must:
 #   1. Create a caller workflow with both triggers above
 #   2. Create request-copilot-review.yml for explicit re-request
+#      (see agent-ops/.github/workflows/ for reference implementation)
 #   3. Enable repo setting: can_approve_pull_request_reviews = true
 #      (Settings > Actions > General > "Allow GitHub Actions to create
 #      and approve pull requests")
@@ -106,28 +107,34 @@ jobs:
             // 2. Require a Copilot review for the CURRENT commit.
             //    Only counts reviews from copilot-pull-request-reviewer[bot].
             //    Thread replies and human reviews do NOT pass this guard.
+            //    Uses commit_id (SHA) comparison, not timestamps, to avoid
+            //    races where Copilot submits a review for the old head after
+            //    a new push lands.
             const { data: reviews } = await github.rest.pulls.listReviews({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: pr.number,
+              per_page: 100,
             });
 
+            const headSha = pr.head?.sha
+              ?? (await github.rest.pulls.get({
+                   owner: context.repo.owner,
+                   repo: context.repo.repo,
+                   pull_number: pr.number,
+                 })).data.head.sha;
+
             const copilotReview = reviews
-              .filter(r => r.user?.login === 'copilot-pull-request-reviewer[bot]')
+              .filter(r =>
+                r.user?.login === 'copilot-pull-request-reviewer[bot]' &&
+                r.commit_id === headSha
+              )
               .sort((a, b) =>
                 new Date(b.submitted_at) - new Date(a.submitted_at)
               )[0];
 
             if (!copilotReview) {
-              console.log('No Copilot review found — skipping approval');
-              return;
-            }
-
-            if (new Date(copilotReview.submitted_at) < headPushedAt) {
-              console.log(
-                `Copilot review (${copilotReview.submitted_at}) is older than ` +
-                `head commit (${headPushedAt.toISOString()}) — skipping approval`
-              );
+              console.log(`No Copilot review for head SHA ${headSha.slice(0, 8)} — skipping approval`);
               return;
             }
 
