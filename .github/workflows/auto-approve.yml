@@ -1,26 +1,33 @@
 # Reusable auto-approve workflow.
 #
-# Approves PRs when a reviewer has submitted at least one review AND all
+# Approves PRs when Copilot review covers the current code AND all
 # review threads are resolved (or outdated). Copilot code review only
 # submits COMMENTED state (by design), so this provides the APPROVED
 # review required by branch protection.
 #
-# Why both pull_request_review AND synchronize triggers?
-#   - pull_request_review [submitted] fires when a reviewer posts, but
-#     GitHub gates bot-triggered runs as "action_required" (no opt-out).
-#     Copilot's reviews are bot-triggered, so that event never runs.
-#   - pull_request [synchronize] fires on each push — triggered by the
-#     human pusher, so it runs without gating. The "current commit review"
-#     guard below prevents approving before any reviewer has reviewed the
-#     latest push (compares review timestamp vs head commit push time).
-#   - required_conversation_resolution in branch protection is the final
-#     safety net — even if auto-approve fires, unresolved threads block merge.
+# Review guard: checks specifically for a review from
+# copilot-pull-request-reviewer[bot]. If the review is for an older
+# commit, uses the compare API to verify no code changed since.
+# Thread replies and human reviews do NOT pass this guard.
+#
+# Trigger architecture (caller repos):
+#   - pull_request_review [submitted]: fires when Copilot posts review.
+#     May be gated as "action_required" for bot-triggered runs.
+#   - pull_request [synchronize]: fires on each push (human-triggered,
+#     not gated). Acts as catch-up if pull_request_review was gated.
+#   - A separate request-copilot-review.yml workflow should run on
+#     synchronize to explicitly re-request Copilot review on each push
+#     (fallback for flaky review_on_push ruleset).
+#
+# Branch protection should have:
+#   - dismiss_stale_reviews: true (forces fresh approval per push)
+#   - required_conversation_resolution: true (blocks merge on threads)
 #
 # Caller repos must:
-#   1. Create a caller workflow that triggers on pull_request_review
-#      [submitted] AND pull_request [synchronize]
+#   1. Create a caller workflow with both triggers above
+#   2. Create request-copilot-review.yml for explicit re-request
 #      (see 06_Projects/Templates/ci/auto-approve-caller.yml)
-#   2. Enable repo setting: can_approve_pull_request_reviews = true
+#   3. Enable repo setting: can_approve_pull_request_reviews = true
 #      (Settings > Actions > General > "Allow GitHub Actions to create
 #      and approve pull requests")
 
@@ -97,33 +104,62 @@ jobs:
               return;
             }
 
-            // 2. Require a review for the CURRENT commit before approving.
-            //    Prevents approving before Copilot has reviewed the latest push.
-            //    Compares the latest non-bot review timestamp against the head
-            //    commit's push time — if no review exists after the push, skip.
-            const { data: reviews } = await github.rest.pulls.listReviews({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pr.number,
-            });
+            // 2. Require a Copilot review that covers the current code.
+            //    Only counts reviews from copilot-pull-request-reviewer[bot].
+            //    Thread replies and human reviews do NOT pass this guard.
+            //    If the review is for an older commit, uses the compare API
+            //    to check whether any files changed since. No file changes
+            //    means the review still covers the current code (e.g., empty
+            //    commits, CI retriggers, merge commits without conflicts).
+            const reviews = await github.paginate(
+              github.rest.pulls.listReviews,
+              { owner: context.repo.owner, repo: context.repo.repo, pull_number: pr.number, per_page: 100 }
+            );
 
-            const latestReview = reviews
-              .filter(r => r.user?.login !== 'github-actions[bot]')
+            const headSha = pr.head.sha;
+
+            const copilotReview = reviews
+              .filter(r =>
+                r.user?.login === 'copilot-pull-request-reviewer[bot]' &&
+                r.state === 'COMMENTED'
+              )
               .sort((a, b) =>
                 new Date(b.submitted_at) - new Date(a.submitted_at)
               )[0];
 
-            if (!latestReview) {
-              console.log('No reviews submitted yet — skipping approval');
+            if (!copilotReview) {
+              console.log('No Copilot review found — skipping approval');
               return;
             }
 
-            if (new Date(latestReview.submitted_at) < headPushedAt) {
-              console.log(
-                `Latest review (${latestReview.submitted_at}) is older than ` +
-                `head commit (${headPushedAt.toISOString()}) — skipping approval`
-              );
-              return;
+            // If review is for an older commit, check if code changed since.
+            if (copilotReview.commit_id !== headSha) {
+              try {
+                const { data: comparison } = await github.rest.repos.compareCommits({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  base: copilotReview.commit_id,
+                  head: headSha,
+                });
+
+                if (comparison.files.length > 0) {
+                  console.log(
+                    `${comparison.files.length} file(s) changed since Copilot review ` +
+                    `(${copilotReview.commit_id.slice(0, 8)} → ${headSha.slice(0, 8)}) — skipping approval`
+                  );
+                  return;
+                }
+
+                console.log(
+                  `No file changes since Copilot review ` +
+                  `(${copilotReview.commit_id.slice(0, 8)} → ${headSha.slice(0, 8)}) — review covers current code`
+                );
+              } catch (err) {
+                console.log(
+                  `Compare API failed (${err.message}) — skipping approval (safe fallback)`
+                );
+                return;
+              }
             }
 
             // 3. Wait for reviewer to finish posting threads.
@@ -136,7 +172,7 @@ jobs:
             //    (polls at 5s, 15s, 30s, 50s, 80s elapsed).
             //    Minimum 30s before settlement (threads can arrive up to 30s
             //    after review object). Exits early when stable past that floor.
-            console.log('Review found for current commit — polling for thread settlement...');
+            console.log('Copilot review covers current code — polling for thread settlement...');
 
             const BACKOFF_DELAYS_MS = [5000, 10000, 15000, 20000, 30000];
             const SETTLEMENT_FLOOR_MS = 30000;
@@ -233,11 +269,10 @@ jobs:
             // 4. Check if already approved by github-actions[bot]
             //    Re-fetch reviews — another run may have approved during
             //    the settlement polling.
-            const { data: freshReviews } = await github.rest.pulls.listReviews({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: pr.number,
-            });
+            const freshReviews = await github.paginate(
+              github.rest.pulls.listReviews,
+              { owner: context.repo.owner, repo: context.repo.repo, pull_number: pr.number, per_page: 100 }
+            );
 
             const hasApproval = freshReviews.some(r =>
               r.user?.login === 'github-actions[bot]' && r.state === 'APPROVED'
