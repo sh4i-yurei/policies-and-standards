@@ -1,6 +1,6 @@
 # Reusable auto-approve workflow.
 #
-# Approves PRs when Copilot has reviewed the current commit AND all
+# Approves PRs when Copilot review covers the current code AND all
 # review threads are resolved (or outdated). Copilot code review only
 # submits COMMENTED state (by design), so this provides the APPROVED
 # review required by branch protection.
