@@ -6,8 +6,8 @@
 # review required by branch protection.
 #
 # Review guard: checks specifically for a review from
-# copilot-pull-request-reviewer[bot] that is newer than the head
-# commit's push time. Thread replies and human reviews do NOT pass
+# copilot-pull-request-reviewer[bot] whose commit_id matches the
+# current head SHA. Thread replies and human reviews do NOT pass
 # this guard — only an actual Copilot code review does.
 #
 # Trigger architecture (caller repos):
@@ -117,12 +117,7 @@ jobs:
               per_page: 100,
             });
 
-            const headSha = pr.head?.sha
-              ?? (await github.rest.pulls.get({
-                   owner: context.repo.owner,
-                   repo: context.repo.repo,
-                   pull_number: pr.number,
-                 })).data.head.sha;
+            const headSha = pr.head.sha;
 
             const copilotReview = reviews
               .filter(r =>
