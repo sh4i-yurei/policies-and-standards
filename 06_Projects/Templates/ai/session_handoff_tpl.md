@@ -1,13 +1,13 @@
 ---
 id: TPL-PRJ-HANDOFF
 title: Session handoff template
-version: 0.3.0
+version: 0.4.0
 category: template
 status: active
 owner: sh4i-yurei
 reviewer: sh4i-yurei
 approver: sh4i-yurei
-last_updated: 2026-03-06
+last_updated: 2026-03-15
 extends: [STD-001, STD-004, STD-032]
 tags: [template, ai, handoff, session, continuity]
 ---
@@ -80,17 +80,13 @@ cross-project scope in the handoff content.
 - Branch: <branch name>
 - Working tree: <clean | dirty — list uncommitted files if dirty>
 
-## Action Item Ledger
+## Action Items (this session only)
 
-Reconcile ALL action items that were open at the end of the previous
-handoff. Each item MUST appear in this ledger with an explicit status —
-no silent drops. Items that already reached a terminal status (done or
-dropped) in an earlier ledger MAY be omitted. New items from this
-session are added at the bottom.
+| Item | Task ID | Status | Notes |
+|------|---------|--------|-------|
+| <action from this session> | <tasks.jsonl id> | <done/new/in-progress> | <context> |
 
-| Item | Status | Owner | Source | Notes |
-|------|--------|-------|--------|-------|
-| <action> | <done/carried/deferred/dropped/reassigned> | <agent/user> | <S#> | <reason if deferred/dropped> |
+For full task list: `bash ~/bin/tasks.sh list --open`
 
 ## Next Tasks
 
@@ -120,18 +116,13 @@ session are added at the bottom.
   2. `~/session-handoffs/global/` for cross-project handoffs
 - Keep handoff artifacts concise; link to ExecPlans and design docs
   rather than duplicating content.
-- The Action Item Ledger is cumulative within the handoff chain. Each
-  handoff reconciles the previous handoff's ledger. Items with status
-  `done` or `dropped` MAY be pruned after appearing in one subsequent
-  handoff (to prevent unbounded growth). Items with status `carried`
-  MUST remain until resolved.
-- When transitioning from project-specific to global sessions, scan
-  the most recent handoff from each active project subdirectory in
-  `~/session-handoffs/` and incorporate any open items into the global
-  ledger with their project origin tagged.
-- Projects marked ARCHIVED or PAUSED in `~/CLAUDE.md` should have their
-  open items set to status `deferred` with the reason (e.g., "project
-  archived" or "project paused") in the Notes column.
+- Action items are tracked in `~/.claude/tasks.jsonl` (the single source
+  of truth). The handoff's Action Items table records only items touched
+  during the current session — it is NOT a cumulative ledger. Use
+  `bash ~/bin/tasks.sh list --open` for the full task list.
+- When transitioning from project-specific to global sessions, load
+  tasks via `bash ~/bin/tasks.sh inject` which returns all open items
+  regardless of project scope.
 - PLANS.md stays in the project repository and is updated in the next
   PR — never as a standalone session-close commit.
 
@@ -147,6 +138,9 @@ is non-compliant per
 
 # Changelog
 
+- 0.4.0 — Replaced cumulative Action Item Ledger with thin session-only
+  format. tasks.jsonl is the SSOT for action items, not the handoff
+  artifact. Aligned with session-close.md practice.
 - 0.3.0 — Added Action Item Ledger section for explicit carry-forward
   tracking. Added implementation notes for ledger lifecycle, global
   session scanning, and archived project handling.

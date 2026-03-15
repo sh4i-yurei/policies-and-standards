@@ -159,7 +159,9 @@
     "sandboxed",
     "sandboxing",
     "bubblewrap",
-    "cpus"
+    "cpus",
+    "SSOT",
+    "jsonl"
   ],
   "dictionaries": ["softwareTerms"]
 }
