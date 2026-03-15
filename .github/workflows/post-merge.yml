@@ -180,12 +180,12 @@ jobs:
       - name: Install and lint (Python)
         if: inputs.language == 'python'
         run: |
-          pip install ruff black mypy
+          pip install ruff mypy
           if [ -f pyproject.toml ]; then
             pip install -e ".[dev]" 2>/dev/null || true
           fi
           ruff check .
-          black --check .
+          ruff format --check .
           mypy . --ignore-missing-imports
 
   tests:
