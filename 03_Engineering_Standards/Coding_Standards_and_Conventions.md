@@ -1,13 +1,13 @@
 ---
 id: STD-005
 title: Coding Standards and Conventions
-version: 1.2.0
+version: 1.3.0
 category: engineering
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-15
+last_updated: 2026-03-16
 review_date: 2026-05-01
 extends: [STD-000]
 tags: [coding, conventions, quality, testing, maintainability]
@@ -75,8 +75,12 @@ tracked issue per [Issue_and_Change_Management_Policy](../01_Governance/Issue_an
 7.1 Code changes MUST be incremental and reviewable.  
 7.2 Commits SHOULD be small, focused, and traceable to a governing issue
 per [Issue_and_Change_Management_Policy](../01_Governance/Issue_and_Change_Management_Policy.md).  
-7.3 Automated validation SHOULD enforce linting, testing, and static analysis.  
+7.3 Automated validation MUST enforce linting, testing, and static analysis.
 7.4 Code that fails validation MUST NOT be merged or released.
+7.5 In AI-assisted development, local pre-commit hooks MUST enforce
+lint and type-check gates before commits are accepted. See
+[Agent_Process_Discipline](../05_Dev_Workflows/Agent_Process_Discipline.md)
+(STD-067) for enforcement architecture and process-state tracking.
 
 ## 8. Dependency Management
 
@@ -133,6 +137,9 @@ Any code that violates this standard SHALL be considered non-compliant and subje
 
 # Changelog
 
+- 1.3.0 - Elevated §7.3 from SHOULD to MUST. Added §7.5 requiring
+  local pre-commit lint enforcement for AI-assisted development.
+  Cross-references STD-067 (Agent Process Discipline).
 - 1.2.0 - Added dependency management section (8): lockfile policy,
   update cadence, automated tooling guidance, and breaking change
   handling.

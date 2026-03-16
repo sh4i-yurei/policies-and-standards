@@ -1,13 +1,13 @@
 ---
 id: STD-030
 title: CI/CD Pipeline and Validation Model
-version: 1.7.1
+version: 1.8.0
 category: workflow
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-03-15
+last_updated: 2026-03-16
 extends:
   - STD-000
   - STD-003
@@ -565,7 +565,31 @@ Local development MUST mirror CI using:
 - **pre-commit**
 
 
-Hooks SHOULD align with CI enforcement to minimize drift.
+Hooks MUST align with CI enforcement to minimize drift.
+
+### Local pre-push gate
+
+In AI-assisted development, a local pre-push gate MUST verify that
+Gates B (docs lint), C (code lint), and D (tests) pass before allowing
+`git push`. This mirrors CI verification locally and prevents the
+push-wait-CI-fix-push cycle that wastes time and creates review noise.
+
+The pre-push gate:
+
+- Determines changed files via `git diff --name-only origin/main...HEAD`
+- Runs applicable linters per file type (ruff, shellcheck, cspell,
+  markdownlint, yamllint)
+- Runs applicable type checkers (pyright, go vet)
+- Runs test suite via sandbox when Docker is available
+- Blocks push (exit 2) if any check fails
+
+Latency target: less than 60 seconds. Acceptable because pushes are
+infrequent (1-3 per session) and local verification prevents multiple
+CI round-trips.
+
+See [Agent_Process_Discipline](Agent_Process_Discipline.md) (STD-067)
+for the full enforcement architecture, process-state tracking, and
+strictness tiers.
 
 ## Pipeline optimization
 
@@ -700,6 +724,9 @@ be considered non-compliant and subject to rollback or remediation.
 
 # Changelog
 
+- 1.8.0 - Local workflow alignment: elevated "Hooks SHOULD align" to
+  MUST. Added local pre-push gate section defining pre-push verification
+  that mirrors Gates B, C, D locally. Cross-references STD-067.
 - 1.7.1 - Gate C: removed black, standardized on ruff (lint + format).
   Updated gate-c-code.yml, post-merge.yml, and default tooling list.
 - 1.7.0 - Gate D: sandboxed test execution REQUIRED when Docker is

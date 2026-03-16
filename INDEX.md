@@ -98,6 +98,7 @@ find the standard, workflow, or template you need.
 | [Session Review and Retrospective](05_Dev_Workflows/session_review_standard.md) | STD-061 | Structured end-of-session retrospectives for AI-assisted work. |
 | [Multi-Agent Orchestration](05_Dev_Workflows/Multi_Agent_Orchestration.md) | STD-062 | Coordination requirements for multi-instance AI agent sprints. |
 | [Technical Debt Tracking Workflow](05_Dev_Workflows/Technical_Debt_Tracking_Workflow.md) | STD-064 | Classification, tracking, and paydown of technical debt. |
+| [Agent Process Discipline](05_Dev_Workflows/Agent_Process_Discipline.md) | STD-067 | Forcing functions and interlocks for AI agent development process compliance. |
 
 ## 06 Templates
 

@@ -161,7 +161,14 @@
     "bubblewrap",
     "cpus",
     "SSOT",
-    "jsonl"
+    "jsonl",
+    "Gawande",
+    "interlock",
+    "interlocks",
+    "flock",
+    "typecheck",
+    "shellcheck",
+    "pyright"
   ],
   "dictionaries": ["softwareTerms"]
 }
