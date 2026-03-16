@@ -1,7 +1,7 @@
 ---
 id: STD-067
 title: Agent Process Discipline
-version: 1.0.0
+version: 1.0.1
 category: workflow
 status: draft
 approver: sh4i-yurei
@@ -188,6 +188,12 @@ branch-based detection. Valid values: `feature`, `bugfix`,
 tier assignment (e.g., using `docs/` prefix for a feature change)
 undermines enforcement and is a compliance violation.
 
+5.4 The `hotfix/` branch prefix is recognized by this standard for
+emergency tier detection. If
+[git_and_branching_workflow](git_and_branching_workflow.md) (STD-031)
+does not list `hotfix/` as an allowed prefix, use the `PROCESS_TIER=hotfix`
+environment variable override with a `fix/` branch instead.
+
 ## 6. Process State Tracking
 
 6.1 Hooks coordinate through a shared state file at
@@ -289,7 +295,9 @@ emergency escape hatch.
 9.2 `PROCESS_TIER=hotfix` environment variable overrides branch-based
 tier detection, reducing enforcement to minimum.
 
-9.3 All bypasses MUST be logged to the chronicle event log. Bypass
+9.3 All bypasses MUST be logged to the chronicle event log
+(`chronicle.sh` — a PostToolUse hook that writes append-only JSONL
+events to `~/.claude/sessions/$SESSION_ID/events.jsonl`). Bypass
 events are visible in session reviews and compliance metrics.
 
 9.4 Bypass does NOT exempt from audit (§4). Even bypassed commits MUST
@@ -305,7 +313,9 @@ section). Target: less than 5% of commits use bypass.
   `~/.claude/sessions/$SESSION_ID/process-state.json`. It is not
   persisted across sessions.
 - All hooks source `hooks/lib/hook-lock.sh` for atomic state file
-  updates via `_locked_write_json`.
+  updates via `_locked_write_json`. Hook libraries are defined in the
+  agent-ops repository and symlinked to `~/bin/hooks/lib/` at install
+  time.
 - All PreToolUse Bash hooks source `hooks/lib/resolve-worktree.sh` for
   consistent CWD resolution across direct git context, cd targets in
   commands, and `-C` flag parsing.
@@ -365,4 +375,5 @@ escalation to stricter enforcement levels.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.0.1 | 2026-03-16 | Address review: clarify hook library paths (agent-ops repo), add chronicle.sh description, add §5.4 hotfix/STD-031 reconciliation note. |
 | 1.0.0 | 2026-03-16 | Initial release. Defines 12-step process, TDD requirements, sandbox-mandatory testing, audit requirements, strictness tiers, process-state.json schema, defense in depth layers, hook classification, and bypass policy. |

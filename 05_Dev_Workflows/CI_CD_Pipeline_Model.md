@@ -562,8 +562,10 @@ Releases are manual and explicit:
 
 Local development MUST mirror CI using:
 
-- **pre-commit**
-
+- **pre-commit** — blocking hooks that verify prerequisites before
+  `git commit` (audit, test status, lint status)
+- **pre-push** — blocking hooks that re-run full quality suite before
+  `git push` (tests, lint, typecheck on changed files)
 
 Hooks MUST align with CI enforcement to minimize drift.
 
