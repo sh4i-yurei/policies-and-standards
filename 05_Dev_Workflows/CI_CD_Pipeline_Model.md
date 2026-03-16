@@ -563,7 +563,7 @@ Releases are manual and explicit:
 Local development MUST mirror CI using:
 
 - **pre-commit** — blocking hooks that verify prerequisites before
-  `git commit` (audit, test status, lint status)
+  `git commit` (audit, test status, lint status, typecheck status)
 - **pre-push** — blocking hooks that re-run full quality suite before
   `git push` (tests, lint, typecheck on changed files)
 
@@ -572,9 +572,12 @@ Hooks MUST align with CI enforcement to minimize drift.
 ### Local pre-push gate
 
 In AI-assisted development, a local pre-push gate MUST verify that
-Gates B (docs lint), C (code lint), and D (tests) pass before allowing
-`git push`. This mirrors CI verification locally and prevents the
-push-wait-CI-fix-push cycle that wastes time and creates review noise.
+applicable CI gates pass before allowing `git push`. The gate
+determines changed files and runs only the checks relevant to those
+file types: Gate B (docs lint) for `.md` files, Gate C (code lint) for
+source files, Gate D (tests) for projects with test suites. This
+mirrors CI verification locally and prevents the push-wait-CI-fix-push
+cycle that wastes time and creates review noise.
 
 The pre-push gate:
 

@@ -1,7 +1,7 @@
 ---
 id: STD-067
 title: Agent Process Discipline
-version: 1.0.1
+version: 1.0.2
 category: workflow
 status: draft
 approver: sh4i-yurei
@@ -144,8 +144,8 @@ is read by pre-commit-gate.sh to verify test prerequisites.
 
 ## 4. Audit Requirements
 
-4.1 After implementation and test-pass (step 7), the agent MUST read
-its own staged changes (`git diff --cached` or equivalent).
+4.1 After tests pass (step 6), the agent MUST audit its work (step 7)
+by reading its own staged changes (`git diff --cached` or equivalent).
 
 4.2 The audit MUST verify:
 
@@ -193,6 +193,11 @@ emergency tier detection. If
 [git_and_branching_workflow](git_and_branching_workflow.md) (STD-031)
 does not list `hotfix/` as an allowed prefix, use the `PROCESS_TIER=hotfix`
 environment variable override with a `fix/` branch instead.
+
+5.5 Both pre-commit-gate and pre-push-gate are tier-aware. They only
+enforce checks applicable to the current tier. For Config/Docs tier,
+pre-push runs lint checks (cspell, markdownlint) but skips tests and
+type checking. For Hotfix tier, pre-push is skipped entirely.
 
 ## 6. Process State Tracking
 
@@ -273,7 +278,7 @@ safety net for anything Layers 1-4 miss.
 
 | Hook | Type | Event | Enforces |
 |------|------|-------|----------|
-| pre-commit-gate.sh | Blocking | PreToolUse (Bash: git commit) | Tests passed, lint clean, audit done |
+| pre-commit-gate.sh | Blocking | PreToolUse (Bash: git commit) | Tests passed, lint clean, typecheck clean, audit done (per tier) |
 | pre-push-gate.sh | Blocking | PreToolUse (Bash: git push) | Full test suite, all linters, type checkers |
 | enforce-audit.sh | Blocking | PreToolUse (Bash: git commit) | Diff reviewed before commit |
 | enforce-issue.sh | Blocking | PreToolUse (Bash: git checkout -b) | Issue exists before branch creation |
@@ -375,5 +380,6 @@ escalation to stricter enforcement levels.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.0.2 | 2026-03-16 | Round 2 review: fix §4.1 step reference (6+7 not 7), add §5.5 tier-aware gate behavior, update §8 pre-commit-gate to include typecheck, align STD-030 pre-push with gate matrix scoping. |
 | 1.0.1 | 2026-03-16 | Address review: clarify hook library paths (agent-ops repo), add chronicle.sh description, add §5.4 hotfix/STD-031 reconciliation note. |
 | 1.0.0 | 2026-03-16 | Initial release. Defines 12-step process, TDD requirements, sandbox-mandatory testing, audit requirements, strictness tiers, process-state.json schema, defense in depth layers, hook classification, and bypass policy. |
