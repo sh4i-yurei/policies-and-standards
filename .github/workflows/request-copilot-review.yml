@@ -1,0 +1,37 @@
+# Request Copilot Review
+#
+# Explicitly requests Copilot as a reviewer on every PR push.
+# Without this, Copilot may only post COMMENTED reviews instead of
+# triggering a proper review, which means auto-approve never fires
+# and PRs stay merge-blocked.
+#
+# Flow: push → this workflow requests review → Copilot reviews →
+#       auto-approve.yml fires on pull_request_review [submitted]
+
+name: Request Copilot Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches: [main]
+
+jobs:
+  request-review:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - name: Request Copilot review
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Requesting Copilot review for PR #${{ github.event.pull_request.number }}"
+          if ! gh pr edit "${{ github.event.pull_request.number }}" \
+            --repo "${{ github.repository }}" \
+            --add-reviewer @copilot; then
+            echo "::warning::Failed to request Copilot review — may need manual request"
+          fi
