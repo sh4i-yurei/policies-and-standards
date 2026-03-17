@@ -1,7 +1,7 @@
 ---
 id: STD-067
 title: Agent Process Discipline
-version: 1.0.2
+version: 1.0.3
 category: workflow
 status: draft
 approver: sh4i-yurei
@@ -87,7 +87,7 @@ an enforcement mechanism.
 | 9 | Code review | Audit clean | Static analysis passes | CodeRabbit output | /pr-ready skill |
 | 10 | Adjust | Review findings | Issues from review fixed | Updated source/test files | Re-run steps 6-7 if changes made |
 | 11 | Commit | All prior gates green | Clean commit with conventional message | Git commit SHA | pre-commit-gate.sh (§5) |
-| 12 | Push | Commit created | All lint + tests + typecheck clean | Remote ref updated | pre-push-gate.sh (§6) |
+| 12 | Push | Commit created | All applicable checks per strictness tier clean (§5) | Remote ref updated | pre-push-gate.sh (§6) |
 
 Steps 8 and 10 loop back to step 6 when changes are made: any code
 modification requires re-running tests and re-auditing before commit.
@@ -197,7 +197,9 @@ environment variable override with a `fix/` branch instead.
 5.5 Both pre-commit-gate and pre-push-gate are tier-aware. They only
 enforce checks applicable to the current tier. For Config/Docs tier,
 pre-push runs lint checks (cspell, markdownlint) but skips tests and
-type checking. For Hotfix tier, pre-push is skipped entirely.
+type checking. For Hotfix tier, pre-push enforcement is skipped —
+step 12 (Push) is still performed, but `pre-push-gate.sh` does not
+block it.
 
 ## 6. Process State Tracking
 
@@ -276,10 +278,13 @@ safety net for anything Layers 1-4 miss.
 
 ## 8. Hook Classification
 
+All hooks below are defined in the agent-ops repository (`hooks/`
+directory) and deployed to `~/bin/hooks/` at install time.
+
 | Hook | Type | Event | Enforces |
 |------|------|-------|----------|
 | pre-commit-gate.sh | Blocking | PreToolUse (Bash: git commit) | Tests passed, lint clean, typecheck clean, audit done (per tier) |
-| pre-push-gate.sh | Blocking | PreToolUse (Bash: git push) | Full test suite, all linters, type checkers |
+| pre-push-gate.sh | Blocking | PreToolUse (Bash: git push) | Applicable test suite, linters, type checkers per tier (§5.5) |
 | enforce-audit.sh | Blocking | PreToolUse (Bash: git commit) | Diff reviewed before commit |
 | enforce-issue.sh | Blocking | PreToolUse (Bash: git checkout -b) | Issue exists before branch creation |
 | pr-gate.sh | Blocking | PreToolUse (Bash: gh pr create) | /pr-ready run, issue linked |
@@ -380,6 +385,7 @@ escalation to stricter enforcement levels.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.0.3 | 2026-03-16 | Round 3 review: tier-scope Step 12 exit criteria, reconcile hotfix pre-push (push without gate), add hook source note at §8, scope pre-push-gate enforcement to tier. Scope STD-005 §7.5 and STD-008 §5.4/§7.4 tier qualifiers. |
 | 1.0.2 | 2026-03-16 | Round 2 review: fix §4.1 step reference (6+7 not 7), add §5.5 tier-aware gate behavior, update §8 pre-commit-gate to include typecheck, align STD-030 pre-push with gate matrix scoping. |
 | 1.0.1 | 2026-03-16 | Address review: clarify hook library paths (agent-ops repo), add chronicle.sh description, add §5.4 hotfix/STD-031 reconciliation note. |
 | 1.0.0 | 2026-03-16 | Initial release. Defines 12-step process, TDD requirements, sandbox-mandatory testing, audit requirements, strictness tiers, process-state.json schema, defense in depth layers, hook classification, and bypass policy. |

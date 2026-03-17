@@ -1,7 +1,7 @@
 ---
 id: STD-008
 title: Testing and Quality Standard
-version: 1.3.0
+version: 1.3.1
 category: engineering
 status: active
 approver: sh4i-yurei
@@ -76,7 +76,8 @@ tagged (e.g., `(in-host)`) to distinguish from sandboxed runs.
 5.3 Fallback to in-host execution MUST be logged so that sandbox
 bypass frequency is measurable.
 5.4 In AI-assisted development, local pre-commit hooks MUST verify
-test-pass status before commits are accepted. Test results are tracked
+test-pass status before commits are accepted, where tests are required
+per STD-067 strictness tier. Test results are tracked
 in `process-state.json` and read by blocking hooks at commit time. See
 [Agent_Process_Discipline](../05_Dev_Workflows/Agent_Process_Discipline.md)
 (STD-067) for the enforcement architecture.
@@ -94,7 +95,8 @@ in `process-state.json` and read by blocking hooks at commit time. See
 7.2 Validation results MUST be visible and reviewable.
 7.3 Test failures introduced by AI-assisted code SHALL be treated no differently than human-authored failures.
 7.4 Local pre-commit enforcement MUST verify test status before
-accepting commits in AI-assisted development sessions. See
+accepting commits in AI-assisted development sessions, where tests are
+required per STD-067 strictness tier. See
 [Agent_Process_Discipline](../05_Dev_Workflows/Agent_Process_Discipline.md)
 (STD-067) for gate criteria and process-state tracking.
 
@@ -124,6 +126,8 @@ Any implementation activity that does not meet the requirements of this standard
 
 # Changelog
 
+- 1.3.1 - Scope §5.4 and §7.4 pre-commit test verification to STD-067
+  strictness tier (Config/Docs and Hotfix tiers exempt from test gates).
 - 1.3.0 - Added §5.4 local pre-commit test verification for AI-assisted
   development. Added §7.4 local pre-commit gate requirement.
   Cross-references STD-067 (Agent Process Discipline).

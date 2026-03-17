@@ -1,7 +1,7 @@
 ---
 id: STD-005
 title: Coding Standards and Conventions
-version: 1.3.0
+version: 1.3.1
 category: engineering
 status: active
 approver: sh4i-yurei
@@ -78,7 +78,8 @@ per [Issue_and_Change_Management_Policy](../01_Governance/Issue_and_Change_Manag
 7.3 Automated validation MUST enforce linting, testing, and static analysis.
 7.4 Code that fails validation MUST NOT be merged or released.
 7.5 In AI-assisted development, local pre-commit hooks MUST enforce
-lint and type-check gates before commits are accepted. See
+lint and type-check gates before commits are accepted, where applicable
+per STD-067 strictness tier. See
 [Agent_Process_Discipline](../05_Dev_Workflows/Agent_Process_Discipline.md)
 (STD-067) for enforcement architecture and process-state tracking.
 
@@ -137,6 +138,8 @@ Any code that violates this standard SHALL be considered non-compliant and subje
 
 # Changelog
 
+- 1.3.1 - Scope §7.5 pre-commit lint/typecheck enforcement to STD-067
+  strictness tier (Config/Docs tier skips type checking).
 - 1.3.0 - Elevated §7.3 from SHOULD to MUST. Added §7.5 requiring
   local pre-commit lint enforcement for AI-assisted development.
   Cross-references STD-067 (Agent Process Discipline).
