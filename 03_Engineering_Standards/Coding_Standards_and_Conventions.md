@@ -75,7 +75,7 @@ tracked issue per [Issue_and_Change_Management_Policy](../01_Governance/Issue_an
 7.1 Code changes MUST be incremental and reviewable.  
 7.2 Commits SHOULD be small, focused, and traceable to a governing issue
 per [Issue_and_Change_Management_Policy](../01_Governance/Issue_and_Change_Management_Policy.md).  
-7.3 Automated validation MUST enforce linting, testing, and static analysis.
+7.3 Automated validation MUST enforce linting, testing, and static analysis.  
 7.4 Code that fails validation MUST NOT be merged or released.
 7.5 In AI-assisted development, local pre-commit hooks MUST enforce
 lint and type-check gates before commits are accepted, where applicable
