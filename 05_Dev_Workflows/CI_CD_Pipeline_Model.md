@@ -1,7 +1,7 @@
 ---
 id: STD-030
 title: CI/CD Pipeline and Validation Model
-version: 1.8.1
+version: 1.8.2
 category: workflow
 status: active
 approver: sh4i-yurei
@@ -564,8 +564,8 @@ Local development MUST mirror CI using:
 
 - **pre-commit** — blocking hooks that verify prerequisites before
   `git commit` (audit, test status, lint status, typecheck status)
-- **pre-push** — blocking hooks that re-run full quality suite before
-  `git push` (tests, lint, typecheck on changed files)
+- **pre-push** — blocking hooks that re-run applicable quality checks
+  per tier before `git push` (tests, lint, typecheck on changed files)
 
 Hooks MUST align with CI enforcement to minimize drift.
 
@@ -730,6 +730,9 @@ be considered non-compliant and subject to rollback or remediation.
 
 # Changelog
 
+- 1.8.2 - Change "full quality suite" to "applicable quality checks
+  per tier" in local workflow alignment to match STD-067 §5.5 tier-aware
+  enforcement.
 - 1.8.1 - Scope local pre-push gate MUST to tiers where pre-push
   enforcement applies (STD-067 §5.5 exempts Hotfix tier).
 - 1.8.0 - Local workflow alignment: elevated "Hooks SHOULD align" to

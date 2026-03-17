@@ -1,7 +1,7 @@
 ---
 id: STD-067
 title: Agent Process Discipline
-version: 1.0.6
+version: 1.0.7
 category: workflow
 status: draft
 approver: sh4i-yurei
@@ -141,9 +141,11 @@ in-host fallback is not acceptable (see §3.4).
 is a sandbox bug. It MUST be fixed before proceeding. The agent MUST
 NOT fall back to in-host execution as a workaround.
 
-3.5 Test results (pass/fail, runner type, timestamp) are recorded in
-`process-state.json` by sentinel.sh after each execution. This record
-is read by pre-commit-gate.sh to verify test prerequisites.
+3.5 Test results (pass/fail, timestamp) are recorded in
+`process-state.json` by sentinel.sh after each execution. Runner type
+(sandbox or in-host) is recorded in chronicle event logs for
+compliance tracking. The process-state record is read by
+pre-commit-gate.sh to verify test prerequisites.
 
 ## 4. Audit Requirements
 
@@ -179,7 +181,7 @@ the git branch prefix, with an environment variable override.
 | Feature | `feature/*` (default) | All 12 | None |
 | Bugfix | `fix/*` | 1 (light), 2 (light), 3-12 | None (steps 1-2 are lighter) |
 | Config/Docs | `docs/*`, `chore/*` | 1, 2, 7-12 | 3-6 (TDD) |
-| Hotfix | `PROCESS_TIER=hotfix` | 7, 11, 12 | 1-6, 8-10 |
+| Hotfix | N/A (see §5.4) | 7, 11, 12 | 1-6, 8-10 |
 
 5.1 Tier detection: branch name prefix maps to tier per the table
 above. If the branch name does not match a known prefix, the feature
@@ -199,11 +201,17 @@ environment variable. Use a `fix/` branch per
 and set the environment variable to override tier detection.
 
 5.5 Both pre-commit-gate and pre-push-gate are tier-aware. They only
-enforce checks applicable to the current tier. For Config/Docs tier,
-pre-push runs lint checks (cspell, markdownlint) but skips tests and
-type checking. For Hotfix tier, pre-push enforcement is skipped —
-step 12 (Push) is still performed, but `pre-push-gate.sh` does not
-block it.
+enforce checks applicable to the current tier:
+
+| Tier | pre-commit-gate checks | pre-push-gate checks |
+|------|------------------------|----------------------|
+| Feature | tests, lint, typecheck, audit | tests, lint, typecheck |
+| Bugfix | tests, lint, typecheck, audit | tests, lint, typecheck |
+| Config/Docs | lint, audit | lint (cspell, markdownlint) |
+| Hotfix | audit only | skipped (does not block) |
+
+For Hotfix tier, step 12 (Push) is still performed but
+`pre-push-gate.sh` does not block it.
 
 ## 6. Process State Tracking
 
@@ -389,6 +397,7 @@ escalation to stricter enforcement levels.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.0.7 | 2026-03-17 | Comprehensive consistency pass: fix tier table column (Hotfix N/A), expand §5.5 with per-tier gate enforcement table for both pre-commit and pre-push, move runner type from process-state schema to chronicle events (§3.5). |
 | 1.0.6 | 2026-03-17 | Round 6 review: remove hotfix/* branch prefix from tier table (use PROCESS_TIER=hotfix only), clarify Step 12 Hotfix has no gate, rewrite §5.4 for env-var-only activation. |
 | 1.0.5 | 2026-03-17 | Round 5 review: align last_updated with changelog date, add footnote to hotfix tier table row referencing §5.4 STD-031 reconciliation. |
 | 1.0.4 | 2026-03-17 | Round 4 review: reconcile §3.3 in-host gate behavior with STD-008/STD-030 degraded mode, sanitize branch name in §4.3 audit breadcrumb path. |
