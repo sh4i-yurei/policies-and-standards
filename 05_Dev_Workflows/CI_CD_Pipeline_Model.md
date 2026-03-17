@@ -1,7 +1,7 @@
 ---
 id: STD-030
 title: CI/CD Pipeline and Validation Model
-version: 1.8.3
+version: 1.8.4
 category: workflow
 status: active
 approver: sh4i-yurei
@@ -562,18 +562,20 @@ Releases are manual and explicit:
 
 Local development MUST mirror CI using:
 
-- **pre-commit** — blocking hooks that verify prerequisites before
-  `git commit` (audit, test status, lint status, typecheck status)
-- **pre-push** — blocking hooks that re-run applicable quality checks
-  per tier before `git push` (tests, lint, typecheck on changed files)
+- **pre-commit** — Claude Code PreToolUse hooks that verify
+  prerequisites before `git commit` (audit, test status, lint status,
+  typecheck status)
+- **pre-push** — Claude Code PreToolUse hooks that re-run applicable
+  quality checks per tier before `git push` (tests, lint, typecheck on
+  changed files)
 
 Hooks MUST align with CI enforcement to minimize drift.
 
 ### Local pre-push gate
 
 In AI-assisted development, a local pre-push gate MUST verify that
-applicable CI gates pass before allowing `git push`, for tiers where
-pre-push enforcement applies (see STD-067 §5.5 for tier exemptions). The gate
+applicable CI gates pass before allowing `git push`. Tier exemptions
+apply per STD-067 §5.5 (Hotfix skips pre-push entirely). The gate
 determines changed files and runs only the checks relevant to those
 file types: Gate B (docs lint) for `.md` files, Gate C (code lint) for
 source files, Gate D (tests) for projects with test suites. This
@@ -587,7 +589,7 @@ The pre-push gate:
   markdownlint, yamllint)
 - Runs applicable type checkers (pyright, go vet)
 - Runs test suite via sandbox when Docker is available
-- Blocks push (exit 2) if any check fails
+- Blocks push on failure
 
 Latency target: less than 60 seconds. Acceptable because pushes are
 infrequent (1-3 per session) and local verification prevents multiple
@@ -730,6 +732,9 @@ be considered non-compliant and subject to rollback or remediation.
 
 # Changelog
 
+- 1.8.4 - Define hooks as Claude Code PreToolUse hooks (not Git
+  hooks). Remove agent-specific exit code from gate description.
+  Improve pre-push gate sentence structure.
 - 1.8.3 - Remove hard-coded remote/branch from pre-push gate
   description. Reformat 1.8.2 changelog entry.
 - 1.8.2 - Local workflow alignment: pre-push description uses
