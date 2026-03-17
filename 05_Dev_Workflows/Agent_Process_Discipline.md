@@ -1,13 +1,13 @@
 ---
 id: STD-067
 title: Agent Process Discipline
-version: 1.0.4
+version: 1.0.5
 category: workflow
 status: draft
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-03-16
+last_updated: 2026-03-17
 review_date: 2026-06-14
 extends:
   - STD-000
@@ -179,7 +179,10 @@ the git branch prefix, with an environment variable override.
 | Feature | `feature/*` (default) | All 12 | None |
 | Bugfix | `fix/*` | 1 (light), 2 (light), 3-12 | None (steps 1-2 are lighter) |
 | Config/Docs | `docs/*`, `chore/*` | 1, 2, 7-12 | 3-6 (TDD) |
-| Hotfix | `hotfix/*` | 7, 11, 12 | 1-6, 8-10 |
+| Hotfix | `hotfix/*` ¹ | 7, 11, 12 | 1-6, 8-10 |
+
+¹ `hotfix/` is not listed in STD-031 branch categories. Use
+`PROCESS_TIER=hotfix` with a `fix/` branch instead (see §5.4).
 
 5.1 Tier detection: branch name prefix maps to tier per the table
 above. If the branch name does not match a known prefix, the feature
@@ -390,6 +393,7 @@ escalation to stricter enforcement levels.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.0.5 | 2026-03-17 | Round 5 review: align last_updated with changelog date, add footnote to hotfix tier table row referencing §5.4 STD-031 reconciliation. |
 | 1.0.4 | 2026-03-17 | Round 4 review: reconcile §3.3 in-host gate behavior with STD-008/STD-030 degraded mode, sanitize branch name in §4.3 audit breadcrumb path. |
 | 1.0.3 | 2026-03-16 | Round 3 review: tier-scope Step 12 exit criteria, reconcile hotfix pre-push (push without gate), add hook source note at §8, scope pre-push-gate enforcement to tier. Scope STD-005 §7.5 and STD-008 §5.4/§7.4 tier qualifiers. |
 | 1.0.2 | 2026-03-16 | Round 2 review: fix §4.1 step reference (6+7 not 7), add §5.5 tier-aware gate behavior, update §8 pre-commit-gate to include typecheck, align STD-030 pre-push with gate matrix scoping. |
