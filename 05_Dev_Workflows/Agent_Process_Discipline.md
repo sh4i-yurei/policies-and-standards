@@ -1,7 +1,7 @@
 ---
 id: STD-067
 title: Agent Process Discipline
-version: 1.0.3
+version: 1.0.4
 category: workflow
 status: draft
 approver: sh4i-yurei
@@ -131,8 +131,11 @@ enforcement. These constraints ensure tests verify behavior in a clean
 environment, not against accumulated host state.
 
 3.3 If Docker is unavailable, test execution MUST be flagged as
-"(in-host)" and treated as degraded. In-host results are not trusted
-for gate decisions by pre-commit-gate or pre-push-gate hooks.
+"(in-host)" and treated as degraded. When Docker is genuinely
+unavailable (not running), in-host results satisfy gate prerequisites
+in degraded mode — gates accept them but log the degraded status per
+STD-008 §5.2–§5.3. When Docker IS running but sandbox-exec.sh fails,
+in-host fallback is not acceptable (see §3.4).
 
 3.4 If `sandbox-exec.sh` returns exit 127 while Docker is running, that
 is a sandbox bug. It MUST be fixed before proceeding. The agent MUST
@@ -159,7 +162,9 @@ by reading its own staged changes (`git diff --cached` or equivalent).
 4.3 Audit completion is tracked via a breadcrumb file
 (`/tmp/.audit-evidence-<branch>`) consumed by enforce-audit.sh, and
 recorded in `process-state.json`. pre-commit-gate.sh blocks commits
-without a completed audit.
+without a completed audit. The branch name in the breadcrumb path is
+sanitized (slashes replaced with double underscores) to produce a
+valid filename for branch prefixes like `feature/` and `fix/`.
 
 4.4 Audit is mandatory for ALL strictness tiers, including hotfix.
 Even emergency changes must be reviewed before committing.
@@ -385,6 +390,7 @@ escalation to stricter enforcement levels.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.0.4 | 2026-03-17 | Round 4 review: reconcile §3.3 in-host gate behavior with STD-008/STD-030 degraded mode, sanitize branch name in §4.3 audit breadcrumb path. |
 | 1.0.3 | 2026-03-16 | Round 3 review: tier-scope Step 12 exit criteria, reconcile hotfix pre-push (push without gate), add hook source note at §8, scope pre-push-gate enforcement to tier. Scope STD-005 §7.5 and STD-008 §5.4/§7.4 tier qualifiers. |
 | 1.0.2 | 2026-03-16 | Round 2 review: fix §4.1 step reference (6+7 not 7), add §5.5 tier-aware gate behavior, update §8 pre-commit-gate to include typecheck, align STD-030 pre-push with gate matrix scoping. |
 | 1.0.1 | 2026-03-16 | Address review: clarify hook library paths (agent-ops repo), add chronicle.sh description, add §5.4 hotfix/STD-031 reconciliation note. |
