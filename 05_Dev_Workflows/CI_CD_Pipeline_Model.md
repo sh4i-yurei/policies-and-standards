@@ -1,7 +1,7 @@
 ---
 id: STD-030
 title: CI/CD Pipeline and Validation Model
-version: 1.8.2
+version: 1.8.3
 category: workflow
 status: active
 approver: sh4i-yurei
@@ -582,7 +582,7 @@ cycle that wastes time and creates review noise.
 
 The pre-push gate:
 
-- Determines changed files via `git diff --name-only origin/main...HEAD`
+- Determines changed files relative to the merge target branch
 - Runs applicable linters per file type (ruff, shellcheck, cspell,
   markdownlint, yamllint)
 - Runs applicable type checkers (pyright, go vet)
@@ -730,9 +730,10 @@ be considered non-compliant and subject to rollback or remediation.
 
 # Changelog
 
-- 1.8.2 - Change "full quality suite" to "applicable quality checks
-  per tier" in local workflow alignment to match STD-067 §5.5 tier-aware
-  enforcement.
+- 1.8.3 - Remove hard-coded remote/branch from pre-push gate
+  description. Reformat 1.8.2 changelog entry.
+- 1.8.2 - Local workflow alignment: pre-push description uses
+  tier-aware language matching STD-067 §5.5 enforcement model.
 - 1.8.1 - Scope local pre-push gate MUST to tiers where pre-push
   enforcement applies (STD-067 §5.5 exempts Hotfix tier).
 - 1.8.0 - Local workflow alignment: elevated "Hooks SHOULD align" to

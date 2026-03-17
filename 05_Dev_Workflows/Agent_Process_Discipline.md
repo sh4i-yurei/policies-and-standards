@@ -1,7 +1,7 @@
 ---
 id: STD-067
 title: Agent Process Discipline
-version: 1.0.7
+version: 1.0.8
 category: workflow
 status: draft
 approver: sh4i-yurei
@@ -115,9 +115,10 @@ itself has a defect, which MUST be documented in the commit message).
 2.5 TDD applies to feature and bugfix tiers (§5). Config/docs and
 hotfix tiers are exempt from steps 3-6.
 
-2.6 Exceptions: documentation-only changes, configuration changes, and
-hotfixes where the fix is obvious and a test is added immediately
-after. Each exception MUST be justified in the commit message.
+2.6 Within feature and bugfix tiers, narrow exceptions to TDD are
+permitted: a hotfix where the fix is obvious and a test is added
+immediately after. Each exception MUST be justified in the commit
+message. Config/docs and hotfix tiers are fully exempt per §2.5.
 
 ## 3. Sandbox-Mandatory Testing
 
@@ -397,6 +398,7 @@ escalation to stricter enforcement levels.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.0.8 | 2026-03-17 | Round 8: clarify §2.6 applies to feature/bugfix tier TDD deviations only (§2.5 exempts config/docs and hotfix). |
 | 1.0.7 | 2026-03-17 | Comprehensive consistency pass: fix tier table column (Hotfix N/A), expand §5.5 with per-tier gate enforcement table for both pre-commit and pre-push, move runner type from process-state schema to chronicle events (§3.5). |
 | 1.0.6 | 2026-03-17 | Round 6 review: remove hotfix/* branch prefix from tier table (use PROCESS_TIER=hotfix only), clarify Step 12 Hotfix has no gate, rewrite §5.4 for env-var-only activation. |
 | 1.0.5 | 2026-03-17 | Round 5 review: align last_updated with changelog date, add footnote to hotfix tier table row referencing §5.4 STD-031 reconciliation. |

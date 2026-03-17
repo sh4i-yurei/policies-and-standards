@@ -1,9 +1,9 @@
 # Request Copilot Review
 #
 # Explicitly requests Copilot as a reviewer on every PR push.
-# Without this, Copilot may only post COMMENTED reviews instead of
-# triggering a proper review, which means auto-approve never fires
-# and PRs stay merge-blocked.
+# Without this, the review_on_push ruleset may not trigger Copilot
+# to review at all (~30% miss rate). No review means auto-approve
+# has nothing to act on, and PRs stay merge-blocked.
 #
 # Identity note: `@copilot` is the documented gh CLI alias for
 # requesting Copilot code review. The bot that posts reviews appears
