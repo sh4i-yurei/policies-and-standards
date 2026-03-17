@@ -5,6 +5,11 @@
 # triggering a proper review, which means auto-approve never fires
 # and PRs stay merge-blocked.
 #
+# Identity note: `@copilot` is the documented gh CLI alias for
+# requesting Copilot code review. The bot that posts reviews appears
+# as `copilot-pull-request-reviewer[bot]`. These are the same service
+# — GitHub maps the @copilot request to the bot identity.
+#
 # Flow: push → this workflow requests review → Copilot reviews →
 #       auto-approve.yml fires on pull_request_review [submitted]
 

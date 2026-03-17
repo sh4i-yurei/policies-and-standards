@@ -1,7 +1,7 @@
 ---
 id: STD-067
 title: Agent Process Discipline
-version: 1.0.5
+version: 1.0.6
 category: workflow
 status: draft
 approver: sh4i-yurei
@@ -87,7 +87,7 @@ an enforcement mechanism.
 | 9 | Code review | Audit clean | Static analysis passes | CodeRabbit output | /pr-ready skill |
 | 10 | Adjust | Review findings | Issues from review fixed | Updated source/test files | Re-run steps 6-7 if changes made |
 | 11 | Commit | All prior gates green | Clean commit with conventional message | Git commit SHA | pre-commit-gate.sh (§5) |
-| 12 | Push | Commit created | All applicable checks per strictness tier clean (§5) | Remote ref updated | pre-push-gate.sh (§6) |
+| 12 | Push | Commit created | All applicable checks per tier clean; Hotfix: no gate (§5.5) | Remote ref updated | pre-push-gate.sh (§6) |
 
 Steps 8 and 10 loop back to step 6 when changes are made: any code
 modification requires re-running tests and re-auditing before commit.
@@ -179,10 +179,7 @@ the git branch prefix, with an environment variable override.
 | Feature | `feature/*` (default) | All 12 | None |
 | Bugfix | `fix/*` | 1 (light), 2 (light), 3-12 | None (steps 1-2 are lighter) |
 | Config/Docs | `docs/*`, `chore/*` | 1, 2, 7-12 | 3-6 (TDD) |
-| Hotfix | `hotfix/*` ¹ | 7, 11, 12 | 1-6, 8-10 |
-
-¹ `hotfix/` is not listed in STD-031 branch categories. Use
-`PROCESS_TIER=hotfix` with a `fix/` branch instead (see §5.4).
+| Hotfix | `PROCESS_TIER=hotfix` | 7, 11, 12 | 1-6, 8-10 |
 
 5.1 Tier detection: branch name prefix maps to tier per the table
 above. If the branch name does not match a known prefix, the feature
@@ -196,11 +193,10 @@ branch-based detection. Valid values: `feature`, `bugfix`,
 tier assignment (e.g., using `docs/` prefix for a feature change)
 undermines enforcement and is a compliance violation.
 
-5.4 The `hotfix/` branch prefix is recognized by this standard for
-emergency tier detection. If
+5.4 Hotfix tier is activated exclusively via `PROCESS_TIER=hotfix`
+environment variable. Use a `fix/` branch per
 [git_and_branching_workflow](git_and_branching_workflow.md) (STD-031)
-does not list `hotfix/` as an allowed prefix, use the `PROCESS_TIER=hotfix`
-environment variable override with a `fix/` branch instead.
+and set the environment variable to override tier detection.
 
 5.5 Both pre-commit-gate and pre-push-gate are tier-aware. They only
 enforce checks applicable to the current tier. For Config/Docs tier,
@@ -393,6 +389,7 @@ escalation to stricter enforcement levels.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.0.6 | 2026-03-17 | Round 6 review: remove hotfix/* branch prefix from tier table (use PROCESS_TIER=hotfix only), clarify Step 12 Hotfix has no gate, rewrite §5.4 for env-var-only activation. |
 | 1.0.5 | 2026-03-17 | Round 5 review: align last_updated with changelog date, add footnote to hotfix tier table row referencing §5.4 STD-031 reconciliation. |
 | 1.0.4 | 2026-03-17 | Round 4 review: reconcile §3.3 in-host gate behavior with STD-008/STD-030 degraded mode, sanitize branch name in §4.3 audit breadcrumb path. |
 | 1.0.3 | 2026-03-16 | Round 3 review: tier-scope Step 12 exit criteria, reconcile hotfix pre-push (push without gate), add hook source note at §8, scope pre-push-gate enforcement to tier. Scope STD-005 §7.5 and STD-008 §5.4/§7.4 tier qualifiers. |

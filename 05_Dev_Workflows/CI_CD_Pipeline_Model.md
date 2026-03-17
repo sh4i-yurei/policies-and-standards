@@ -1,13 +1,13 @@
 ---
 id: STD-030
 title: CI/CD Pipeline and Validation Model
-version: 1.8.0
+version: 1.8.1
 category: workflow
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-03-16
+last_updated: 2026-03-17
 extends:
   - STD-000
   - STD-003
@@ -572,7 +572,8 @@ Hooks MUST align with CI enforcement to minimize drift.
 ### Local pre-push gate
 
 In AI-assisted development, a local pre-push gate MUST verify that
-applicable CI gates pass before allowing `git push`. The gate
+applicable CI gates pass before allowing `git push`, for tiers where
+pre-push enforcement applies (see STD-067 §5.5 for tier exemptions). The gate
 determines changed files and runs only the checks relevant to those
 file types: Gate B (docs lint) for `.md` files, Gate C (code lint) for
 source files, Gate D (tests) for projects with test suites. This
@@ -729,6 +730,8 @@ be considered non-compliant and subject to rollback or remediation.
 
 # Changelog
 
+- 1.8.1 - Scope local pre-push gate MUST to tiers where pre-push
+  enforcement applies (STD-067 §5.5 exempts Hotfix tier).
 - 1.8.0 - Local workflow alignment: elevated "Hooks SHOULD align" to
   MUST. Added local pre-push gate section defining pre-push verification
   that mirrors Gates B, C, D locally. Cross-references STD-067.
