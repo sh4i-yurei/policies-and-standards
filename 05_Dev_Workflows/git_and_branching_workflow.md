@@ -1,13 +1,13 @@
 ---
 id: STD-031
 title: Git and Branching Workflow
-version: 1.0.4
+version: 1.0.5
 category: workflow
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-02-12
+last_updated: 2026-03-21
 extends:
   - STD-000
   - STD-003
@@ -20,7 +20,6 @@ tags:
   - version-control
   - governance
   - ai-assisted-development
-  - quint
 ---
 
 # Purpose
@@ -33,7 +32,7 @@ Its purpose is to ensure that:
 
 - CI enforcement is deterministic and meaningful
 
-- Quint Code reasoning artifacts remain aligned with Git history
+- Decision tracking artifacts remain aligned with Git history
 
 - AI-assisted contributions are constrained, auditable, and reviewable
 
@@ -56,7 +55,7 @@ It governs:
 
 - merge strategies
 
-- interaction with CI, Quint Code, and release processes
+- interaction with CI, decision tracking, and release processes
 
 
 This document does **not** define CI implementation details or Git tooling configuration.
@@ -134,8 +133,6 @@ Branch names MUST follow:
 
 Examples:
 
-- `feature/quint-ci-gate`
-
 - `fix/decision-record-validation`
 
 - `docs/git-workflow`
@@ -182,7 +179,7 @@ Commits MUST NOT mix unrelated concerns.
 
 Commit messages SHOULD describe **intent**, not mechanics.
 
-Commits MAY reference issues or Quint decision records, but commits do **not** replace Quint artifacts.
+Commits MAY reference issues or decision records, but commits do **not** replace decision artifacts.
 
 ## Pull Requests (Mandatory)
 
@@ -196,13 +193,13 @@ A pull request MUST:
 
 - pass all required CI gates
 
-- include updated Quint artifacts when code changes
+- include updated decision artifacts when code changes
 
 - include links to:
 
   - the originating issue (when one exists), and
 
-  - the relevant Quint decision record(s)
+  - the relevant decision record(s)
 
 
 ### Pull Request Scope
@@ -219,7 +216,7 @@ When AI generates or substantially modifies code, the pull request description M
 
 - what content was AI-generated or AI-assisted
 
-- how the output was validated (tests run, Quint updates, manual inspection)
+- how the output was validated (tests run, decision record updates, manual inspection)
 
 
 AI tools and automation:
@@ -228,7 +225,7 @@ AI tools and automation:
 
 - MUST NOT push directly to `main`
 
-- MUST NOT bypass CI, maintainer approval, or Quint requirements
+- MUST NOT bypass CI, maintainer approval, or decision tracking requirements
 
 
 AI systems MAY comment, analyze, or suggest changes, but **MUST NOT approve, merge, or release**.
@@ -238,13 +235,13 @@ AI systems MAY comment, analyze, or suggest changes, but **MUST NOT approve, mer
 CI runs automatically on pull requests and enforces validation gates
 defined in the [CI_CD_Pipeline_Model](CI_CD_Pipeline_Model.md).
 
-Quint freshness rules are defined and enforced by that model; compliance is mandatory for every pull request.
+Decision freshness rules are defined and enforced by that model; compliance is mandatory for every pull request.
 
 A pull request MUST NOT be merged if:
 
 - any required CI gate fails
 
-- Quint freshness rules are violated
+- Decision freshness rules are violated
 
 - required documentation or decision records are missing
 
@@ -258,7 +255,7 @@ Maintainer approval MUST be recorded in one of the following ways:
 - a GitHub pull request review marked as **Approved** (preferred), or
 
 - a documented approval or checklist comment confirming that required checks  
-    (CI, Quint artifacts, required links) have been satisfied
+    (CI, decision artifacts, required links) have been satisfied
 
 In a solo practice, approval MUST still be explicit and recorded, and MAY be
 time-shifted to the next working session as defined in [SDLC_With_AI](SDLC_With_AI.md).
@@ -277,7 +274,7 @@ The following labels are the authoritative workflow labels for governed
 repositories.
 
 - `workflow-exception` - approved deviation from a governed workflow,
-  time-bound and documented in the issue and Quint artifacts.
+  time-bound and documented in the issue and decision artifacts.
 - `merge-strategy/override` - explicit approval to use a non-squash
   merge strategy, documented in the pull request.
 
@@ -376,6 +373,8 @@ Any change that bypasses this workflow SHALL be considered non-compliant and sub
 
 # Changelog
 
+- 1.0.5 - Replaced quint-code/FPF references with generic "decision
+  tracking" terminology. Removed `feature/quint-ci-gate` example branch.
 - 1.0.4 - Added SDLC cross-reference in Scope section.
 - 1.0.3 - Clarified Quint requirement applies to code changes.
 - 1.0.2 - Added label taxonomy and CI/CD model link.

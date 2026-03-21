@@ -1,13 +1,13 @@
 ---
 id: STD-030
 title: CI/CD Pipeline and Validation Model
-version: 1.7.1
+version: 1.8.0
 category: workflow
 status: active
 approver: sh4i-yurei
 reviewer: sh4i-yurei
 owner: sh4i-yurei
-last_updated: 2026-03-15
+last_updated: 2026-03-21
 extends:
   - STD-000
   - STD-003
@@ -17,7 +17,6 @@ tags:
   - cd
   - validation
   - governance
-  - quint
   - ai-assisted-development
 ---
 
@@ -37,8 +36,8 @@ This CI/CD model exists to ensure:
 
 - AI-assisted work is constrained and auditable
 
-- **Quint Code is run for every code change**, preserving reasoning,
-  evidence, and decisions in durable, queryable artifacts
+- Engineering decisions are tracked in durable, queryable artifacts
+  (e.g., ADRs, decision records) that survive beyond any single session
 
 
 This document is written to be usable by:
@@ -87,8 +86,8 @@ This model is consistent with:
 2. Every change MUST have traceability (issue or intent) and validation
    evidence.
 
-3. Quint Code MUST be run for every code change, and Quint artifacts
-   MUST be updated in the PR.
+3. Architectural decisions SHOULD be recorded in decision tracking
+   artifacts (e.g., ADRs) and updated when the decision changes.
 
 4. AI MAY assist, but MUST NOT bypass any gate defined here.
 
@@ -145,109 +144,31 @@ Each gate defines:
 
 ---
 
-### Gate A - Quint Code Reasoning and Decision Record
+### Gate A - Decision Tracking
 
-**(REQUIRED FOR EVERY CODE CHANGE)**
+**(RESERVED — NOT CURRENTLY ENFORCED)**
 
 #### Purpose
 
-Ensure engineering decisions are:
+Gate A is reserved for future decision-tracking enforcement. It
+previously required quint-code (FPF) artifacts on every PR. That
+requirement was removed because it forced decision ceremony on
+tactical changes (bug fixes, config tweaks) where no architectural
+decision was being made.
 
-- structured
+#### Current Status
 
-- evidence-backed
+Gate A has no CI workflow and no enforcement. Projects that previously
+had `gate-a-quint` in their CI workflows should remove it.
 
-- queryable
-
-- durable across time
-
-
-Quint Code is the organization's mechanism for preventing \"chat
-archaeology\" and ensuring that rationale survives beyond any single
-session or tool.
-
-#### The `.quint/` Contract (Intent-First, Layout-Flexible)
-
-Each governed project repository that contains code MUST be initialized
-with Quint Code, producing a `.quint/` directory.
-
-For each governed change set, `.quint/` MUST contain durable artifacts
-that collectively cover the following **content categories**:
-
-- Context (problem statement, scope, constraints, assumptions)
-
-- Alternatives considered (approaches, hypotheses, tradeoffs)
-
-- Verification (checks against standards, constraints, invariants)
-
-- Validation / Evidence (tests, experiments, outputs, results)
-
-- Audit / Risk notes (bias, confidence, security, reliability concerns)
-
-- Decision (final decision, rationale, tradeoffs, next steps)
-
-
-**Commitment rule:**
-The `.quint/` directory MUST be committed to version control. Do not
-add `.quint/` to `.gitignore`. Decision artifacts are durable project
-records, not ephemeral working state. Projects that previously
-gitignored `.quint/` should remove the gitignore entry and commit
-existing artifacts.
-
-**Layout rule:**
-The on-disk layout inside `.quint/` MAY vary by Quint version or
-repository convention. CI enforces the presence and freshness of
-decision and evidence artifacts, not a fixed folder taxonomy.
-
-#### Decision Record (Required)
-
-For each PR that changes code or configuration:
-
-- At least one decision record under `.quint/` MUST be added or updated.
-
-
-Decision files MAY follow any stable repo convention (e.g., `DRR-*.md`,
-`pr-<number>.md`) provided the file clearly corresponds to the PR's
-change set.
-
-Decision records SHOULD include:
-
-- what changed
-
-- why it changed
-
-- standards consulted
-
-- evidence gathered
-
-- risks and mitigations
-
-- final decision and next steps
-
-
-#### Freshness Rule (Hard Gate)
-
-If a PR changes code or configuration, then at least one file under
-`.quint/` MUST change in the same PR. Documentation-only changes do not
-require Quint artifacts.
-
-#### Enforcement
-
-CI MAY enforce this gate using workflow logic, shell checks, or
-repo-local scripts.
-
-Scripts such as `scripts/ci/quint_guard.py` are **recommended
-implementations**, not required contract artifacts.
+A future iteration of Gate A may enforce lightweight decision tracking
+(e.g., ADR freshness checks, decision staleness detection) once the
+decision-staleness research task is complete. See the agent-ops roadmap
+`evaluate-decision-staleness` entry.
 
 #### Pass / Fail
 
-Gate A passes if:
-
-- `.quint/` exists
-
-- the freshness rule is satisfied
-
-- at least one decision record under `.quint/` changed
+Gate A currently passes unconditionally (no workflow exists)
 
 
 ---
@@ -628,7 +549,7 @@ for a typical PR:
 
 | Gate | Target | Notes |
 |------|--------|-------|
-| A (Quint) | < 15s | Shell checks only |
+| A (Decision) | — | Reserved (not enforced) |
 | B (Docs) | < 60s | Link-check is the bottleneck |
 | C (Code) | < 30s | Lint and type checking |
 | D (Tests) | < 120s | Scales with test suite |
@@ -650,7 +571,7 @@ the deployed artifact.
 - Failing a required gate blocks merge.
 - Exceptions MUST be documented in an issue labeled
   `workflow-exception`, include rationale, and be time-bound.
-- Exception approval MUST be recorded in Quint decision artifacts.
+- Exception approval MUST be recorded in decision tracking artifacts (ADRs or equivalent).
 
 ### Failure notifications
 
@@ -684,7 +605,7 @@ notifications by default but MAY be configured to do so.
 
 - CI failure rates
 
-- Rework due to missing Quint artifacts
+- Rework due to missing decision records
 
 - Security finding trends
 
@@ -700,6 +621,10 @@ be considered non-compliant and subject to rollback or remediation.
 
 # Changelog
 
+- 1.8.0 - Removed Gate A quint-code/FPF requirement. Gate A reserved
+  for future decision-tracking enforcement. Deleted gate-a-quint.yml
+  reusable workflow. Removed .quint/ contract, commitment rule, freshness
+  rule, and quint_guard.py reference. Removed "quint" tag from frontmatter.
 - 1.7.1 - Gate C: removed black, standardized on ruff (lint + format).
   Updated gate-c-code.yml, post-merge.yml, and default tooling list.
 - 1.7.0 - Gate D: sandboxed test execution REQUIRED when Docker is
