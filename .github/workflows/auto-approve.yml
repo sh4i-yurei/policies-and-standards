@@ -44,7 +44,7 @@ jobs:
       contents: read
     steps:
       - name: Check review threads and approve
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const pr = context.payload.pull_request
